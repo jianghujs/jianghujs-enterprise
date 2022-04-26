@@ -26,9 +26,9 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon  --port=7001 --title=jianghujs_demo_enterprise_user_app_management",
+    "start": "egg-scripts start --daemon  --port=7006 --title=jianghujs_demo_enterprise_user_app_management",
     "stop": "egg-scripts stop --title=jianghujs_demo_enterprise_user_app_management",
-    "dev": "egg-bin dev --port=7001",
+    "dev": "egg-bin dev --port=7006",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",

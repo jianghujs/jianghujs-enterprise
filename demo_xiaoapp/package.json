@@ -25,9 +25,9 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon  --port=7004 --title=demo_xiaoapp",
+    "start": "egg-scripts start --daemon  --port=7008 --title=demo_xiaoapp",
     "stop": "egg-scripts stop --title=demo_xiaoapp",
-    "dev": "egg-bin dev --port=7004",
+    "dev": "egg-bin dev --port=7008",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
