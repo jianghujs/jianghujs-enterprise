@@ -49,6 +49,13 @@
 {% endblock %}
 
 {% block vue_body %}
+{% include 'common/uiAction.html' %}
+<script type="module">
+  window.registerData({
+    selectedUrlItem: null,
+    directoryList: null
+  })
+</script>
 {% include 'layout/jhLayout.html' %}
 <script type="module">
 
@@ -56,11 +63,8 @@
     el: '#app',
     template: '#app-template',
     vuetify: new Vuetify(),
-    data: () => ({
-      selectedUrlItem: null,
-      directoryList: null
-    }),
-
+    mixins: [window.jianghuMixins],
+    data: () => window.vueData,
     computed: {
       isMobile() {
         return window.innerWidth < 600;
@@ -68,15 +72,15 @@
     },
     watch: {},
     async created() {
-      await this.getTableData();
     },
     mounted() {
+      this.doUiAction('refreshTableData');
     },
     methods: {
       /**
        * 获取表格数据
        */
-      async getTableData() {
+      async refreshTableData() {
         this.isTableLoading = true;
         const result = await window.jianghuAxios({
           data: {
@@ -92,6 +96,7 @@
         .sortBy('appGroupItemSort')
         .groupBy('appGroupNumber')
         .value();
+        this.isTableLoading = false;
       },
       jump(url) {
         window.open(url);
