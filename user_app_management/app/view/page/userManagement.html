@@ -9,7 +9,7 @@
   <v-row class="ma-0 pa-xs-4 align-center flex-none pb-0 pt-0 pa-4">
 
     <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0">
-      <v-btn color="success" dark class="elevation-0 mr-2" @click="handleTableButton({ text: '新增', buttonType: 'add' }, null)">新增</v-btn>
+      <v-btn color="success" dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增</v-btn>
       <span class="body-2">共{{ tableData.length }}条记录</span>
     </v-col>
 
@@ -42,18 +42,18 @@
       {{ (constantCollection.userStatus.find(({value}) => value === item.userStatus) || {}).text }}
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn small class="mr-2" color="success" @click="handleTableButton({ text: '修改', buttonType: 'edit' }, item)">修改</v-btn>
+      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', item)">修改</v-btn>
       <v-btn small class="mr-2" color="primary"
              v-if="item.userStatus !== 'active'"
-             @click="handleTableButton({ text: '激活用户', buttonType: 'activeUserStatus' }, item)">
+             @click="doUiAction('activeUserStatus', item)">
         激活用户
       </v-btn>
       <v-btn small class="mr-2" color="error"
              v-if="item.userStatus === 'active'"
-             @click="handleTableButton({ text: '禁用用户', buttonType: 'bannedUserStatus' }, item)">
+             @click="doUiAction('bannedUserStatus', item)">
         禁用用户
       </v-btn>
-      <v-btn small class="mr-2" color="error" @click="handleTableButton({ text: '修改密码', buttonType: 'resetUserPassword' }, item)">修改密码</v-btn>
+      <v-btn small class="mr-2" color="error" @click="doUiAction('startResetPassword', item)">修改密码</v-btn>
       <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/appManagementOfOneUser?id=${item.userId}&title=${item.username}`)">用户的APP管理</v-btn>
     </template>
   </v-data-table>
@@ -94,7 +94,7 @@
       </v-col>
     </v-row>
     <v-row class="justify-end pr-6">
-      <v-btn width="200" color="success" @click="saveInfo" :style="{width: '200px'}">保存</v-btn>
+      <v-btn width="200" color="success" @click="doUiAction(dialogSaveInfoAction)" :style="{width: '200px'}">保存</v-btn>
       <v-btn width="200" class="ml-2" @click="isEditDrawerShow = false" :style="{width: '200px'}">取消</v-btn>
     </v-row>
   </v-form>
@@ -105,16 +105,9 @@
 {% endblock %}
 
 {% block vue_body %}
-
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
-
+{% include 'common/uiAction.html' %}
 <script type="module">
-new Vue({
-  el: '#app',
-  template: '#app-template',
-  vuetify: new Vuetify(),
-  data: () => ({
+  window.registerData({
     appInfo: window.appInfo,
     // 表格相关数据
     isFormValid: true,
@@ -150,7 +143,19 @@ new Vue({
     currentClickButton: {title: '新增', action: 'add'},
     editItem: {},
     defaultItem: { userType: 'common', userStatus: 'active', },
-  }),
+    dialogSaveInfoAction: ''
+  })
+</script>
+{% include 'layout/jhLayout.html' %}
+{% include 'common/resetTableMaxHeight.html' %}
+
+<script type="module">
+new Vue({
+  el: '#app',
+  template: '#app-template',
+  vuetify: new Vuetify(),
+  mixins: [window.jianghuMixins],
+  data: () => window.vueData,
   computed: {
     tableData() {
       if (!this.currentUserStatusType || this.currentUserStatusType === 'all') {
@@ -164,14 +169,15 @@ new Vue({
   },
   watch: {},
   async created() {
-    await this.getTableData();
   },
-  mounted() {},
+  mounted() {
+    this.doUiAction('refreshTableData');
+  },
   methods: {
     /**
      * 获取表格数据
      */
-    async getTableData() {
+    async refreshTableData() {
       this.isTableLoading = true;
       const result = await window.jianghuAxios({
         data: {
@@ -189,85 +195,32 @@ new Vue({
       this.isTableLoading = false;
     },
 
-    /**
-     * 点击表格数据按钮
-     */
-    async handleTableButton({ text, buttonType }, item) {
-      switch (buttonType) {
-        case 'edit':
-          this.currentClickButton = {action: 'edit', title: '修改'};
-          this.editItem = {...item};
-          this.isEditDrawerShow = true;
-          break;
-        case 'add':
-          this.currentClickButton = {action: 'add', title: '新增'};
-          this.editItem = Object.assign({}, this.defaultItem);
-          this.isEditDrawerShow = true;
-          break;
-        case 'resetUserPassword':
-          this.currentClickButton = {action: 'resetUserPassword', title: '修改用户密码'};
-          this.editItem = {...item};
-          this.isEditDrawerShow = true;
-          break;
-        case 'activeUserStatus':
-          this.editItem = {...item};
-          await this.updateUserStatus({ userStatus: 'active', title: text });
-          break;
-        case 'bannedUserStatus':
-          this.editItem = {...item};
-          await this.updateUserStatus({ userStatus: 'banned', title: text });
-          break;
-      }
+
+    // startCreateItem
+    async clearItemData() {
+      this.editItem = Object.assign({}, this.defaultItem);
     },
-    /**
-     * 删除用户
-     */
-    async updateUserStatus({ userStatus, title }) {
-      const dialogDone = await window.confirmDialog({ title: title, content: `确定${title}吗？`});
-      if (!dialogDone) {
-        return false;
-      }
-      const { id } = this.computedEditItem;
-      await window.vtoast.loading(title);
-      await window.jianghuAxios({
-        data: {
-          appData: {
-            pageId: 'userManagement',
-            actionId: 'updateItem',
-            actionData: { userStatus },
-            where: { id }
-          }
-        }
-      });
-      await window.vtoast.success(`${title}成功`);
-      await this.getTableData();
+
+    async openCreateItemDialog() {
+      this.currentClickButton = {action: 'add', title: '新增'};
+      this.isEditDrawerShow = true;
+      this.dialogSaveInfoAction = 'createItem';
     },
-    /**
-     * 保存数据
-     */
-    async saveInfo() {
-      if (this.currentClickButton.action === 'add') {
-        await this.insertUser();
-      }
-      if (this.currentClickButton.action === 'edit') {
-        await this.updateUser();
-      }
-      if (this.currentClickButton.action === 'resetUserPassword') {
-        await this.resetUserPassword();
-      }
+
+    // createItem
+    async prepareValidate() {
+      if (!this.$refs.form.validate()) return false;
+    },
+
+    // createItem
+    async confirmCreateItemDialog() {
+      this.isEditDrawerPermanent = true;
+      return window.confirmDialog({title: '新增', content: '确定新增吗？'})
     },
     /**
      * 新增用户
      */
-    async insertUser() {
-      if (!this.$refs.form.validate()) {
-        return;
-      }
-      this.isEditDrawerPermanent = true;
-      const dialogDone = await window.confirmDialog({ title: '新增', content: '确定新增吗？'});
-      if (!dialogDone) {
-        return false;
-      }
+    async doCreateItem() {
       this.isEditDrawerPermanent = false;
       const { id, userId, ...actionData } = this.computedEditItem;
       await window.vtoast.loading("新增用户");
@@ -281,18 +234,33 @@ new Vue({
         }
       })
       await window.vtoast.success("新增用户成功");
-      this.isEditDrawerShow = false;
-      await this.getTableData();
     },
+
+    async closeDrawerShow() {
+      this.isEditDrawerShow = false;
+    },
+
+    // startUpdateItem
+    async prepareItemData(item) {
+      this.editItem = {...item};
+    },
+
+    async openUpdateItemDialog() {
+      this.currentClickButton = {action: 'edit', title: '修改'};
+      this.isEditDrawerShow = true;
+      this.dialogSaveInfoAction = 'updateItem';
+    },
+
+    // updateItem
+    async confirmUpdateItemDialog() {
+      this.isEditDrawerPermanent = true;
+      return window.confirmDialog({title: '修改', content: '确定修改吗？'});
+    },
+
     /**
      * 保存用户
      */
-    async updateUser() {
-      this.isEditDrawerPermanent = true;
-      const dialogDone = await window.confirmDialog({ title: '修改', content: '确定修改吗？'});
-      if (!dialogDone) {
-        return false;
-      }
+    async doUpdateItem() {
       this.isEditDrawerPermanent = false;
       const { id, userId, clearTextPassword, ...actionData } = this.computedEditItem;
       await window.vtoast.loading("修改用户");
@@ -307,15 +275,75 @@ new Vue({
         }
       })
       await window.vtoast.success("修改用户成功");
-      this.isEditDrawerShow = false;
-      await this.getTableData();
     },
-    async resetUserPassword() {
+
+    async setActiveUserStatus() {
+      this.dialogSaveInfoAction = 'activeUserStatus';
+    },
+
+    async confirmActiveUserStatusDialog() {
+      return window.confirmDialog({ title: '激活', content: `确定激活吗？`});
+    },
+
+    /**
+     * 激活用户
+     */
+    async doActiveUserStatus(item) {
+      const { userId } = item;
+      await window.vtoast.loading('正在激活');
+      await window.jianghuAxios({
+        data: {
+          appData: {
+            pageId: 'userManagement',
+            actionId: 'updateItem',
+            actionData: { userStatus: 'active' },
+            where: { userId }
+          }
+        }
+      });
+      await window.vtoast.success(`激活成功`);
+    },
+
+    async setBannedUserStatus() {
+      this.dialogSaveInfoAction = 'bannedUserStatus';
+    },
+
+    async confirmBannedUserStatusDialog() {
+      return window.confirmDialog({ title: '禁用', content: `确定禁用吗？`});
+    },
+
+    /**
+     * 禁用用户
+     */
+    async doBannedUserStatus(item) {
+      const { userId } = item;
+      await window.vtoast.loading('正在禁用');
+      await window.jianghuAxios({
+        data: {
+          appData: {
+            pageId: 'userManagement',
+            actionId: 'updateItem',
+            actionData: { userStatus: 'banned' },
+            where: { userId }
+          }
+        }
+      });
+      await window.vtoast.success(`禁用成功`);
+    },
+
+    async openResetUserPasswordDialog() {
+      this.currentClickButton = {action: 'resetUserPassword', title: '修改用户密码'};
+      this.dialogSaveInfoAction = 'resetUserPassword';
+      this.isEditDrawerShow = true;
+    },
+
+    // updateItem
+    async confirmResetUserPasswordDialog() {
       this.isEditDrawerPermanent = true;
-      const dialogDone = await window.confirmDialog({ title: '修改密码', content: '确定修改密码吗？'});
-      if (!dialogDone) {
-        return false;
-      }
+      return await window.confirmDialog({ title: '修改密码', content: '确定修改密码吗？'});
+    },
+
+    async doResetUserPassword() {
       this.isEditDrawerPermanent = false;
       const { userId, clearTextPassword } = this.computedEditItem;
       await window.vtoast.loading("修改密码");
@@ -329,8 +357,6 @@ new Vue({
         }
       })
       await window.vtoast.success("修改密码成功");
-      this.isEditDrawerShow = false;
-      await this.getTableData();
     },
     jump(url) {
       window.location.href = url;

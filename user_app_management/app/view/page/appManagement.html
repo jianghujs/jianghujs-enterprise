@@ -11,7 +11,7 @@
   <v-row class="ma-0 pa-xs-4 align-center flex-none pb-0 pt-0 pa-4">
 
     <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0">
-      <v-btn color="success" dark class="elevation-0 mr-2" @click="handleTableButton({ text: '新增', buttonType: 'add' }, null)">新增</v-btn>
+      <v-btn color="success" dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增</v-btn>
       <span class="body-2">共{{ tableData.length }}条记录</span>
     </v-col>
 
@@ -35,7 +35,7 @@
       {{ (constantCollection.appType.find(({value}) => value === item.appType) || {}).text }}
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn small class="mr-2" color="success" @click="handleTableButton({ text: '修改', buttonType: 'edit' }, item)">修改</v-btn>
+      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', item)">修改</v-btn>
       <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/userManagementOfOneApp?id=${item.appId}&title=${item.appName}`)">APP的用户管理</v-btn>
     </template>
   </v-data-table>
@@ -64,7 +64,7 @@
       </v-col>
     </v-row>
     <v-row class="justify-end pr-6">
-      <v-btn width="200" color="success" @click="saveInfo" :style="{width: '200px'}">保存</v-btn>
+      <v-btn width="200" color="success" @click="doUiAction(dialogSaveInfoAction)" :style="{width: '200px'}">保存</v-btn>
       <v-btn width="200" class="ml-2" @click="isEditDrawerShow = false" :style="{width: '200px'}">取消</v-btn>
     </v-row>
   </v-form>
@@ -75,16 +75,9 @@
 {% endblock %}
 
 {% block vue_body %}
-
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
-
+{% include 'common/uiAction.html' %}
 <script type="module">
-new Vue({
-  el: '#app',
-  template: '#app-template',
-  vuetify: new Vuetify(),
-  data: () => ({
+  window.registerData({
     // 表格相关数据
     isFormValid: true,
     requireRules: [
@@ -110,10 +103,19 @@ new Vue({
 
     currentClickButton: {title: '新增', action: 'add'},
     editItem: {},
-    tableButtonList: [
-      {text: '修改', buttonType: 'edit', color: 'success',},
-    ],
-  }),
+    dialogSaveInfoAction: ''
+  })
+</script>
+{% include 'layout/jhLayout.html' %}
+{% include 'common/resetTableMaxHeight.html' %}
+
+<script type="module">
+new Vue({
+  el: '#app',
+  template: '#app-template',
+  vuetify: new Vuetify(),
+  mixins: [window.jianghuMixins],
+  data: () => window.vueData,
   computed: {
     tableData() {
       return this.tableDataFromBackend
@@ -124,14 +126,15 @@ new Vue({
   },
   watch: {},
   async created() {
-    await this.getTableData();
   },
-  mounted() {},
+  mounted() {
+    this.doUiAction('refreshTableData');
+  },
   methods: {
     /**
      * 获取表格数据
      */
-    async getTableData() {
+    async refreshTableData() {
       this.isTableLoading = true;
       const { data: { appData: { rows } } } = await window.jianghuAxios({
         data: {
@@ -149,43 +152,25 @@ new Vue({
       this.isTableLoading = false;
     },
 
-    /**
-     * 点击表格数据按钮
-     */
-    async handleTableButton({ text, buttonType }, item) {
-      this.currentClickButton = {action: buttonType, title: text};
-      switch (buttonType) {
-        case 'edit':
-          this.editItem = {...item};
-          this.isEditDrawerShow = true;
-          break;
-        case 'add':
-          this.editItem = {};
-          this.isEditDrawerShow = true;
-          break;
-
-      }
+    // startCreateItem
+    async clearItemData() {
+      this.editItem = {};
     },
 
-    /**
-     * 保存数据
-     */
-    async saveInfo() {
-      if (this.currentClickButton.action === 'add') {
-        await this.insertApp();
-      }
-      if (this.currentClickButton.action === 'edit') {
-        await this.updateApp();
-      }
+    async openCreateItemDialog() {
+      this.currentClickButton = {action: 'add', title: '新增'};
+      this.isEditDrawerShow = true;
+      this.dialogSaveInfoAction = 'createItem';
+    },
+
+    // createItem
+    async confirmCreateItemDialog() {
+      return window.confirmDialog({title: '新增', content: '确定新增吗？'})
     },
     /**
      * 新增学生
      */
-    async insertApp() {
-      const dialogDone = await window.confirmDialog({ title: '新增', content: '确定新增吗？'});
-      if (!dialogDone) {
-        return false;
-      }
+    async doCreateItem() {
       const { id, ...actionData } = this.computedEditItem;
       await window.vtoast.loading("新增应用");
       await window.jianghuAxios({
@@ -198,17 +183,30 @@ new Vue({
         }
       })
       await window.vtoast.success("新增应用成功");
+    },
+    async closeDrawerShow() {
       this.isEditDrawerShow = false;
-      await this.getTableData();
+    },
+
+    // startUpdateItem
+    async prepareItemData(item) {
+      this.editItem = {...item};
+    },
+
+    async openUpdateDialog() {
+      this.currentClickButton = {action: 'edit', title: '修改'};
+      this.isEditDrawerShow = true;
+      this.dialogSaveInfoAction = 'updateItem';
+    },
+
+    // updateItem
+    async confirmUpdateItemDialog() {
+      return window.confirmDialog({title: '修改', content: '确定修改吗？'});
     },
     /**
      * 保存学生
      */
-    async updateApp() {
-      const dialogDone = await window.confirmDialog({ title: '修改', content: '确定修改吗？'});
-      if (!dialogDone) {
-        return false;
-      }
+    async doUpdateItem() {
       const { id, ...actionData } = this.computedEditItem;
       await window.vtoast.loading("修改应用信息");
       await window.jianghuAxios({
@@ -222,8 +220,6 @@ new Vue({
         }
       })
       await window.vtoast.success("修改应用信息成功");
-      this.isEditDrawerShow = false;
-      await this.getTableData();
     },
     jump(url) {
       window.location.href = url;

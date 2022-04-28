@@ -46,7 +46,7 @@
       {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
     </template>
     <template v-slot:item.option="{ item }">
-      <v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="deleteRelation(item)" :key="btn.value">
+      <v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', item)" :key="btn.value">
         {{ btn.text }}
       </v-btn>
     </template>
@@ -65,7 +65,7 @@
   >
     <v-container class="navDrawerContainer">
       <v-row class=" pa-2">
-        <v-btn class="mt-0" dark color="success" elevation="0" @click="addSelected">新增</v-btn>
+        <v-btn class="mt-0" dark color="success" elevation="0" @click="doUiAction('allotUser')">新增</v-btn>
         <v-spacer></v-spacer>
         <v-btn class="mr-4 mt-1 elevation-0" fab  x-small @click="isEditDrawerShow = false">
           <v-icon dark>mdi-close</v-icon>
@@ -98,7 +98,7 @@
             {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
           <template v-slot:item.option="{ item }">
-            <v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="buildRelation(item)">新增</v-btn>
+            <v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', item)">新增</v-btn>
           </template>
         </v-data-table>
       </v-row>
@@ -110,15 +110,9 @@
 {% endblock %}
 
 {% block vue_body %}
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
+{% include 'common/uiAction.html' %}
 <script type="module">
-
-new Vue({
-  el: '#app',
-  template: '#app-template',
-  vuetify: new Vuetify(),
-  data: () => ({
+  window.registerData({
     appId: null,
     title: null,
 
@@ -147,7 +141,18 @@ new Vue({
     ],
     drawerItemSelectedClass: [],
     currentClickButton: {title: '新增', action: 'add'},
-  }),
+  })
+</script>
+{% include 'layout/jhLayout.html' %}
+{% include 'common/resetTableMaxHeight.html' %}
+<script type="module">
+
+new Vue({
+  el: '#app',
+  template: '#app-template',
+  vuetify: new Vuetify(),
+  mixins: [window.jianghuMixins],
+  data: () => window.vueData,
 
   computed: {
     isMobile() {
@@ -177,14 +182,13 @@ new Vue({
       }, 1000);
       return;
     }
-    this.getTableData();
-    await this.getDrawerTableData();
-
   },
   mounted() {
+    this.doUiAction('refreshTableData');
+    this.doUiAction('getDrawerTableData');
   },
   methods: {
-    async getTableData() {
+    async refreshTableData() {
       this.isTableLoading = true;
       const result = await window.jianghuAxios({
         data: {
@@ -217,29 +221,28 @@ new Vue({
       this.drawerTableDataFromBackend = result.data.appData.rows;
       this.isDrawerTableLoading = false;
     },
-    async addSelected() {
+
+    // allotStudent
+    async confirmAllotUserDialog() {
       this.isEditDrawerPermanent = true;
-      if (await window.confirmDialog({ title: '确定将学生分配给此班级' })) {
-        for (let i = 0; i < this.drawerItemSelectedClass.length; i++) {
-          this.isEditDrawerPermanent = false;
-          window.vtoast.loading(`正在新增 第${i + 1}个`);
-          const {userId} = this.drawerItemSelectedClass[i];
-          await this.buildRelationImpl(userId);
-        }
-        window.vtoast.success("批量新增成功");
-        await this.getTableData();
-        this.drawerItemSelectedClass = [];
-      }
+      return window.confirmDialog({title: '确定将用户分配给此APP', content: '确定分配吗？'})
     },
-    async buildRelation({userId}) {
-      this.isEditDrawerPermanent = true;
-      if (await window.confirmDialog({ title: '确定将学生分配给此班级' })) {
+
+    async doAllotUser() {
+      for (const [i, userId] of this.drawerItemSelectedClass.entries()) {
         this.isEditDrawerPermanent = false;
-        window.vtoast.loading("正在新增");
+        window.vtoast.loading(`正在新增 第${i + 1}个`);
         await this.buildRelationImpl(userId);
-        window.vtoast.success("新增成功");
-        await this.getTableData();
       }
+      window.vtoast.success("批量新增成功");
+      this.drawerItemSelectedClass = [];
+    },
+
+    async doBuildRelation({userId}) {
+      this.isEditDrawerPermanent = false;
+      window.vtoast.loading("正在新增");
+      await this.buildRelationImpl(userId);
+      window.vtoast.success("新增成功");
     },
     async buildRelationImpl(userId) {
       await window.jianghuAxios({
@@ -254,33 +257,41 @@ new Vue({
         }
       });
     },
-    async deleteRelation({id}) {
-      if (await window.confirmDialog({ title: '确认将学生从班级删除？' })) {
-        window.vtoast.loading("删除中");
-        await window.jianghuAxios({
-          data: {
-            appData: {
-              pageId: 'userManagementOfOneApp',
-              actionId: 'deleteItem',
-              actionData: {},
-              where: { id: id }
-            }
+
+    // allotStudent
+    async confirmDeleteUserDialog() {
+      return window.confirmDialog({title: '确认将用户从APP删除', content: '确定删除吗？'})
+    },
+
+    async doDeleteRelation({userId}) {
+      window.vtoast.loading("删除中");
+      await window.jianghuAxios({
+        data: {
+          appData: {
+            pageId: 'userManagementOfOneApp',
+            actionId: 'deleteItem',
+            actionData: {},
+            where: { userId }
           }
-        });
-        window.vtoast.success("删除成功");
-        await this.getTableData();
-      }
+        }
+      });
+      window.vtoast.success("删除成功");
     },
     drawerItemSelected({item, value}) {
+      const { userId } = item;
       if (value) {
-        this.drawerItemSelectedClass.push(item);
+        this.drawerItemSelectedClass.push(userId);
       } else {
-        this.drawerItemSelectedClass = _.filter(this.drawerItemSelectedClass, ['studentId', item.studentId]);
+        this.drawerItemSelectedClass = this.drawerItemSelectedClass.filter(e => e !== userId);
       }
     },
     drawerToggleSelectAll({items, value}) {
       if (value) {
-        this.drawerItemSelectedClass = items;
+        const itemIds = [];
+        for (const item of items) {
+          itemIds.push(item.userId)
+        }
+        this.drawerItemSelectedClass = itemIds;
       } else {
         this.drawerItemSelectedClass = [];
       }

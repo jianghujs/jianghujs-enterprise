@@ -40,7 +40,7 @@
 				{{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
 			</template>
 			<template v-slot:item.option="{ item }">
-				<v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="deleteRelation(item)" :key="btn.value">
+				<v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', item)" :key="btn.value">
 					{{ btn.text }}
 				</v-btn>
 			</template>
@@ -59,7 +59,7 @@
 		>
 			<v-container class="navDrawerContainer">
 				<v-row class=" pa-2">
-					<v-btn class="mt-0" dark color="success" elevation="0" @click="addSelected">新增</v-btn>
+					<v-btn class="mt-0" dark color="success" elevation="0" @click="doUiAction('allotApp')">新增</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn class="mr-4 mt-1 elevation-0" fab  x-small @click="isEditDrawerShow = false">
 						<v-icon dark>mdi-close</v-icon>
@@ -73,7 +73,7 @@
 							:headers="headers"
 							:loading="isDrawerTableLoading"
 							:items="drawerTableData"
-							item-key="userId"
+							item-key="appId"
 							:dense="isMobile"
 							:footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
 							:items-per-page="-1"
@@ -83,7 +83,7 @@
 							class="elevation-0 pt-0 mb-xs-4 flex-fill d-flex flex-column show-select"
 					>
 						<template v-slot:item.option="{ item }">
-							<v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="buildRelation(item)">新增</v-btn>
+							<v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', item)">新增</v-btn>
 						</template>
 					</v-data-table>
 				</v-row>
@@ -95,6 +95,35 @@
 {% endblock %}
 
 {% block vue_body %}
+{% include 'common/uiAction.html' %}
+<script type="module">
+  window.registerData({
+    userId: null,
+    title: null,
+
+    searchInput: null,
+    isTableLoading: true,
+    isDrawerTableLoading: true,
+    isEditDrawerPermanent: false,
+    isEditDrawerShow: false,
+    constantCollection: {
+    },
+    headers: [
+      {text: "应用ID", value: "appId", align: "start", sortable: true, width: 120},
+      {text: "应用名", value: "appName", align: "start", sortable: true, width: 120},
+      {text: "操作人", value: "operationByUser", align: "start", sortable: true, width: 120},
+      {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
+      {text: '操作', value: 'option', align: 'center', sortable: false, width: 200, class: 'fixed', cellClass: 'fixed'},
+    ],
+    drawerTableDataFromBackend: [],
+    tableDataFromBackend: [],
+    tableButtonList: [
+      {text: '删除', buttonType: 'delete', color: 'error',},
+    ],
+    drawerItemSelectedClass: [],
+    currentClickButton: {title: '新增', action: 'add'},
+  })
+</script>
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -103,33 +132,8 @@
 		el: '#app',
 		template: '#app-template',
 		vuetify: new Vuetify(),
-		data: () => ({
-			userId: null,
-			title: null,
-
-			searchInput: null,
-			isTableLoading: true,
-			isDrawerTableLoading: true,
-      isEditDrawerPermanent: false,
-			isEditDrawerShow: false,
-			constantCollection: {
-			},
-			headers: [
-        {text: "应用ID", value: "appId", align: "start", sortable: true, width: 120},
-        {text: "应用名", value: "appName", align: "start", sortable: true, width: 120},
-        {text: "操作人", value: "operationByUser", align: "start", sortable: true, width: 120},
-        {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
-				{text: '操作', value: 'option', align: 'center', sortable: false, width: 200, class: 'fixed', cellClass: 'fixed'},
-			],
-			drawerTableDataFromBackend: [],
-			tableDataFromBackend: [],
-			tableButtonList: [
-				{text: '删除', buttonType: 'delete', color: 'error',},
-			],
-			drawerItemSelectedClass: [],
-			currentClickButton: {title: '新增', action: 'add'},
-		}),
-
+    mixins: [window.jianghuMixins],
+    data: () => window.vueData,
 		computed: {
 			isMobile() {
 				return window.innerWidth < 600;
@@ -158,14 +162,14 @@
 				}, 1000);
 				return;
 			}
-			this.getTableData();
-			await this.getDrawerTableData();
 
 		},
 		mounted() {
+      this.doUiAction('refreshTableData');
+      this.doUiAction('getDrawerTableData');
 		},
 		methods: {
-			async getTableData() {
+			async refreshTableData() {
 				this.isTableLoading = true;
 				const result = await window.jianghuAxios({
 					data: {
@@ -198,29 +202,28 @@
 				this.drawerTableDataFromBackend = result.data.appData.rows;
 				this.isDrawerTableLoading = false;
 			},
-			async addSelected() {
+
+      // allotStudent
+      async confirmAllotAppDialog() {
         this.isEditDrawerPermanent = true;
-        if (await window.confirmDialog({ title: '确定将学生分配给此班级' })) {
-					for (let i = 0; i < this.drawerItemSelectedClass.length; i++) {
-            this.isEditDrawerPermanent = false;
-            window.vtoast.loading(`正在新增 第${i + 1}个`);
-						const {appId} = this.drawerItemSelectedClass[i];
-						await this.buildRelationImpl(appId);
-					}
-					window.vtoast.success("批量新增成功");
-					await this.getTableData();
-					this.drawerItemSelectedClass = [];
-				}
-			},
-			async buildRelation({appId}) {
-        this.isEditDrawerPermanent = true;
-        if (await window.confirmDialog({ title: '确定将学生分配给此班级' })) {
+        return window.confirmDialog({title: '确定将APP分配给此用户', content: '确定分配吗？'})
+      },
+
+			async doAllotApp() {
+        for (const [i, appId] of this.drawerItemSelectedClass.entries()) {
           this.isEditDrawerPermanent = false;
-          window.vtoast.loading("正在新增");
-					await this.buildRelationImpl(appId);
-					window.vtoast.success("新增成功");
-					await this.getTableData();
-				}
+          window.vtoast.loading(`正在新增 第${i + 1}个`);
+          await this.buildRelationImpl(appId);
+        }
+        window.vtoast.success("批量新增成功");
+        this.drawerItemSelectedClass = [];
+			},
+
+			async doBuildRelation({appId}) {
+        this.isEditDrawerPermanent = false;
+        window.vtoast.loading("正在新增");
+        await this.buildRelationImpl(appId);
+        window.vtoast.success("新增成功");
 			},
 			async buildRelationImpl(appId) {
 				await window.jianghuAxios({
@@ -235,32 +238,38 @@
 					}
 				});
 			},
-			async deleteRelation({id}) {
-        if (await window.confirmDialog({ title: '确认将学生从班级删除？' })) {
-          window.vtoast.loading("删除中");
-					await window.jianghuAxios({
-						data: {
-							appData: {
-								pageId: 'appManagementOfOneUser',
-								actionId: 'deleteItem',
-								actionData: {},
-								where: { id: id }
-							}
-						}
-					});
-					window.vtoast.success("删除成功");
-					await this.getTableData();
-				}
+      // allotStudent
+      async confirmDeleteAppDialog() {
+        return window.confirmDialog({title: '确定将APP从此用户删除', content: '确定删除吗？'})
+      },
+			async doDeleteRelation({id}) {
+        window.vtoast.loading("删除中");
+        await window.jianghuAxios({
+          data: {
+            appData: {
+              pageId: 'appManagementOfOneUser',
+              actionId: 'deleteItem',
+              actionData: {},
+              where: { id: id }
+            }
+          }
+        });
+        window.vtoast.success("删除成功");
 			},
 			drawerItemSelected({item, value}) {
-				if (value) {
-					this.drawerItemSelectedClass.push(item);
-				} else {
-					this.drawerItemSelectedClass = _.filter(this.drawerItemSelectedClass, ['studentId', item.studentId]);
-				}
+        const { appId } = item;
+        if (value) {
+          this.drawerItemSelectedClass.push(appId);
+        } else {
+          this.drawerItemSelectedClass = this.drawerItemSelectedClass.filter(e => e !== appId);
+        }
 			},
 			drawerToggleSelectAll({items, value}) {
 				if (value) {
+          const itemIds = [];
+          for (const item of items) {
+            itemIds.push(item.appId)
+          }
 					this.drawerItemSelectedClass = items;
 				} else {
 					this.drawerItemSelectedClass = [];
