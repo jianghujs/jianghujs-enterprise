@@ -67,14 +67,14 @@
         <v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pb-0': !isMobile, 'pa-2': isMobile, 'pl-0': !isMobile, 'pr-0': !isMobile}">
 
           <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0 d-flex align-center">
-            <v-btn color="success" small dark class="elevation-0 mr-4" @click="handleTableButton({ text: '新增', buttonType: 'add' }, null)">新增</v-btn>
+            <v-btn color="success" small dark class="elevation-0 mr-4" @click="doUiAction('startCreateItem', null)">新增</v-btn>
             <div style="border-radius: 4px; padding-top: 1px" class="pr-2 mr-4">
               <v-switch class="d-inline-block ma-0 pa-0"
                         v-model="showAllData"
                         label="显示全部"
                         color="success"
                         inset
-                        @change="getTableData"
+                        @change="doUiAction('refreshTableData')"
                         hide-details
               ></v-switch>
             </div>
@@ -99,9 +99,16 @@
                       checkbox-color="success"
                       mobile-breakpoint="0"
                       class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
+
+          <template v-slot:item.roleId="{ item }">
+            {{ (constantCollection.userType.find(({value}) => value === item.roleId) || {}).text }}
+          </template>
           <template v-slot:item.action="{ item }">
-            <v-btn small class="mr-2" :class="tableButton.color" v-for="tableButton of tableButtonList" @click="handleTableButton(tableButton, item)">
-              {{ tableButton.text }}
+            <v-btn :small="!isMobile" class="mr-2 success" @click="doUiAction('startUpdateItem', item)">
+              修改
+            </v-btn>
+            <v-btn :small="!isMobile" class="mr-2 error" @click="doUiAction('deleteItem', item)">
+              删除
             </v-btn>
           </template>
         </v-data-table>
@@ -120,8 +127,8 @@
           </v-list-item>
           <v-row class="pa-5">
             <v-spacer></v-spacer>
-            <v-btn color="error" small @click="deleteLeftItem" class="mr-4">删除</v-btn>
-            <v-btn color="success" small @click="updateLeftItem">修改</v-btn>
+            <v-btn color="error" small @click="doUiAction('deleteLeftItem')" class="mr-4">删除</v-btn>
+            <v-btn color="success" small @click="doUiAction('updateLeftItem')">修改</v-btn>
           </v-row>
         </v-form>
       </v-col>
@@ -152,7 +159,7 @@
       </v-row>
 
       <v-row class="justify-end pr-6">
-        <v-btn color="success" @click="saveInfo" small :style="{width: isMobile ? 'calc(100% - 45px)' : '200px'}" :class="{'mb-2': isMobile, 'mr-4': isMobile}">保存</v-btn>
+        <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)" small :style="{width: isMobile ? 'calc(100% - 45px)' : '200px'}" :class="{'mb-2': isMobile, 'mr-4': isMobile}">保存</v-btn>
         <v-btn class="ml-2" @click="isEditDrawerShow = false" small :style="{width: isMobile ? 'calc(100% - 45px)' : '200px'}" :class="{'mr-4': isMobile}">取消</v-btn>
       </v-row>
     </v-form>
@@ -222,7 +229,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" small @click="addItemDialog = false"> 取消</v-btn>
-        <v-btn color="success" small @click="addNewItem()"> 保存</v-btn>
+        <v-btn color="success" small @click="doUiAction('createLeftItem')"> 保存</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -231,7 +238,67 @@
 {% endblock %}
 
 {% block vue_body %}
+{% include 'common/uiAction.html' %}
+<script type="module">
+  window.registerData({
+    // 表格相关数据
+    isFormValid: true,
+    isFormValidLeft: true,
+    isFormValidRight: true,
+    showAllData: false,
+    addItemDialog: false,
+    pageTab: 0,
+    selectedItem: 0,
+    showLeftMenu: window.innerWidth > 600,
+    requireRules: [ v => !!v],
+    nullRules: [ v => true],
+    tabsSearchKeyword: null,
+    constantCollection: {
+      user: [],
+      group: [],
+      role: [],
+      userStatus: [{value: 'active', text: '活跃'}, {value: 'banned', text: '关闭'}],
+      userType: [{value: 'common', text: '管理员'}, {value: 'staff', text: '职工'},  {value: 'teacher', text: '老师'}, {value: 'student', text: '学员'}],
+    },
+    isEditDrawerShow: false,
+    searchInput: null,
+    isTableLoading: true,
+    tableDataFromBackend: [],
+    pageTableDataFromBackend: [],
+    editItem: {},
+    activeItemInfo: {},
+    headers: [
+      {text: "用户Id", value: "userId", width: 120, class: 'fixed', cellClass: 'fixed'},
+      {text: "组织ID", value: "groupId", width: 120},
+      {text: "角色ID", value: "roleId", width: 120},
+      {text: "操作人", value: "operationByUser", width: 120},
+      {text: "操作时间", value: "operationAt", width: 250},
+      {text: '操作', value: 'action', align: 'center', sortable: false, width: 180, class: 'fixed', cellClass: 'fixed'},
+    ],
 
+    userKeys: [
+      {text: "用户Id", value: "userId"},
+      {text: "用户名", value: "username"},
+      {text: "用户账号状态", value: "userStatus", type: 'select'},
+      {text: "用户类型", value: "userType", type: 'select'},
+    ],
+
+    groupKeys: [
+      {text: "组织Id", value: "groupId"},
+      {text: "组织名", value: "groupName"},
+      {text: "组织描述", value: "groupDesc", require: false},
+      {text: "组织Logo", value: "groupAvatar", require: false},
+      {text: "拓展字段", value: "groupExtend", type: 'textarea', require: false},
+    ],
+    roleKeys: [
+      {text: "角色ID", value: "roleId"},
+      {text: "角色名", value: "roleName"},
+      {text: "角色描述", value: "roleDesc", require: false},
+    ],
+    currentClickButton: {title: '新增', action: 'add'},
+    dialogSaveInfoAction: ''
+  })
+</script>
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -239,67 +306,8 @@
     el: '#app',
     template: '#app-template',
     vuetify: new Vuetify(),
-    data: () => ({
-      // 表格相关数据
-      isFormValid: true,
-      isFormValidLeft: true,
-      isFormValidRight: true,
-      showAllData: false,
-      addItemDialog: false,
-      pageTab: 0,
-      selectedItem: 0,
-      showLeftMenu: window.innerWidth > 600,
-      requireRules: [ v => !!v],
-      nullRules: [ v => true],
-      tabsSearchKeyword: null,
-      constantCollection: {
-        user: [],
-        group: [],
-        role: [],
-        userStatus: [{value: 'active', text: '活跃'}, {value: 'banned', text: '关闭'}],
-        userType: [{value: 'common', text: '管理员'}, {value: 'staff', text: '职工'}, {value: 'student', text: '学员'}],
-      },
-      isEditDrawerShow: false,
-      searchInput: null,
-      isTableLoading: true,
-      tableDataFromBackend: [],
-      pageTableDataFromBackend: [],
-      editItem: {},
-      activeItemInfo: {},
-      headers: [
-        {text: "用户Id", value: "userId", width: 120, class: 'fixed', cellClass: 'fixed'},
-        {text: "组织ID", value: "groupId", width: 120},
-        {text: "角色ID", value: "roleId", width: 120},
-        {text: "操作人", value: "operationByUser", width: 120},
-        {text: "操作时间", value: "operationAt", width: 250},
-        {text: '操作', value: 'action', align: 'center', sortable: false, width: 180, class: 'fixed', cellClass: 'fixed'},
-      ],
-
-      userKeys: [
-        {text: "用户Id", value: "userId"},
-        {text: "用户名", value: "username"},
-        {text: "用户账号状态", value: "userStatus", type: 'select'},
-        {text: "用户类型", value: "userType", type: 'select'},
-      ],
-
-      groupKeys: [
-        {text: "组织Id", value: "groupId"},
-        {text: "组织名", value: "groupName"},
-        {text: "组织描述", value: "groupDesc", require: false},
-        {text: "组织Logo", value: "groupAvatar", require: false},
-        {text: "拓展字段", value: "groupExtend", type: 'textarea', require: false},
-      ],
-      roleKeys: [
-        {text: "角色ID", value: "roleId"},
-        {text: "角色名", value: "roleName"},
-        {text: "角色描述", value: "roleDesc", require: false},
-      ],
-      currentClickButton: {title: '新增', action: 'add'},
-      tableButtonList: [
-        {text: '修改', buttonType: 'edit', color: 'success',},
-        {text: '删除', buttonType: 'delete', color: 'error',}
-      ],
-    }),
+    mixins: [window.jianghuMixins],
+    data: () => window.vueData,
     computed: {
       isMobile() {
         return window.innerWidth < 600;
@@ -336,24 +344,25 @@
     },
     watch: {
       async pageTab() {
-        this.getTableData();
+        this.doUiAction('refreshTableData');
       },
       selectedItem(v, ov) {
         if (v !== ov) {
-          this.getTableData();
+          this.doUiAction('refreshTableData');
         }
       }
     },
     async created() {
-      this.selectGroup();
-      this.selectRole();
-      await this.selectUser();
-      this.buildActiveItemInfo(this.constantCollection);
-      await this.getTableData();
     },
     mounted() {
+      this.doUiAction('initOptions');
     },
     methods: {
+      initOptions() {
+        this.selectGroup();
+        this.selectRole();
+        this.buildActiveItemInfo(this.constantCollection);
+      },
       // 获取当前左侧选中的选项详情
       buildActiveItemInfo(value) {
         const tabItemList = [value.user, value.group, value.role][this.pageTab || 0];
@@ -403,7 +412,7 @@
       /**
        * 获取表格数据
        */
-      async getTableData() {
+      async refreshTableData() {
         this.isTableLoading = true;
         let where = {};
         const activeItem = this.tabData[this.selectedItem];
@@ -425,66 +434,32 @@
         this.isTableLoading = false;
       },
 
-      /**
-       * 点击表格数据按钮
-       */
-      async handleTableButton(button, item) {
-        const buttonType = button.buttonType;
-        this.editItem = {...item};
-        switch (buttonType) {
-          case 'edit':
-            this.currentClickButton = {action: 'edit', title: '修改'};
-            this.isEditDrawerShow = true;
-            break;
-          case 'add':
-            this.currentClickButton = {action: 'add', title: '新增'};
-            this.editItem = {};
-            this.isEditDrawerShow = true;
-            break;
-          case 'delete':
-            await this.deleteItem();
-            break;
-        }
+      // startCreateItem
+      async clearItemData() {
+        this.editItem = {};
       },
-      /**
-       * 删除
-       */
-      async deleteItem() {
-        if (await window.confirmDialog({content: "确定要删除吗？"})) {
-          window.vtoast.loading('正在删除')
-          await window.jianghuAxios({
-            data: {
-              appData: {
-                pageId: 'userGroupRoleManagement',
-                actionId: 'deleteItem',
-                where: {id: this.editItem.id}
-              }
-            }
-          });
-          window.vtoast.success('删除成功')
-          await this.getTableData();
-        }
+
+      async openCreateItemDialog() {
+        this.currentClickButton = {action: 'add', title: '新增'};
+        this.isEditDrawerShow = true;
+        this.dialogSaveInfoAction = 'createItem';
       },
-      /**
-       * 保存数据
-       */
-      async saveInfo() {
+
+      // createItem
+      async prepareValidate() {
         if (!this.$refs.form.validate()) return false;
-        await window.vtoast.loading("保存中");
-        if (this.currentClickButton.action === 'add') {
-          await this.insertItem();
-        }
-        if (this.currentClickButton.action === 'edit') {
-          await this.updateItem();
-        }
-        await window.vtoast.success("保存成功");
-        this.isEditDrawerShow = false;
-        await this.getTableData();
       },
+
+      // createItem
+      async confirmCreateItemDialog() {
+        return window.confirmDialog({title: '新增', content: '确定新增吗？'})
+      },
+
       /**
        * 新增数据
        */
-      async insertItem() {
+      async doCreateItem() {
+        await window.vtoast.loading("保存中");
         const {userId, groupId, roleId} = this.editItem;
         await window.jianghuAxios({
           data: {
@@ -494,8 +469,72 @@
               actionData: {userId, groupId, roleId}
             }
           }
-        })
+        });
+        await window.vtoast.success("保存成功");
       },
+
+      async closeDrawerShow() {
+        this.isEditDrawerShow = false;
+      },
+
+      // startUpdateItem
+      async prepareItemData(item) {
+        this.editItem = {...item};
+      },
+
+      async openUpdateItemDialog() {
+        this.currentClickButton = {action: 'edit', title: '修改'};
+        this.isEditDrawerShow = true;
+        this.dialogSaveInfoAction = 'updateItem';
+      },
+
+      // updateItem
+      async confirmUpdateItemDialog() {
+        return window.confirmDialog({title: '修改', content: '确定修改吗？'});
+      },
+
+      /**
+       * 保存
+       */
+      async doUpdateItem() {
+        await window.vtoast.loading("保存中");
+        const id = this.editItem.id;
+        const {userId, groupId, roleId} = this.editItem;
+        await window.jianghuAxios({
+          data: {
+            appData: {
+              pageId: 'userGroupRoleManagement',
+              actionId: 'updateItem',
+              actionData: {userId, groupId, roleId},
+              where: {id: id}
+            }
+          }
+        });
+        await window.vtoast.success("修改成功");
+      },
+
+      // deleteItem
+      async confirmDeleteItemDialog() {
+        return window.confirmDialog({title: '删除', content: '确定删除吗？'});
+      },
+
+      /**
+       * 删除
+       */
+      async deleteItem() {
+        window.vtoast.loading('正在删除')
+        await window.jianghuAxios({
+          data: {
+            appData: {
+              pageId: 'userGroupRoleManagement',
+              actionId: 'deleteItem',
+              where: {id: this.editItem.id}
+            }
+          }
+        });
+        window.vtoast.success('删除成功')
+      },
+
       // 打开添加用户、组织、角色的表单弹窗
       async openFormDialog() {
         this.editItem = {};
@@ -517,7 +556,6 @@
           }
         })
         window.vtoast.success("添加成功")
-        await this.reGetLeftData();
       },
       // 刷新用户、组织、角色的数据
       async reGetLeftData() {
@@ -531,23 +569,6 @@
           await this.selectRole();
         }
         this.$forceUpdate()
-      },
-      /**
-       * 保存
-       */
-      async updateItem() {
-        const id = this.editItem.id;
-        const {userId, groupId, roleId} = this.editItem;
-        await window.jianghuAxios({
-          data: {
-            appData: {
-              pageId: 'userGroupRoleManagement',
-              actionId: 'updateItem',
-              actionData: {userId, groupId, roleId},
-              where: {id: id}
-            }
-          }
-        })
       },
       // 删除用户、组织、角色
       async deleteLeftItem() {
@@ -568,7 +589,6 @@
               }
             })
             window.vtoast.success("删除成功");
-            await this.reGetLeftData();
           }
         }
       },
@@ -590,8 +610,8 @@
           }
         })
         window.vtoast.success("保存成功");
-        await this.reGetLeftData();
       }
+
     }
   })
 </script>
