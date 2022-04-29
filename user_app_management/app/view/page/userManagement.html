@@ -53,7 +53,7 @@
              @click="doUiAction('bannedUserStatus', item)">
         禁用用户
       </v-btn>
-      <v-btn small class="mr-2" color="error" @click="doUiAction('startResetPassword', item)">修改密码</v-btn>
+      <v-btn small class="mr-2" color="error" v-if="item.userStatus === 'active'" @click="doUiAction('startResetPassword', item)">修改密码</v-btn>
       <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/appManagementOfOneUser?id=${item.userId}&title=${item.username}`)">用户的APP管理</v-btn>
     </template>
   </v-data-table>
@@ -277,10 +277,6 @@ new Vue({
       await window.vtoast.success("修改用户成功");
     },
 
-    async setActiveUserStatus() {
-      this.dialogSaveInfoAction = 'activeUserStatus';
-    },
-
     async confirmActiveUserStatusDialog() {
       return window.confirmDialog({ title: '激活', content: `确定激活吗？`});
     },
@@ -302,10 +298,6 @@ new Vue({
         }
       });
       await window.vtoast.success(`激活成功`);
-    },
-
-    async setBannedUserStatus() {
-      this.dialogSaveInfoAction = 'bannedUserStatus';
     },
 
     async confirmBannedUserStatusDialog() {
