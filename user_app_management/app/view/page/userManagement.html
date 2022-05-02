@@ -42,18 +42,18 @@
       {{ (constantCollection.userStatus.find(({value}) => value === item.userStatus) || {}).text }}
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', item)">修改</v-btn>
+      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', {item})">修改</v-btn>
       <v-btn small class="mr-2" color="primary"
              v-if="item.userStatus !== 'active'"
-             @click="doUiAction('activeUserStatus', item)">
+             @click="doUiAction('activeUserStatus', {item})">
         激活用户
       </v-btn>
       <v-btn small class="mr-2" color="error"
              v-if="item.userStatus === 'active'"
-             @click="doUiAction('bannedUserStatus', item)">
+             @click="doUiAction('bannedUserStatus', {item})">
         禁用用户
       </v-btn>
-      <v-btn small class="mr-2" color="error" v-if="item.userStatus === 'active'" @click="doUiAction('startResetPassword', item)">修改密码</v-btn>
+      <v-btn small class="mr-2" color="error" v-if="item.userStatus === 'active'" @click="doUiAction('startResetPassword', {item})">修改密码</v-btn>
       <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/appManagementOfOneUser?id=${item.userId}&title=${item.username}`)">用户的APP管理</v-btn>
     </template>
   </v-data-table>
@@ -105,7 +105,6 @@
 {% endblock %}
 
 {% block vue_body %}
-{% include 'common/uiAction.html' %}
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 
@@ -238,7 +237,7 @@ new Vue({
     },
 
     // startUpdateItem
-    async prepareItemData(item) {
+    async prepareItemData({item}) {
       this.editItem = {...item};
     },
 
@@ -281,7 +280,7 @@ new Vue({
     /**
      * 激活用户
      */
-    async doActiveUserStatus(item) {
+    async doActiveUserStatus({item}) {
       const { userId } = item;
       await window.vtoast.loading('正在激活');
       await window.jianghuAxios({
@@ -304,7 +303,7 @@ new Vue({
     /**
      * 禁用用户
      */
-    async doBannedUserStatus(item) {
+    async doBannedUserStatus({item}) {
       const { userId } = item;
       await window.vtoast.loading('正在禁用');
       await window.jianghuAxios({

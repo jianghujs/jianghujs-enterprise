@@ -46,7 +46,7 @@
       {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
     </template>
     <template v-slot:item.option="{ item }">
-      <v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', item)" :key="btn.value">
+      <v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', {item})" :key="btn.value">
         {{ btn.text }}
       </v-btn>
     </template>
@@ -98,7 +98,7 @@
             {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
           <template v-slot:item.option="{ item }">
-            <v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', item)">新增</v-btn>
+            <v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', {item})">新增</v-btn>
           </template>
         </v-data-table>
       </v-row>
@@ -110,7 +110,6 @@
 {% endblock %}
 
 {% block vue_body %}
-{% include 'common/uiAction.html' %}
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -234,10 +233,10 @@ new Vue({
       this.drawerItemSelectedClass = [];
     },
 
-    async doBuildRelation({userId}) {
+    async doBuildRelation({item}) {
       this.isEditDrawerPermanent = false;
       window.vtoast.loading("正在新增");
-      await this.buildRelationImpl(userId);
+      await this.buildRelationImpl(item.userId);
       window.vtoast.success("新增成功");
     },
     async buildRelationImpl(userId) {
@@ -259,7 +258,7 @@ new Vue({
       return window.confirmDialog({title: '确认将用户从APP删除', content: '确定删除吗？'})
     },
 
-    async doDeleteRelation({userId}) {
+    async doDeleteRelation({item}) {
       window.vtoast.loading("删除中");
       await window.jianghuAxios({
         data: {
@@ -267,7 +266,7 @@ new Vue({
             pageId: 'userManagementOfOneApp',
             actionId: 'deleteItem',
             actionData: {},
-            where: { userId }
+            where: { userId: item.userId }
           }
         }
       });

@@ -63,8 +63,8 @@
       {{ getConstantCollectionItemText('level', item.level) }}
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', item)">修改</v-btn>
-      <v-btn small class="mr-2" color="error" @click="doUiAction('deleteItem', item)">删除</v-btn>
+      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', {item})">修改</v-btn>
+      <v-btn small class="mr-2" color="error" @click="doUiAction('deleteItem', {item})">删除</v-btn>
     </template>
   </v-data-table>
 </v-container>
@@ -126,7 +126,6 @@
 {% endblock %}
 
 {% block vue_body %}
-{% include 'common/uiAction.html' %}
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 
@@ -276,7 +275,7 @@ new Vue({
     },
 
     // startUpdateItem
-    async prepareItemData(item) {
+    async prepareItemData({item}) {
       this.editItem = {...item};
     },
 

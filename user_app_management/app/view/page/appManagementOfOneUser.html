@@ -40,7 +40,7 @@
 				{{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
 			</template>
 			<template v-slot:item.option="{ item }">
-				<v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', item)" :key="btn.value">
+				<v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', {item})" :key="btn.value">
 					{{ btn.text }}
 				</v-btn>
 			</template>
@@ -83,7 +83,7 @@
 							class="elevation-0 pt-0 mb-xs-4 flex-fill d-flex flex-column show-select"
 					>
 						<template v-slot:item.option="{ item }">
-							<v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', item)">新增</v-btn>
+							<v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', {item})">新增</v-btn>
 						</template>
 					</v-data-table>
 				</v-row>
@@ -95,7 +95,6 @@
 {% endblock %}
 
 {% block vue_body %}
-{% include 'common/uiAction.html' %}
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -216,10 +215,10 @@
         this.drawerItemSelectedClass = [];
 			},
 
-			async doBuildRelation({appId}) {
+			async doBuildRelation({item}) {
         this.isEditDrawerPermanent = false;
         window.vtoast.loading("正在新增");
-        await this.buildRelationImpl(appId);
+        await this.buildRelationImpl(item.appId);
         window.vtoast.success("新增成功");
 			},
 			async buildRelationImpl(appId) {
@@ -239,7 +238,7 @@
       async confirmDeleteAppDialog() {
         return window.confirmDialog({title: '确定将APP从此用户删除', content: '确定删除吗？'})
       },
-			async doDeleteRelation({id}) {
+			async doDeleteRelation({item}) {
         window.vtoast.loading("删除中");
         await window.jianghuAxios({
           data: {
@@ -247,7 +246,7 @@
               pageId: 'appManagementOfOneUser',
               actionId: 'deleteItem',
               actionData: {},
-              where: { id: id }
+              where: { id: item.id }
             }
           }
         });

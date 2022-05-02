@@ -80,7 +80,6 @@
 {% endblock %}
 
 {% block vue_body %}
-{% include 'common/uiAction.html' %}
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 
@@ -136,7 +135,7 @@
       editItem: {
         handler(value, oldValue) {
           if(!_.isEmpty(value.sourceDatabase)) {
-            this.doUiAction('resetSourceTable', value.sourceDatabase);
+            this.doUiAction('resetSourceTable', {sourceDatabase: value.sourceDatabase});
           }
         },
         deep: true
@@ -167,7 +166,7 @@
       /**
        * 获取表格数据
        */
-      async doResetSourceTable(sourceDatabase) {
+      async doResetSourceTable({sourceDatabase}) {
         const result = await window.jianghuAxios({
           data: {
             appData: {
@@ -316,7 +315,7 @@
       },
       // updateItem
       async confirmManualSyncAllDialog() {
-        return window.confirmDialog({title: '确定要同步这张表吗', content: '确定同步吗？'});
+        return window.confirmDialog({title: '确定要全部同步吗', content: '确定同步吗？'});
       },
       async doManualSyncAll() {
         window.vtoast.loading("同步中");
