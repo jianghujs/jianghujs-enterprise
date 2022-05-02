@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 {% block vue_template %}
 
@@ -51,29 +51,6 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
-<script type="module">
-  window.registerData({
-    // 表格相关数据
-    isFormValid: true,
-    syncModel: "<$ ctx.app.config.syncModel $>",
-    showFullData: false,
-    showLeftMenu: window.innerWidth > 600,
-    requireRules: [ v => !!v || 'This is required' ],
-    constantCollection: {
-    },
-    isEditDrawerShow: false,
-    searchInput: null,
-    isTableLoading: true,
-    tableDataFromBackend: [],
-    headers: [
-      {text: "数据库", value: "sourceDatabase", width: 140, class: 'fixed', cellClass: 'fixed'},
-      {text: "表格", value: "sourceTable", width: 140},
-      {text: "同步动作", value: "syncAction", width: 200},
-      {text: "同步状态", value: "syncDesc", width: 300},
-      {text: "同步时间", value: "syncTime", width: 200},
-    ],
-  })
-</script>
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -82,7 +59,27 @@
     template: '#app-template',
     vuetify: new Vuetify(),
     mixins: [window.jianghuUiActionMixins],
-    data: () => window.vueData,
+    data: {
+      // 表格相关数据
+      isFormValid: true,
+      syncModel: "<$ ctx.app.config.syncModel $>",
+      showFullData: false,
+      showLeftMenu: window.innerWidth > 600,
+      requireRules: [ v => !!v || 'This is required' ],
+      constantCollection: {
+      },
+      isEditDrawerShow: false,
+      searchInput: null,
+      isTableLoading: true,
+      tableDataFromBackend: [],
+      headers: [
+        {text: "数据库", value: "sourceDatabase", width: 140, class: 'fixed', cellClass: 'fixed'},
+        {text: "表格", value: "sourceTable", width: 140},
+        {text: "同步动作", value: "syncAction", width: 200},
+        {text: "同步状态", value: "syncDesc", width: 300},
+        {text: "同步时间", value: "syncTime", width: 200},
+      ],
+    },
     computed: {
       isMobile() {
         return window.innerWidth < 600;

@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 <!-- vue template 代码块 -->
 {% block vue_template %}
@@ -50,12 +50,6 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
-<script type="module">
-  window.registerData({
-    selectedUrlItem: null,
-    directoryList: null
-  })
-</script>
 {% include 'layout/jhLayout.html' %}
 <script type="module">
 
@@ -64,7 +58,10 @@
     template: '#app-template',
     vuetify: new Vuetify(),
     mixins: [window.jianghuUiActionMixins],
-    data: () => window.vueData,
+    data: {
+      selectedUrlItem: null,
+      directoryList: null
+    },
     computed: {
       isMobile() {
         return window.innerWidth < 600;

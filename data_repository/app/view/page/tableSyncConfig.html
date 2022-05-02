@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 {% block vue_template %}
 
@@ -81,42 +81,6 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
-<script type="module">
-  window.registerData({
-    // 表格相关数据
-    isFormValid: true,
-    enableDataSync: "<$ ctx.app.config.enableDataSync $>",
-    requireRules: [ v => !!v || 'This is required' ],
-    numberRules: [ v => !_.isEmpty(_.trim(v)) && !isNaN(v) || 'This is number'],
-    constantCollection: {
-      sourceDatabase: [],
-      sourceTable: []
-    },
-    isEditDrawerShow: false,
-    searchInput: null,
-    isTableLoading: true,
-    tableDataFromBackend: [],
-    headers: [
-      {text: "数据库", value: "sourceDatabase", width: 140, class: 'fixed', cellClass: 'fixed'},
-      {text: "表格", value: "sourceTable", width: 140},
-      {text: "同步间隔/同步检查间隔（分）", value: "syncTimeSlot", width: 140},
-      {text: "同步状态", value: "syncDesc", width: 200},
-      {text: "最后一次触发同步的时间", value: "lastSyncTime", width: 140},
-      {text: '操作时间', value: 'operationAt', width: 200},
-      {text: "操作人", value: "operationByUser", width: 140},
-      {text: '操作', value: 'action', align: 'center', sortable: false, width: 250, class: 'fixed', cellClass: 'fixed'},
-    ],
-
-    currentClickButton: {title: '新增', action: 'add'},
-    editItem: {},
-    tableButtonList: [
-      {text: '修改', buttonType: 'edit', color: 'success',},
-      {text: '删除', buttonType: 'delete', color: 'error',},
-      {text: '手动同步', buttonType: 'manualSyncOneTable', color: ''},
-    ],
-    dialogSaveInfoAction: ''
-  })
-</script>
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 
@@ -126,7 +90,40 @@
     template: '#app-template',
     vuetify: new Vuetify(),
     mixins: [window.jianghuUiActionMixins],
-    data: () => window.vueData,
+    data: {
+      // 表格相关数据
+      isFormValid: true,
+      enableDataSync: "<$ ctx.app.config.enableDataSync $>",
+      requireRules: [ v => !!v || 'This is required' ],
+      numberRules: [ v => !_.isEmpty(_.trim(v)) && !isNaN(v) || 'This is number'],
+      constantCollection: {
+        sourceDatabase: [],
+        sourceTable: []
+      },
+      isEditDrawerShow: false,
+      searchInput: null,
+      isTableLoading: true,
+      tableDataFromBackend: [],
+      headers: [
+        {text: "数据库", value: "sourceDatabase", width: 140, class: 'fixed', cellClass: 'fixed'},
+        {text: "表格", value: "sourceTable", width: 140},
+        {text: "同步间隔/同步检查间隔（分）", value: "syncTimeSlot", width: 140},
+        {text: "同步状态", value: "syncDesc", width: 200},
+        {text: "最后一次触发同步的时间", value: "lastSyncTime", width: 140},
+        {text: '操作时间', value: 'operationAt', width: 200},
+        {text: "操作人", value: "operationByUser", width: 140},
+        {text: '操作', value: 'action', align: 'center', sortable: false, width: 250, class: 'fixed', cellClass: 'fixed'},
+      ],
+
+      currentClickButton: {title: '新增', action: 'add'},
+      editItem: {},
+      tableButtonList: [
+        {text: '修改', buttonType: 'edit', color: 'success',},
+        {text: '删除', buttonType: 'delete', color: 'error',},
+        {text: '手动同步', buttonType: 'manualSyncOneTable', color: ''},
+      ],
+      dialogSaveInfoAction: ''
+    },
     computed: {
       isMobile() {
         return window.innerWidth < 600;

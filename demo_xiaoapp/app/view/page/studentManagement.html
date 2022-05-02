@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 {% block vue_template %}
 
@@ -127,8 +127,16 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
+{% include 'layout/jhLayout.html' %}
+{% include 'common/resetTableMaxHeight.html' %}
+
 <script type="module">
-  window.registerData({
+new Vue({
+  el: '#app',
+  template: '#app-template',
+  vuetify: new Vuetify(),
+  mixins: [window.jianghuUiActionMixins],
+  data: {
     // 表格相关数据
     isFormValid: true,
     requireRules: [
@@ -178,18 +186,7 @@
       {text: '删除', buttonType: 'delete', color: 'error',},
     ],
     dialogSaveInfoAction: ''
-  })
-</script>
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
-
-<script type="module">
-new Vue({
-  el: '#app',
-  template: '#app-template',
-  vuetify: new Vuetify(),
-  mixins: [window.jianghuUiActionMixins],
-  data: () => window.vueData,
+  },
   computed: {
     isMobile() {
       return window.innerWidth < 600;

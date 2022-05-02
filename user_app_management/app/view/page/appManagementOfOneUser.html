@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 <!-- vue template 代码块 -->
 {% block vue_template %}
@@ -96,34 +96,6 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
-<script type="module">
-  window.registerData({
-    userId: null,
-    title: null,
-
-    searchInput: null,
-    isTableLoading: true,
-    isDrawerTableLoading: true,
-    isEditDrawerPermanent: false,
-    isEditDrawerShow: false,
-    constantCollection: {
-    },
-    headers: [
-      {text: "应用ID", value: "appId", align: "start", sortable: true, width: 120},
-      {text: "应用名", value: "appName", align: "start", sortable: true, width: 120},
-      {text: "操作人", value: "operationByUser", align: "start", sortable: true, width: 120},
-      {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
-      {text: '操作', value: 'option', align: 'center', sortable: false, width: 200, class: 'fixed', cellClass: 'fixed'},
-    ],
-    drawerTableDataFromBackend: [],
-    tableDataFromBackend: [],
-    tableButtonList: [
-      {text: '删除', buttonType: 'delete', color: 'error',},
-    ],
-    drawerItemSelectedClass: [],
-    currentClickButton: {title: '新增', action: 'add'},
-  })
-</script>
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -133,7 +105,32 @@
 		template: '#app-template',
 		vuetify: new Vuetify(),
     mixins: [window.jianghuUiActionMixins],
-    data: () => window.vueData,
+    data: {
+      userId: null,
+      title: null,
+
+      searchInput: null,
+      isTableLoading: true,
+      isDrawerTableLoading: true,
+      isEditDrawerPermanent: false,
+      isEditDrawerShow: false,
+      constantCollection: {
+      },
+      headers: [
+        {text: "应用ID", value: "appId", align: "start", sortable: true, width: 120},
+        {text: "应用名", value: "appName", align: "start", sortable: true, width: 120},
+        {text: "操作人", value: "operationByUser", align: "start", sortable: true, width: 120},
+        {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
+        {text: '操作', value: 'option', align: 'center', sortable: false, width: 200, class: 'fixed', cellClass: 'fixed'},
+      ],
+      drawerTableDataFromBackend: [],
+      tableDataFromBackend: [],
+      tableButtonList: [
+        {text: '删除', buttonType: 'delete', color: 'error',},
+      ],
+      drawerItemSelectedClass: [],
+      currentClickButton: {title: '新增', action: 'add'},
+    },
 		computed: {
 			isMobile() {
 				return window.innerWidth < 600;

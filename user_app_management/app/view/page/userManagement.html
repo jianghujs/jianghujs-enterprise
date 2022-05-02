@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 {% block vue_template %}
 
@@ -106,8 +106,16 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
+{% include 'layout/jhLayout.html' %}
+{% include 'common/resetTableMaxHeight.html' %}
+
 <script type="module">
-  window.registerData({
+new Vue({
+  el: '#app',
+  template: '#app-template',
+  vuetify: new Vuetify(),
+  mixins: [window.jianghuUiActionMixins],
+  data: {
     appInfo: window.appInfo,
     // 表格相关数据
     isFormValid: true,
@@ -144,18 +152,7 @@
     editItem: {},
     defaultItem: { userType: 'common', userStatus: 'active', },
     dialogSaveInfoAction: ''
-  })
-</script>
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
-
-<script type="module">
-new Vue({
-  el: '#app',
-  template: '#app-template',
-  vuetify: new Vuetify(),
-  mixins: [window.jianghuUiActionMixins],
-  data: () => window.vueData,
+  },
   computed: {
     tableData() {
       if (!this.currentUserStatusType || this.currentUserStatusType === 'all') {

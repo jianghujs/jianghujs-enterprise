@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 {% block vue_template %}
 
@@ -239,66 +239,6 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
-<script type="module">
-  window.registerData({
-    // 表格相关数据
-    isFormValid: true,
-    isFormValidLeft: true,
-    isFormValidRight: true,
-    showAllData: false,
-    addItemDialog: false,
-    pageTab: 0,
-    selectedItem: 0,
-    showLeftMenu: window.innerWidth > 600,
-    requireRules: [ v => !!v],
-    nullRules: [ v => true],
-    tabsSearchKeyword: null,
-    constantCollection: {
-      user: [],
-      group: [],
-      role: [],
-      userStatus: [{value: 'active', text: '活跃'}, {value: 'banned', text: '关闭'}],
-      userType: [{value: 'common', text: '管理员'}, {value: 'staff', text: '职工'},  {value: 'teacher', text: '老师'}, {value: 'student', text: '学员'}],
-    },
-    isEditDrawerShow: false,
-    searchInput: null,
-    isTableLoading: true,
-    tableDataFromBackend: [],
-    pageTableDataFromBackend: [],
-    editItem: {},
-    activeItemInfo: {},
-    headers: [
-      {text: "用户Id", value: "userId", width: 120, class: 'fixed', cellClass: 'fixed'},
-      {text: "组织ID", value: "groupId", width: 120},
-      {text: "角色ID", value: "roleId", width: 120},
-      {text: "操作人", value: "operationByUser", width: 120},
-      {text: "操作时间", value: "operationAt", width: 250},
-      {text: '操作', value: 'action', align: 'center', sortable: false, width: 180, class: 'fixed', cellClass: 'fixed'},
-    ],
-
-    userKeys: [
-      {text: "用户Id", value: "userId"},
-      {text: "用户名", value: "username"},
-      {text: "用户账号状态", value: "userStatus", type: 'select'},
-      {text: "用户类型", value: "userType", type: 'select'},
-    ],
-
-    groupKeys: [
-      {text: "组织Id", value: "groupId"},
-      {text: "组织名", value: "groupName"},
-      {text: "组织描述", value: "groupDesc", require: false},
-      {text: "组织Logo", value: "groupAvatar", require: false},
-      {text: "拓展字段", value: "groupExtend", type: 'textarea', require: false},
-    ],
-    roleKeys: [
-      {text: "角色ID", value: "roleId"},
-      {text: "角色名", value: "roleName"},
-      {text: "角色描述", value: "roleDesc", require: false},
-    ],
-    currentClickButton: {title: '新增', action: 'add'},
-    dialogSaveInfoAction: ''
-  })
-</script>
 {% include 'layout/jhLayout.html' %}
 {% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
@@ -307,7 +247,64 @@
     template: '#app-template',
     vuetify: new Vuetify(),
     mixins: [window.jianghuUiActionMixins],
-    data: () => window.vueData,
+    data: {
+      // 表格相关数据
+      isFormValid: true,
+      isFormValidLeft: true,
+      isFormValidRight: true,
+      showAllData: false,
+      addItemDialog: false,
+      pageTab: 0,
+      selectedItem: 0,
+      showLeftMenu: window.innerWidth > 600,
+      requireRules: [ v => !!v],
+      nullRules: [ v => true],
+      tabsSearchKeyword: null,
+      constantCollection: {
+        user: [],
+        group: [],
+        role: [],
+        userStatus: [{value: 'active', text: '活跃'}, {value: 'banned', text: '关闭'}],
+        userType: [{value: 'common', text: '管理员'}, {value: 'staff', text: '职工'},  {value: 'teacher', text: '老师'}, {value: 'student', text: '学员'}],
+      },
+      isEditDrawerShow: false,
+      searchInput: null,
+      isTableLoading: true,
+      tableDataFromBackend: [],
+      pageTableDataFromBackend: [],
+      editItem: {},
+      activeItemInfo: {},
+      headers: [
+        {text: "用户Id", value: "userId", width: 120, class: 'fixed', cellClass: 'fixed'},
+        {text: "组织ID", value: "groupId", width: 120},
+        {text: "角色ID", value: "roleId", width: 120},
+        {text: "操作人", value: "operationByUser", width: 120},
+        {text: "操作时间", value: "operationAt", width: 250},
+        {text: '操作', value: 'action', align: 'center', sortable: false, width: 180, class: 'fixed', cellClass: 'fixed'},
+      ],
+
+      userKeys: [
+        {text: "用户Id", value: "userId"},
+        {text: "用户名", value: "username"},
+        {text: "用户账号状态", value: "userStatus", type: 'select'},
+        {text: "用户类型", value: "userType", type: 'select'},
+      ],
+
+      groupKeys: [
+        {text: "组织Id", value: "groupId"},
+        {text: "组织名", value: "groupName"},
+        {text: "组织描述", value: "groupDesc", require: false},
+        {text: "组织Logo", value: "groupAvatar", require: false},
+        {text: "拓展字段", value: "groupExtend", type: 'textarea', require: false},
+      ],
+      roleKeys: [
+        {text: "角色ID", value: "roleId"},
+        {text: "角色名", value: "roleName"},
+        {text: "角色描述", value: "roleDesc", require: false},
+      ],
+      currentClickButton: {title: '新增', action: 'add'},
+      dialogSaveInfoAction: ''
+    },
     computed: {
       isMobile() {
         return window.innerWidth < 600;

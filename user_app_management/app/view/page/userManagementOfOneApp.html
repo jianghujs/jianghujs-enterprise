@@ -1,4 +1,4 @@
-{% extends 'index.html'%}
+{% extends 'template/jhTemplate.html'%}
 
 <!-- vue template 代码块 -->
 {% block vue_template %}
@@ -111,8 +111,16 @@
 
 {% block vue_body %}
 {% include 'common/uiAction.html' %}
+{% include 'layout/jhLayout.html' %}
+{% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
-  window.registerData({
+
+new Vue({
+  el: '#app',
+  template: '#app-template',
+  vuetify: new Vuetify(),
+  mixins: [window.jianghuUiActionMixins],
+  data: {
     appId: null,
     title: null,
 
@@ -141,19 +149,7 @@
     ],
     drawerItemSelectedClass: [],
     currentClickButton: {title: '新增', action: 'add'},
-  })
-</script>
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
-<script type="module">
-
-new Vue({
-  el: '#app',
-  template: '#app-template',
-  vuetify: new Vuetify(),
-  mixins: [window.jianghuUiActionMixins],
-  data: () => window.vueData,
-
+  },
   computed: {
     isMobile() {
       return window.innerWidth < 600;
