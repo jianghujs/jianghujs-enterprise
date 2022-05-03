@@ -161,8 +161,7 @@ new Vue({
 
     // createItem
     async prepareValidate() {
-      console.log('prepareValidate')
-      if (!this.$refs.form.validate()) return false;
+      return this.$refs.form.validate();
     },
 
     // createItem
