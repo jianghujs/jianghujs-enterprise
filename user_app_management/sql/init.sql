@@ -19,7 +19,7 @@ CREATE TABLE `_app` (
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`),
   KEY `appId` (`appId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19;
+) ENGINE = InnoDB AUTO_INCREMENT = 20;
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: _app
@@ -29,6 +29,7 @@ INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMen
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (13,'data_repository','base','数据中心管理',NULL,NULL,NULL,'internal','insert',NULL,NULL,NULL,NULL);
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (14,'directory','base','APP目录',NULL,NULL,NULL,'internal','insert',NULL,NULL,NULL,NULL);
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (18,'demo_xiaoapp',NULL,'小APPDemo项目',NULL,NULL,NULL,'internal','jhInsert','admin','系统管理员','2022-02-24T20:18:14+08:00',NULL);
+INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (19,'test',NULL,'uiAction test123',NULL,NULL,NULL,'internal','jhUpdate','admin','系统管理员','2022-04-28T21:58:09+08:00',NULL);
 # ------------------------------------------------------------
 # TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___app_INSERT
 # ------------------------------------------------------------
@@ -47,9 +48,7 @@ DELIMITER ;
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___app_UPDATE` AFTER UPDATE
-        ON `jianghujs_demo_enterprise_user_app_management`.`_app` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___app_UPDATE` AFTER UPDATE ON `_app` FOR EACH ROW BEGIN
             UPDATE `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app`
             SET id=NEW.id,appId=NEW.appId,appGroup=NEW.appGroup,appName=NEW.appName,appDesc=NEW.appDesc,appUrl=NEW.appUrl,appMenu=NEW.appMenu,appType=NEW.appType,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt,sort=NEW.sort
             where id=OLD.id;
@@ -61,9 +60,7 @@ DELIMITER ;
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___app_DELETE` AFTER DELETE
-        ON `jianghujs_demo_enterprise_user_app_management`.`_app` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___app_DELETE` AFTER DELETE ON `_app` FOR EACH ROW BEGIN
             DELETE FROM `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` WHERE id = OLD.id;
         END;;
 DELIMITER ;
@@ -195,8 +192,8 @@ CREATE TABLE `_record_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table` varchar(255) DEFAULT NULL COMMENT '表',
   `recordId` int(11) DEFAULT NULL COMMENT '数据在table中的主键id; recordContent.id',
-  `recordContent` text NOT NULL COMMENT '数据JSON',
-  `packageContent` text NOT NULL COMMENT '当时请求的 package JSON',
+  `recordContent` json DEFAULT NULL COMMENT '数据',
+  `packageContent` json DEFAULT NULL COMMENT '当时请求的 package JSON',
   `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
@@ -204,15 +201,8 @@ CREATE TABLE `_record_history` (
   PRIMARY KEY (`id`),
   KEY `index_record_id` (`recordId`),
   KEY `index_table_action` (`table`, `operation`)
-) ENGINE = InnoDB AUTO_INCREMENT = 55 COMMENT = '数据历史表';
+) ENGINE = InnoDB AUTO_INCREMENT = 107 COMMENT = '数据历史表';
 
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: _record_history
-# ------------------------------------------------------------
-
-INSERT INTO `_record_history` (`id`,`table`,`recordId`,`recordContent`,`packageContent`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (53,'_app',18,'{\"id\":18,\"appId\":\"xiaoapp_demo\",\"appGroup\":null,\"appName\":\"小APPDemo项目\",\"appDesc\":null,\"appUrl\":null,\"appMenu\":null,\"appType\":\"internal\",\"operation\":\"jhInsert\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-24T20:18:14+08:00\",\"sort\":null}','{\"appData\":{\"pageId\":\"appManagement\",\"actionId\":\"insertItem\",\"actionData\":{\"appId\":\"xiaoapp_demo\",\"appName\":\"小APPDemo项目\",\"appType\":\"internal\"},\"appId\":\"user_app_management\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\"},\"packageId\":\"1645705093437_8112408\",\"packageType\":\"httpRequest\"}','jhInsert','admin','系统管理员','2022-02-24T20:18:14+08:00');
-INSERT INTO `_record_history` (`id`,`table`,`recordId`,`recordContent`,`packageContent`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (54,'_user_app',52,'{\"id\":52,\"userId\":\"admin\",\"appId\":\"xiaoapp_demo\",\"operation\":\"jhInsert\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-24T20:18:25+08:00\"}','{\"appData\":{\"pageId\":\"userManagementOfOneApp\",\"actionId\":\"insertItem\",\"actionData\":{\"userId\":\"admin\",\"appId\":\"xiaoapp_demo\"},\"appId\":\"user_app_management\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\"},\"packageId\":\"1645705105253_2618574\",\"packageType\":\"httpRequest\"}','jhInsert','admin','系统管理员','2022-02-24T20:18:25+08:00');
 
 
 
@@ -245,25 +235,25 @@ CREATE TABLE `_resource` (
 # DATA DUMP FOR TABLE: _resource
 # ------------------------------------------------------------
 
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (312,NULL,NULL,'userManagement','insertItem','✅用户管理页-创建用户','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"addUser\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (313,NULL,NULL,'userManagement','updateItem','✅用户管理页-修改用户信息','sql','{}','{ \"table\": \"_user\", \"operation\": \"update\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (314,NULL,NULL,'userManagement','selectItemList','✅用户管理页-查询用户列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (315,NULL,NULL,'userManagement','resetUserPassword','✅用户管理页-修改用户密码','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"resetUserPassword\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (317,NULL,NULL,'appManagement','selectItemList','✅APP管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (318,NULL,NULL,'appManagement','updateItem','✅APP管理-更新','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhUpdate\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (319,NULL,NULL,'appManagement','insertItem','✅APP管理-创建APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhInsert\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (320,NULL,NULL,'appManagement','deleteItem','✅APP管理-删除APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhDelete\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (361,NULL,NULL,'appManagementOfOneUser','selectItemList','✅用户的App权限管理-查询列表','sql',NULL,'{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (362,NULL,NULL,'appManagementOfOneUser','insertItem','✅用户的App权限管理-添加','sql',NULL,'{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (363,NULL,NULL,'appManagementOfOneUser','deleteItem','✅用户的App权限管理-删除','sql',NULL,'{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (364,NULL,'','appManagementOfOneUser','selectAppItemList','✅用户的App权限管理-查询APP列表','sql',NULL,'{ \"table\": \"_app\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (371,NULL,NULL,'userManagementOfOneApp','selectItemList','✅App的用户权限管理-查询列表','sql',NULL,'{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (372,NULL,NULL,'userManagementOfOneApp','insertItem','✅App的用户权限管理-添加','sql',NULL,'{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (373,NULL,NULL,'userManagementOfOneApp','deleteItem','✅App的用户权限管理-删除','sql',NULL,'{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (374,NULL,'','userManagementOfOneApp','selectAppItemList','✅App的用户权限管理-查询APP列表','sql',NULL,'{ \"table\": \"_user\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (312,NULL,NULL,'userManagement','insertItem','✅用户管理页-创建用户','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"addUser\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (313,NULL,NULL,'userManagement','updateItem','✅用户管理页-修改用户信息','sql','{}','{ \"table\": \"_user\", \"operation\": \"update\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (314,NULL,NULL,'userManagement','selectItemList','✅用户管理页-查询用户列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (315,NULL,NULL,'userManagement','resetUserPassword','✅用户管理页-修改用户密码','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"resetUserPassword\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (317,NULL,NULL,'appManagement','selectItemList','✅APP管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (318,NULL,NULL,'appManagement','updateItem','✅APP管理-更新','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhUpdate\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (319,NULL,NULL,'appManagement','insertItem','✅APP管理-创建APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhInsert\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (320,NULL,NULL,'appManagement','deleteItem','✅APP管理-删除APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhDelete\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (361,NULL,NULL,'appManagementOfOneUser','selectItemList','✅用户的App权限管理-查询列表','sql','{}','{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (362,NULL,NULL,'appManagementOfOneUser','insertItem','✅用户的App权限管理-添加','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (363,NULL,NULL,'appManagementOfOneUser','deleteItem','✅用户的App权限管理-删除','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (364,NULL,'','appManagementOfOneUser','selectAppItemList','✅用户的App权限管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (371,NULL,NULL,'userManagementOfOneApp','selectItemList','✅App的用户权限管理-查询列表','sql','{}','{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (372,NULL,NULL,'userManagementOfOneApp','insertItem','✅App的用户权限管理-添加','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (373,NULL,NULL,'userManagementOfOneApp','deleteItem','✅App的用户权限管理-删除','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (374,NULL,'','userManagementOfOneApp','selectAppItemList','✅App的用户权限管理-查询APP列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
 
 
 
@@ -281,8 +271,8 @@ CREATE TABLE `_resource_request_log` (
   `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
   `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
   `executeSql` varchar(255) DEFAULT NULL COMMENT '执行的sql',
-  `requestBody` mediumtext COMMENT '请求body',
-  `responseBody` mediumtext COMMENT '响应body',
+  `requestBody` json DEFAULT NULL COMMENT '请求body',
+  `responseBody` json DEFAULT NULL COMMENT '响应body',
   `responseStatus` varchar(255) DEFAULT NULL COMMENT '执行的结果;  success, fail',
   `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
@@ -291,7 +281,7 @@ CREATE TABLE `_resource_request_log` (
   PRIMARY KEY (`id`),
   KEY `resourceId_index` (`resourceId`),
   KEY `packageId_index` (`packageId`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1683 COMMENT = '文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 1944 COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -325,6 +315,59 @@ INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationB
 
 
 # ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `_ui`;
+CREATE TABLE `_ui` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `uiActionType` varchar(255) DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
+  `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `uiActionConfig` text COMMENT 'ui 动作数据',
+  `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 65 COMMENT = 'ui 施工方案';
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'userManagement','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'userManagement','ui','startCreateItem','✅打开创建数据抽屉','{\"main\": [{\"function\": \"clearItemData\"}, {\"function\": \"openCreateItemDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'userManagement','ui','createItem','✅创建数据','{\"before\": [{\"function\": \"prepareValidate\"}, {\"function\": \"confirmCreateItemDialog\"}], \"main\": [{\"function\": \"doCreateItem\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (4,'userManagement','ui','startUpdateItem','✅打开更新数据抽屉','{\"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"openUpdateItemDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (5,'userManagement','ui','updateItem','✅更新数据','{\"before\": [{\"function\": \"prepareValidate\"}, {\"function\": \"confirmUpdateItemDialog\"}], \"main\": [{\"function\": \"doUpdateItem\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (6,'userManagement','ui','activeUserStatus','✅激活用户','{\"before\": [{\"function\": \"confirmActiveUserStatusDialog\"}], \"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"doActiveUserStatus\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (7,'userManagement','ui','startResetPassword','✅打开重置密码抽屉','{\"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"openResetUserPasswordDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (8,'userManagement','ui','resetUserPassword','✅更新数据','{\"before\": [{\"function\": \"confirmResetUserPasswordDialog\"}], \"main\": [{\"function\": \"doResetUserPassword\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (9,'userManagement','ui','bannedUserStatus','✅禁用用户','{\"before\": [{\"function\": \"confirmBannedUserStatusDialog\"}], \"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"doBannedUserStatus\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (10,'appManagement','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (12,'appManagement','ui','startCreateItem','✅打开创建数据抽屉','{\"main\": [{\"function\": \"clearItemData\"}, {\"function\": \"openCreateItemDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (13,'appManagement','ui','createItem','✅创建数据','{\"before\": [{\"function\": \"confirmCreateItemDialog\"}], \"main\": [{\"function\": \"doCreateItem\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (14,'appManagement','ui','startUpdateItem','✅打开更新数据抽屉','{\"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"openUpdateDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (15,'appManagement','ui','updateItem','✅更新数据','{\"before\": [{\"function\": \"confirmUpdateItemDialog\"}], \"main\": [{\"function\": \"doUpdateItem\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (16,'appManagement','ui','deleteItem','✅删除数据','{\"before\": [{\"function\": \"confirmDeleteItemDialog\"}], \"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"doDeleteItem\"}, {\"function\": \"doDeleteStudentClass\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (20,'userManagementOfOneApp','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (21,'userManagementOfOneApp','ui','getDrawerTableData','✅获取内列表数据','{\"main\": [{\"function\": \"getDrawerTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (24,'userManagementOfOneApp','ui','allotUser','✅同步数据','{\"before\": [{\"function\": \"confirmAllotUserDialog\"}], \"main\": [{\"function\": \"doAllotUser\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (26,'userManagementOfOneApp','ui','buildRelation','✅同步数据','{\"before\": [{\"function\": \"confirmAllotUserDialog\"}], \"main\": [{\"function\": \"doBuildRelation\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (27,'userManagementOfOneApp','ui','deleteRelation','✅删除数据','{\"before\": [{\"function\": \"confirmDeleteUserDialog\"}], \"main\": [{\"function\": \"doDeleteRelation\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (30,'appManagementOfOneUser','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (31,'appManagementOfOneUser','ui','getDrawerTableData','✅获取内列表数据','{\"main\": [{\"function\": \"getDrawerTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (32,'appManagementOfOneUser','ui','allotApp','✅同步数据','{\"before\": [{\"function\": \"confirmAllotAppDialog\"}], \"main\": [{\"function\": \"doAllotApp\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (33,'appManagementOfOneUser','ui','buildRelation','✅同步数据','{\"before\": [{\"function\": \"confirmAllotAppDialog\"}], \"main\": [{\"function\": \"doBuildRelation\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (34,'appManagementOfOneUser','ui','deleteRelation','✅删除数据','{\"before\": [{\"function\": \"confirmDeleteAppDialog\"}], \"main\": [{\"function\": \"doDeleteRelation\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: _user
 # ------------------------------------------------------------
 
@@ -347,7 +390,7 @@ CREATE TABLE `_user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_index` (`username`),
   UNIQUE KEY `userId_index` (`userId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 58 COMMENT = '用户表';
+) ENGINE = InnoDB AUTO_INCREMENT = 59 COMMENT = '用户表';
 
 
 # ------------------------------------------------------------
@@ -358,17 +401,16 @@ INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (43,NULL,'W00001','张三丰','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'update','admin','系统管理员','2022-02-19T15:18:42+08:00');
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (44,NULL,'W00002','张无忌','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'update','admin','系统管理员','2022-02-19T15:45:14+08:00');
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (45,NULL,'G00001','洪七公','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
-INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,NULL,'G00002','郭靖','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,NULL,'G00002','郭靖','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'update','admin','系统管理员','2022-05-03T13:45:14+08:00');
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (47,NULL,'H00001','岳不群','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,NULL,'H00002','令狐冲','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (58,'112','U223P','uiaction123','12345678','31166f44402dedbf27c9b2d4bcfa90cb','ajGTYtmy4cNH','active','common',NULL,'update','admin','系统管理员','2022-05-03T13:45:24+08:00');
 # ------------------------------------------------------------
 # TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___user_INSERT` AFTER INSERT
-        ON `jianghujs_demo_enterprise_user_app_management`.`_user` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_INSERT` AFTER INSERT ON `_user` FOR EACH ROW BEGIN
             INSERT INTO `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`
             (id,idSequence,userId,username,clearTextPassword,password,md5Salt,userStatus,userType,userConfig,operation,operationByUserId,operationByUser,operationAt)
             VALUES
@@ -381,9 +423,7 @@ DELIMITER ;
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___user_UPDATE` AFTER UPDATE
-        ON `jianghujs_demo_enterprise_user_app_management`.`_user` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_UPDATE` AFTER UPDATE ON `_user` FOR EACH ROW BEGIN
             UPDATE `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`
             SET id=NEW.id,idSequence=NEW.idSequence,userId=NEW.userId,username=NEW.username,clearTextPassword=NEW.clearTextPassword,password=NEW.password,md5Salt=NEW.md5Salt,userStatus=NEW.userStatus,userType=NEW.userType,userConfig=NEW.userConfig,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
             where id=OLD.id;
@@ -395,9 +435,7 @@ DELIMITER ;
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___user_DELETE` AFTER DELETE
-        ON `jianghujs_demo_enterprise_user_app_management`.`_user` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_DELETE` AFTER DELETE ON `_user` FOR EACH ROW BEGIN
             DELETE FROM `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` WHERE id = OLD.id;
         END;;
 DELIMITER ;
@@ -418,28 +456,42 @@ CREATE TABLE `_user_app` (
   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
   `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 53;
+) ENGINE = InnoDB AUTO_INCREMENT = 89;
 
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: _user_app
 # ------------------------------------------------------------
 
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'admin','user_app_management','insert',NULL,NULL,NULL);
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'admin','data_repository','insert',NULL,NULL,NULL);
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (4,'admin','directory','insert',NULL,NULL,NULL);
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (41,'W00002','data_repository','insert',NULL,NULL,NULL);
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (42,'W00002','directory','insert',NULL,NULL,NULL);
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,'W00002','user_app_management','jhInsert','admin','系统管理员','2022-02-19T15:54:57+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (52,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-02-24T20:18:25+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (53,'U223P','test','jhInsert','admin','系统管理员','2022-04-28T22:16:48+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (55,'W00001','test','jhInsert','admin','系统管理员','2022-04-28T22:18:16+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (56,'U223P','demo_xiaoapp','jhInsert','admin','系统管理员','2022-04-28T22:34:42+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (62,'admin','data_repository','insert',NULL,NULL,NULL);
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (63,'admin','directory','insert',NULL,NULL,NULL);
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (64,'admin','user_app_management','insert',NULL,NULL,NULL);
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (68,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:53:46+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (69,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:53:47+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (70,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:53:49+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (71,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:55:10+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (72,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:55:12+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (73,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:55:13+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (74,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:56:34+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (75,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:56:35+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (76,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:56:36+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (77,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:57:51+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (78,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:57:52+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (79,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:57:53+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (80,'admin','test','jhInsert','admin','系统管理员','2022-04-28T22:58:44+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (83,'U223P','user_app_management','jhInsert','admin','系统管理员','2022-04-28T23:04:25+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (86,'G00002','test','jhInsert','admin','系统管理员','2022-04-28T23:05:54+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (87,'H00001','test','jhInsert','admin','系统管理员','2022-04-28T23:05:55+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (88,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-04-28T23:26:04+08:00');
 # ------------------------------------------------------------
 # TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___user_app_INSERT` AFTER INSERT
-        ON `jianghujs_demo_enterprise_user_app_management`.`_user_app` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_app_INSERT` AFTER INSERT ON `_user_app` FOR EACH ROW BEGIN
             INSERT INTO `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app`
             (id,userId,appId,operation,operationByUserId,operationByUser,operationAt)
             VALUES
@@ -452,9 +504,7 @@ DELIMITER ;
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___user_app_UPDATE` AFTER UPDATE
-        ON `jianghujs_demo_enterprise_user_app_management`.`_user_app` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_app_UPDATE` AFTER UPDATE ON `_user_app` FOR EACH ROW BEGIN
             UPDATE `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app`
             SET id=NEW.id,userId=NEW.userId,appId=NEW.appId,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
             where id=OLD.id;
@@ -466,9 +516,7 @@ DELIMITER ;
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management`.`jianghujs_demo_enterprise_user_app_management___user_app_DELETE` AFTER DELETE
-        ON `jianghujs_demo_enterprise_user_app_management`.`_user_app` FOR EACH ROW
-        BEGIN
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_app_DELETE` AFTER DELETE ON `_user_app` FOR EACH ROW BEGIN
             DELETE FROM `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` WHERE id = OLD.id;
         END;;
 DELIMITER ;
@@ -609,7 +657,7 @@ CREATE TABLE `_user_session` (
   KEY `userId_index` (`userId`),
   KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
   KEY `authToken_index` (`authToken`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 16 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
 
 

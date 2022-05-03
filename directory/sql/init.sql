@@ -117,8 +117,8 @@ CREATE TABLE `_record_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table` varchar(255) DEFAULT NULL COMMENT '表',
   `recordId` int(11) DEFAULT NULL COMMENT '数据在table中的主键id; recordContent.id',
-  `recordContent` text NOT NULL COMMENT '数据JSON',
-  `packageContent` text NOT NULL COMMENT '当时请求的 package JSON',
+  `recordContent` json NOT NULL COMMENT '数据JSON',
+  `packageContent` json NOT NULL COMMENT '当时请求的 package JSON',
   `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
@@ -126,12 +126,7 @@ CREATE TABLE `_record_history` (
   PRIMARY KEY (`id`),
   KEY `index_record_id` (`recordId`),
   KEY `index_table_action` (`table`, `operation`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 COMMENT = '数据历史表';
-
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: _record_history
-# ------------------------------------------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 6 COMMENT = '数据历史表';
 
 
 
@@ -165,10 +160,10 @@ CREATE TABLE `_resource` (
 # DATA DUMP FOR TABLE: _resource
 # ------------------------------------------------------------
 
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','','','update',NULL,NULL,'2022-02-23T23:08:43+08:00');
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','','','update',NULL,NULL,'2022-02-23T23:08:31+08:00');
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','','','update',NULL,NULL,'2022-02-24T19:53:29+08:00');
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (263,NULL,NULL,'directory','selectItemList','✅查询目录','service',NULL,'{ \"service\": \"directory\", \"serviceFunction\": \"getDirectoryList\" }','','','update',NULL,NULL,'2022-02-24T19:53:29+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','{\"appData\":{\"pageId\":\"login\",\"actionId\":\"passwordLogin\",\"actionData\":{\"userId\":\"admin\",\"password\":\"123456\",\"deviceId\":\"127.0.0.1:7007_Windows.10.0_b42b5784_chrome\"},\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\"},\"packageId\":\"1651158634229_3004509\",\"packageType\":\"httpRequest\"}','{\"packageId\":\"1651158634229_3004509\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-04-28T23:10:35+08:00\",\"appData\":{\"authToken\":\"eOI3440xGE4GYmUBraqC5hAOqf-N3fqbyPNf\",\"deviceId\":\"127.0.0.1:7007_Windows.10.0_b42b5784_chrome\",\"userId\":\"admin\",\"resultData\":{\"authToken\":\"eOI3440xGE4GYmUBraqC5hAOqf-N3fqbyPNf\",\"deviceId\":\"127.0.0.1:7007_Windows.10.0_b42b5784_chrome\",\"userId\":\"admin\"},\"appId\":\"directory\",\"pageId\":\"login\",\"actionId\":\"passwordLogin\"}}','update',NULL,NULL,'2022-04-28T23:10:35+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','{}','{}','update',NULL,NULL,'2022-02-23T23:08:31+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','{\"appData\":{\"pageId\":\"allPage\",\"actionId\":\"userInfo\",\"actionData\":{},\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\"},\"packageId\":\"1651158703801_1617340\",\"packageType\":\"httpRequest\"}','{\"packageId\":\"1651158703801_1617340\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-04-28T23:11:44+08:00\"}','update',NULL,NULL,'2022-04-28T23:11:44+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (263,NULL,NULL,'directory','selectItemList','✅查询目录','service',NULL,'{ \"service\": \"directory\", \"serviceFunction\": \"getDirectoryList\" }','{\"appData\":{\"pageId\":\"directory\",\"actionId\":\"selectItemList\",\"orderBy\":[{\"column\":\"operationAt\",\"order\":\"desc\"}],\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\",\"actionData\":{}},\"packageId\":\"1651158703801_5747745\",\"packageType\":\"httpRequest\"}','{\"packageId\":\"1651158703801_5747745\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-04-28T23:11:44+08:00\"}','update',NULL,NULL,'2022-04-28T23:11:44+08:00');
 
 
 
@@ -186,8 +181,8 @@ CREATE TABLE `_resource_request_log` (
   `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
   `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
   `executeSql` varchar(255) DEFAULT NULL COMMENT '执行的sql',
-  `requestBody` mediumtext COMMENT '请求body',
-  `responseBody` mediumtext COMMENT '响应body',
+  `requestBody` json DEFAULT NULL COMMENT '请求body',
+  `responseBody` json DEFAULT NULL COMMENT '响应body',
   `responseStatus` varchar(255) DEFAULT NULL COMMENT '执行的结果;  success, fail',
   `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
@@ -196,7 +191,7 @@ CREATE TABLE `_resource_request_log` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `resourceId_index` (`resourceId`) USING BTREE,
   KEY `packageId_index` (`packageId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 369 COMMENT = '文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 378 COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -226,6 +221,35 @@ CREATE TABLE `_role` (
 INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'appManager','应用负责人','','insert',NULL,NULL,NULL);
 INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (4,'teacher','老师','','insert',NULL,NULL,NULL);
 INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (5,'student','学生','','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `_ui`;
+CREATE TABLE `_ui` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `uiActionType` varchar(255) DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
+  `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `uiActionConfig` text COMMENT 'ui 动作数据',
+  `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 65 COMMENT = 'ui 施工方案';
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'directory','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
 
 
 
@@ -359,7 +383,7 @@ CREATE TABLE `_user_session` (
   KEY `userId_index` (`userId`) USING BTREE,
   KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
   KEY `authToken_index` (`authToken`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 12 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
 
 

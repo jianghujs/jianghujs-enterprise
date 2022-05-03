@@ -160,6 +160,12 @@ new Vue({
     },
 
     // createItem
+    async prepareValidate() {
+      console.log('prepareValidate')
+      if (!this.$refs.form.validate()) return false;
+    },
+
+    // createItem
     async confirmCreateItemDialog() {
       return window.confirmDialog({title: '新增', content: '确定新增吗？'})
     },
@@ -186,6 +192,7 @@ new Vue({
 
     // startUpdateItem
     async prepareItemData({item}) {
+      console.log('prepareItemData')
       this.editItem = {...item};
     },
 
@@ -197,6 +204,7 @@ new Vue({
 
     // updateItem
     async confirmUpdateItemDialog() {
+      console.log('confirmUpdateItemDialog')
       return window.confirmDialog({title: '修改', content: '确定修改吗？'});
     },
     /**

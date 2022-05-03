@@ -152,17 +152,8 @@ CREATE TABLE `_record_history` (
   PRIMARY KEY (`id`),
   KEY `index_record_id` (`recordId`),
   KEY `index_table_action` (`table`, `operation`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1969 COMMENT = '数据历史表';
+) ENGINE = InnoDB AUTO_INCREMENT = 1972 COMMENT = '数据历史表';
 
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: _record_history
-# ------------------------------------------------------------
-
-INSERT INTO `_record_history` (`id`,`table`,`recordId`,`recordContent`,`packageContent`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1965,'student_basic',13,'{\"id\":13,\"studentId\":\"W00001\",\"name\":\"张三丰\",\"gender\":\"male\",\"dateOfBirth\":\"2022-01-25\",\"classId\":\"2021-01级-02班\",\"level\":\"02\",\"bodyHeight\":\"155\",\"studentStatus\":\"正常\",\"remarks\":\"张三丰\",\"operation\":\"jhUpdate\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-23T23:50:54+08:00\"}','{\"appData\":{\"pageId\":\"backendSearchDemo\",\"actionId\":\"updateItem\",\"actionData\":{\"studentId\":\"W00001\",\"name\":\"张三丰\",\"gender\":\"male\",\"dateOfBirth\":\"2022-01-25\",\"classId\":\"2021-01级-02班\",\"level\":\"02\",\"bodyHeight\":\"155\",\"studentStatus\":\"正常\",\"remarks\":\"张三丰\",\"operation\":\"jhUpdate\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-18T00:14:32+08:00\"},\"where\":{\"id\":13},\"appId\":\"demo_xiaoapp\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\"},\"packageId\":\"1645631453588_7379212\",\"packageType\":\"httpRequest\"}','jhUpdate','admin','系统管理员','2022-02-23T23:50:54+08:00');
-INSERT INTO `_record_history` (`id`,`table`,`recordId`,`recordContent`,`packageContent`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1966,'student_basic',19,'{\"id\":19,\"studentId\":\"W00002\",\"name\":\"张无忌\",\"gender\":\"male\",\"dateOfBirth\":\"2022-01-26\",\"classId\":\"2021-01级-02班\",\"level\":\"02\",\"bodyHeight\":\"169\",\"studentStatus\":\"正常\",\"remarks\":\"张无忌\",\"operation\":\"jhUpdate\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-23T23:51:02+08:00\"}','{\"appData\":{\"pageId\":\"backendSearchDemo\",\"actionId\":\"updateItem\",\"actionData\":{\"studentId\":\"W00002\",\"name\":\"张无忌\",\"gender\":\"male\",\"dateOfBirth\":\"2022-01-26\",\"classId\":\"2021-01级-02班\",\"level\":\"02\",\"bodyHeight\":\"169\",\"studentStatus\":\"正常\",\"remarks\":\"张无忌\",\"operation\":\"insert\",\"operationByUserId\":null,\"operationByUser\":null,\"operationAt\":null},\"where\":{\"id\":19},\"appId\":\"demo_xiaoapp\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\"},\"packageId\":\"1645631461204_4414286\",\"packageType\":\"httpRequest\"}','jhUpdate','admin','系统管理员','2022-02-23T23:51:02+08:00');
-INSERT INTO `_record_history` (`id`,`table`,`recordId`,`recordContent`,`packageContent`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1967,'student_basic',127,'{\"id\":127,\"studentId\":\"Colin\",\"name\":\"流记\",\"gender\":\"male\",\"dateOfBirth\":\"2022-02-24\",\"classId\":\"2021-03级-01班\",\"level\":\"02\",\"bodyHeight\":\"170\",\"studentStatus\":\"正常\",\"remarks\":\"666\",\"operation\":\"jhUpdate\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-24T20:20:03+08:00\"}','{\"appData\":{\"pageId\":\"backendSearchDemo\",\"actionId\":\"updateItem\",\"actionData\":{\"studentId\":\"Colin\",\"name\":\"流记\",\"gender\":\"male\",\"dateOfBirth\":\"2022-02-24\",\"classId\":\"2021-03级-01班\",\"level\":\"02\",\"bodyHeight\":\"170\",\"studentStatus\":\"正常\",\"remarks\":\"666\",\"operation\":\"insert\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-24T20:19:57+08:00\"},\"where\":{\"id\":127},\"appId\":\"demo_xiaoapp\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\"},\"packageId\":\"1645705203029_6352294\",\"packageType\":\"httpRequest\"}','jhUpdate','admin','系统管理员','2022-02-24T20:20:03+08:00');
-INSERT INTO `_record_history` (`id`,`table`,`recordId`,`recordContent`,`packageContent`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1968,'student_basic',127,'{\"id\":127,\"studentId\":\"Colin\",\"name\":\"流记\",\"gender\":\"male\",\"dateOfBirth\":\"2022-02-24\",\"classId\":\"2021-03级-01班\",\"level\":\"02\",\"bodyHeight\":\"170\",\"studentStatus\":\"正常\",\"remarks\":\"666\",\"operation\":\"jhDelete\",\"operationByUserId\":\"admin\",\"operationByUser\":\"系统管理员\",\"operationAt\":\"2022-02-24T20:20:30+08:00\"}','{\"appData\":{\"pageId\":\"backendSearchDemo\",\"actionId\":\"deleteItem\",\"actionData\":{},\"where\":{\"id\":127},\"appId\":\"demo_xiaoapp\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36\"},\"packageId\":\"1645705230278_8230035\",\"packageType\":\"httpRequest\"}','jhDelete','admin','系统管理员','2022-02-24T20:20:30+08:00');
 
 
 
@@ -199,10 +190,10 @@ INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`acti
 INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','','','insert',NULL,NULL,NULL);
 INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','','','insert',NULL,NULL,NULL);
 INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (258,NULL,NULL,'allPage','getConstantList','✅查询常量','sql','{}','{ \"table\": \"_constant\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (317,NULL,NULL,'backendSearchDemo','selectItemList','✅服务端查询-查询列表','sql','{}','{ \"table\": \"student_basic\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (318,NULL,NULL,'backendSearchDemo','insertItem','✅服务端查询-添加成员','sql','{}','{ \"table\": \"student_basic\", \"operation\": \"insert\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (319,NULL,NULL,'backendSearchDemo','updateItem','✅服务端查询-更新成员','sql','{}','{ \"table\": \"student_basic\", \"operation\": \"jhUpdate\" }','','','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (320,NULL,NULL,'backendSearchDemo','deleteItem','✅服务端查询-删除信息','sql','{}','{ \"table\": \"student_basic\", \"operation\": \"jhDelete\" }','','','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (317,NULL,NULL,'backendSearchDemo','selectItemList','✅服务端查询-查询列表','sql','{}','{ \"table\": \"student\", \"operation\": \"select\" }','','','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (318,NULL,NULL,'backendSearchDemo','insertItem','✅服务端查询-添加成员','sql','{}','{ \"table\": \"student\", \"operation\": \"insert\" }','','','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (319,NULL,NULL,'backendSearchDemo','updateItem','✅服务端查询-更新成员','sql','{}','{ \"table\": \"student\", \"operation\": \"jhUpdate\" }','','','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (320,NULL,NULL,'backendSearchDemo','deleteItem','✅服务端查询-删除信息','sql','{}','{ \"table\": \"student\", \"operation\": \"jhDelete\" }','','','insert',NULL,NULL,NULL);
 
 
 
@@ -230,7 +221,7 @@ CREATE TABLE `_resource_request_log` (
   PRIMARY KEY (`id`),
   KEY `resourceId_index` (`resourceId`),
   KEY `packageId_index` (`packageId`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1873 COMMENT = '文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 1901 COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -258,6 +249,40 @@ CREATE TABLE `_role` (
 # ------------------------------------------------------------
 
 INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'appAdmin','系统管理员','','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `_ui`;
+CREATE TABLE `_ui` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `uiActionType` varchar(255) DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
+  `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `uiActionConfig` text COMMENT 'ui 动作数据',
+  `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 65 COMMENT = 'ui 施工方案';
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'studentManagement','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'studentManagement','ui','startCreateItem','✅打开创建数据抽屉','{\"main\": [{\"function\": \"clearItemData\"}, {\"function\": \"openCreateItemDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'studentManagement','ui','createItem','✅创建数据','{\"before\": [{\"function\": \"prepareValidate\"}, {\"function\": \"confirmCreateItemDialog\"}], \"main\": [{\"function\": \"doCreateItem\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (4,'studentManagement','ui','startUpdateItem','✅打开更新数据抽屉','{\"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"openUpdateItemDialog\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (5,'studentManagement','ui','updateItem','✅更新数据','{\"before\": [{\"function\": \"prepareValidate\"}, {\"function\": \"confirmUpdateItemDialog\"}], \"main\": [{\"function\": \"doUpdateItem\"}, {\"function\": \"refreshTableData\"}], \"after\": [{\"function\": \"closeDrawerShow\"}]}',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (16,'studentManagement','ui','deleteItem','✅删除数据','{\"before\": [{\"function\": \"confirmDeleteItemDialog\"}], \"main\": [{\"function\": \"prepareItemData\"}, {\"function\": \"doDeleteItem\"}, {\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
 
 
 
@@ -380,17 +405,17 @@ CREATE TABLE `_user_session` (
   KEY `userId_index` (`userId`),
   KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
   KEY `authToken_index` (`authToken`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 19 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
 
 
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: student_basic
+# SCHEMA DUMP FOR TABLE: student
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `student_basic`;
-CREATE TABLE `student_basic` (
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `studentId` varchar(255) DEFAULT NULL COMMENT '学生ID',
   `name` varchar(255) DEFAULT NULL COMMENT '学生名字',
@@ -407,19 +432,19 @@ CREATE TABLE `student_basic` (
   `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `studentId` (`studentId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 128;
+) ENGINE = InnoDB AUTO_INCREMENT = 129;
 
 
 # ------------------------------------------------------------
-# DATA DUMP FOR TABLE: student_basic
+# DATA DUMP FOR TABLE: student
 # ------------------------------------------------------------
 
-INSERT INTO `student_basic` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (13,'W00001','张三丰','male','2022-01-25','2021-01级-02班','02','155','正常','张三丰','jhUpdate','admin','系统管理员','2022-02-23T23:50:54+08:00');
-INSERT INTO `student_basic` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (19,'W00002','张无忌','male','2022-01-26','2021-01级-02班','02','169','正常','张无忌','jhUpdate','admin','系统管理员','2022-02-23T23:51:02+08:00');
-INSERT INTO `student_basic` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,'G00001','洪七公','female','2022-02-01','2021-02级-01班','02','188','正常','洪七公','insert',NULL,NULL,NULL);
-INSERT INTO `student_basic` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,'G00002','郭靖','male','2022-02-01','2021-02级-01班','03','166','正常','郭靖','insert',NULL,NULL,NULL);
-INSERT INTO `student_basic` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (52,'H00001','岳不群','male','2022-01-25','2021-01级-02班','02','180','正常','岳不群','insert',NULL,NULL,NULL);
-INSERT INTO `student_basic` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (53,'H00002','令狐冲','male','2022-01-25','2021-01级-02班','03','180','正常','令狐冲','insert',NULL,NULL,NULL);
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (13,'W00001','张三丰','male','2022-01-25','2021-01级-02班','02','155','正常','张三丰','jhUpdate','admin','系统管理员','2022-02-23T23:50:54+08:00');
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (19,'W00002','张无忌','male','2022-01-26','2021-01级-02班','02','169','正常','张无忌','jhUpdate','admin','系统管理员','2022-02-23T23:51:02+08:00');
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,'G00001','洪七公','female','2022-02-01','2021-02级-01班','02','188','正常','洪七公','insert',NULL,NULL,NULL);
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,'G00002','郭靖','male','2022-02-01','2021-02级-01班','03','166','正常','郭靖','insert',NULL,NULL,NULL);
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (52,'H00001','岳不群','male','2022-01-25','2021-01级-02班','02','180','正常','岳不群','insert',NULL,NULL,NULL);
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (53,'H00002','令狐冲','male','2022-01-25','2021-01级-02班','03','180','正常','令狐冲','insert',NULL,NULL,NULL);
 
 
 
