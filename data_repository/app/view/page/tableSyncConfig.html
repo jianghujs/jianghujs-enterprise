@@ -331,19 +331,10 @@
         window.vtoast.success("手动同步成功")
         await this.getTableData();
       },
-      /**
-       * 保存数据
-       */
-      async saveInfo() {
-        if (!this.$refs.form.validate()) return false;
-        if (this.currentClickButton.action === 'add') {
-          await this.insertItem();
-        }
-        if (this.currentClickButton.action === 'edit') {
-          await this.updateItem();
-        }
-        this.isEditDrawerShow = false;
-        await this.getTableData();
+
+      // validate
+      prepareValidate() {
+        return this.$refs.form.validate();
       },
       dayjs: dayjs,
     }
