@@ -152,7 +152,7 @@ CREATE TABLE `_record_history` (
   PRIMARY KEY (`id`),
   KEY `index_record_id` (`recordId`),
   KEY `index_table_action` (`table`, `operation`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1972 COMMENT = '数据历史表';
+) ENGINE = InnoDB AUTO_INCREMENT = 1975 COMMENT = '数据历史表';
 
 
 
@@ -221,7 +221,7 @@ CREATE TABLE `_resource_request_log` (
   PRIMARY KEY (`id`),
   KEY `resourceId_index` (`resourceId`),
   KEY `packageId_index` (`packageId`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1901 COMMENT = '文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 1911 COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -432,7 +432,7 @@ CREATE TABLE `student` (
   `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `studentId` (`studentId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 129;
+) ENGINE = InnoDB AUTO_INCREMENT = 130;
 
 
 # ------------------------------------------------------------
@@ -440,7 +440,7 @@ CREATE TABLE `student` (
 # ------------------------------------------------------------
 
 INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (13,'W00001','张三丰','male','2022-01-25','2021-01级-02班','02','155','正常','张三丰','jhUpdate','admin','系统管理员','2022-02-23T23:50:54+08:00');
-INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (19,'W00002','张无忌','male','2022-01-26','2021-01级-02班','02','169','正常','张无忌','jhUpdate','admin','系统管理员','2022-02-23T23:51:02+08:00');
+INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (19,'W00002','张无忌','male','2022-01-26','2021-01级-02班','02','169','正常','张无忌','jhUpdate','admin','系统管理员','2022-05-03T21:29:45+08:00');
 INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,'G00001','洪七公','female','2022-02-01','2021-02级-01班','02','188','正常','洪七公','insert',NULL,NULL,NULL);
 INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,'G00002','郭靖','male','2022-02-01','2021-02级-01班','03','166','正常','郭靖','insert',NULL,NULL,NULL);
 INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,`level`,`bodyHeight`,`studentStatus`,`remarks`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (52,'H00001','岳不群','male','2022-01-25','2021-01级-02班','02','180','正常','岳不群','insert',NULL,NULL,NULL);
@@ -454,22 +454,22 @@ INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,
 
 CREATE OR REPLACE VIEW `_view01_user` AS
 select
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`id` AS `id`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`idSequence` AS `idSequence`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userId` AS `userId`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`username` AS `username`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`clearTextPassword` AS `clearTextPassword`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`password` AS `password`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`md5Salt` AS `md5Salt`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userStatus` AS `userStatus`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userType` AS `userType`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userConfig` AS `userConfig`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operation` AS `operation`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUserId` AS `operationByUserId`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUser` AS `operationByUser`,
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationAt` AS `operationAt`
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`id` AS `id`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`idSequence` AS `idSequence`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userId` AS `userId`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`username` AS `username`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`clearTextPassword` AS `clearTextPassword`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`password` AS `password`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`md5Salt` AS `md5Salt`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userStatus` AS `userStatus`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userType` AS `userType`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userConfig` AS `userConfig`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operation` AS `operation`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operationByUserId` AS `operationByUserId`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operationByUser` AS `operationByUser`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operationAt` AS `operationAt`
 from
-  `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`;
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`;
 
 
 
@@ -495,10 +495,10 @@ select
 from
   (
   (
-    `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` `_user_app`
-    join `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
+    `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app` `_user_app`
+    join `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
   )
-  join `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
+  join `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
   );
 
 
