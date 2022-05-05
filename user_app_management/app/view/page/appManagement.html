@@ -132,7 +132,7 @@ new Vue({
      */
     async refreshTableData() {
       this.isTableLoading = true;
-      const { data: { appData: { rows } } } = await window.jianghuAxios({
+      const rows = (await window.jianghuAxios({
         data: {
           appData: {
             pageId: 'appManagement',
@@ -142,7 +142,7 @@ new Vue({
             orderBy: [{column: 'operationAt', order: 'desc'}]
           }
         }
-      });
+      })).data.appData.resultData.rows;
 
       this.tableDataFromBackend = rows;
       this.isTableLoading = false;

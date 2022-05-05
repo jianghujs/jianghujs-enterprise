@@ -161,7 +161,7 @@
             }
           }
         });
-        this.constantCollection.sourceDatabase = result.data.appData.rows.map((row) => { return {"value": row.sourceDatabase, "text": row.sourceDatabase } })
+        this.constantCollection.sourceDatabase = result.data.appData.resultData.rows.map((row) => { return {"value": row.sourceDatabase, "text": row.sourceDatabase } })
       },
       /**
        * 获取表格数据
@@ -177,7 +177,7 @@
             }
           }
         });
-        this.constantCollection.sourceTable = result.data.appData.rows.map((table) => { return {"value": table.sourceTable, "text": table.sourceTable} });
+        this.constantCollection.sourceTable = result.data.appData.resultData.rows.map((table) => { return {"value": table.sourceTable, "text": table.sourceTable} });
       },
       /**
        * 获取表格数据
@@ -194,7 +194,7 @@
           }
         });
 
-        this.tableDataFromBackend = result.data.appData.rows;
+        this.tableDataFromBackend = result.data.appData.resultData.rows;
         this.isTableLoading = false;
       },
 
