@@ -1,16 +1,16 @@
 {
-  "name": "jianghujs_demo_enterprise_user_app_management",
+  "name": "jianghujs_enterprise_user_app_management",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "egg": {
     "declarations": true,
-    "framework": "egg-jianghu"
+    "framework": "@jianghujs/jianghu"
   },
   "dependencies": {
     "dayjs": "1.11.0",
     "egg": "^2.15.1",
-    "egg-jianghu": "1.2.12",
+    "@jianghujs/jianghu": "3.0.8",
     "egg-scripts": "^2.11.0",
     "lodash": "4.17.21",
     "md5-node": "^1.0.1"
@@ -28,8 +28,8 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon  --port=7006 --title=jianghujs_demo_enterprise_user_app_management",
-    "stop": "egg-scripts stop --title=jianghujs_demo_enterprise_user_app_management",
+    "start": "egg-scripts start --daemon  --port=7006 --title=jianghujs_enterprise_user_app_management",
+    "stop": "egg-scripts stop --title=jianghujs_enterprise_user_app_management",
     "dev": "egg-bin dev --port=7006",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",

@@ -10,7 +10,7 @@
    port: 3306,
    user: 'root',
    password: '123456',
-   database: 'jianghujs_demo_enterprise_directory'
+   database: 'jianghujs_enterprise_directory'
    ```
 4. 启动 npm run dev
 
@@ -18,7 +18,7 @@
 
 ```sql
 # 数据库初始化
-create database `jianghujs_demo_enterprise_directory` default character set utf8mb4 collate utf8mb4_bin;
-use jianghujs_demo_enterprise_directory;
+create database `jianghujs_enterprise_directory` default character set utf8mb4 collate utf8mb4_bin;
+use jianghujs_enterprise_directory;
 # 运行 sql/init.sql 文件
 ```

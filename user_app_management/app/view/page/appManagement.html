@@ -1,13 +1,11 @@
-{% extends 'template/jhTemplate.html'%}
+{% extends 'template/jhTemplateV3.html'%}
 
 {% block vue_template %}
 
-<jh-layout>
-
-<v-divider></v-divider>
+<jh-layout-v3>
 
 <!-- 页面主要内容 -->
-<v-container class="fullScreen d-flex flex-column pa-xs-0 pa-0">
+<v-card>
   <v-row class="ma-0 pa-xs-4 align-center flex-none pb-0 pt-0 pa-4">
 
     <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0">
@@ -17,8 +15,8 @@
 
     <v-spacer></v-spacer>
 
-    <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex">
-      <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense outlined></v-text-field>
+    <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex pr-0">
+      <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense filled single-line></v-text-field>
     </v-col>
 
   </v-row>
@@ -28,8 +26,10 @@
                 :search="searchInput"
                 :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
                 :items-per-page="-1"
+                mobile-breakpoint="0"
                 :loading="isTableLoading"
                 checkbox-color="success"
+                :class="{'mx-4': isMobile}"
                 class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
     <template v-slot:item.appType="{ item }">
       {{ (constantCollection.appType.find(({value}) => value === item.appType) || {}).text }}
@@ -39,44 +39,45 @@
       <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/userManagementOfOneApp?id=${item.appId}&title=${item.appName}`)">APP的用户管理</v-btn>
     </template>
   </v-data-table>
-</v-container>
+</v-card>
 
 <!-- 编辑抽屉 -->
-<v-navigation-drawer v-model="isEditDrawerShow" absolute temporary right width="80%" hide-overlay
+<v-navigation-drawer v-model="isEditDrawerShow" fixed temporary right width="80%"
                      class="elevation-24">
   <v-form v-model="isFormValid" v-if="isEditDrawerShow" ref="form" lazy-validation>
-    <v-row>
-      <span class="title pa-6">{{ currentClickButton.title }}信息</span>
+    <v-row class="pt-8">
+      <span class="title pa-6" :class="{'pl-12': !isMobile, 'pl-8': isMobile}">{{ currentClickButton.title }}信息</span>
       <v-spacer></v-spacer>
-      <v-btn class="mt-7 mr-8 elevation-0" fab x-small @click="isEditDrawerShow = false">
+      <v-btn class="mt-6 elevation-0" :class="{'mr-16': !isMobile, 'mr-8': isMobile}" fab x-small @click="isEditDrawerShow = false">
         <v-icon dark>mdi-close</v-icon>
       </v-btn>
     </v-row>
-    <v-row class="pa-0 ma-0 pa-xs-4 pb-xs-4 flex-none">
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-text-field class="cus-v-input mr-2" :disabled="currentClickButton.action !== 'add'" dense outlined label="应用ID" v-model="editItem.appId"></v-text-field>
+    <v-row  :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}">
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">应用ID</span>
+        <v-text-field class="cus-v-input mr-2" :disabled="currentClickButton.action !== 'add'" dense filled single-line label="应用ID" v-model="editItem.appId"></v-text-field>
       </v-col>
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-text-field class="cus-v-input mr-2" dense outlined label="应用名" v-model="editItem.appName" :rules="requireRules"></v-text-field>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">应用名</span>
+        <v-text-field class="cus-v-input mr-2" dense filled single-line label="应用名" v-model="editItem.appName" :rules="requireRules"></v-text-field>
       </v-col>
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-select class="cus-v-input mr-2" dense outlined clearable label="应用类型" v-model="editItem.appType" :items="constantCollection.appType"></v-select>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">应用类型</span>
+        <v-select class="cus-v-input mr-2" dense filled single-line clearable label="应用类型" v-model="editItem.appType" :items="constantCollection.appType"></v-select>
       </v-col>
     </v-row>
-    <v-row class="justify-end pr-6">
-      <v-btn width="200" color="success" @click="doUiAction(dialogSaveInfoAction)" :style="{width: '200px'}">保存</v-btn>
-      <v-btn width="200" class="ml-2" @click="isEditDrawerShow = false" :style="{width: '200px'}">取消</v-btn>
+    <v-row class="justify-end mx-0 mt-8" :class="{'px-10': !isMobile, 'px-4': isMobile, 'mb-8': isMobile}">
+      <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)">保存</v-btn>
+      <v-btn class="elevation-0 mr-2 ml-2" @click="isEditDrawerShow = false">取消</v-btn>
     </v-row>
   </v-form>
 </v-navigation-drawer>
 
-</jh-layout>
+</jh-layout-v3>
 
 {% endblock %}
 
 {% block vue_body %}
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
 
 <script type="module">
 new Vue({
@@ -113,6 +114,9 @@ new Vue({
     dialogSaveInfoAction: ''
   },
   computed: {
+    isMobile() {
+      return window.innerWidth < 600;
+    },
     tableData() {
       return this.tableDataFromBackend
     },

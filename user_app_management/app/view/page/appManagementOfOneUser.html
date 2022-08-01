@@ -1,26 +1,23 @@
-{% extends 'template/jhTemplate.html'%}
+{% extends 'template/jhTemplateV3.html'%}
 
 <!-- vue template 代码块 -->
 {% block vue_template %}
-<jh-layout>
-	<v-container class="fullScreen d-flex flex-column pa-xs-0 pa-0">
-		<v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
-			<v-col cols="12" class="pa-xs-0 pb-xs-4 pb-0">
-				<h2>
-					【{{ title }}】的APP管理
-					<span style="font-size: 1rem;" :class="{'d-block': isMobile}">(ID: {{ userId }})</span>
-				</h2>
-			</v-col>
-		</v-row>
-		<v-divider></v-divider>
+<jh-layout-v3>
+<template slot="breadcrumbsTitle">
+  <div>
+    用户【{{ title }}】的APP管理
+    <span style="font-size: 1rem;" :class="{'d-block': isMobile}">(ID: {{ userId }})</span>
+  </div>
+</template>
+	<v-card>
 		<v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
 			<v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0 ">
 				<v-btn dark color="success" @click="isEditDrawerShow = true" class="elevation-0 mr-2">分配新的APP</v-btn>
 				<span class="body-2">共{{ tableData.length }}条记录</span>
 			</v-col>
 			<v-spacer></v-spacer>
-			<v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex">
-				<v-text-field dense outlined v-model="searchInput" label="表格过滤" class="cus-v-input"></v-text-field>
+			<v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex pr-0">
+				<v-text-field dense filled single-line v-model="searchInput" label="表格过滤" class="cus-v-input"></v-text-field>
 			</v-col>
 		</v-row>
 		<v-data-table
@@ -31,8 +28,9 @@
 				:footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
 				:items-per-page="-1"
 				:loading="isTableLoading"
-				:dense="isMobile"
+
 				checkbox-color="success"
+        :class="{'mx-4': isMobile}"
 				mobile-breakpoint="0"
 				class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column"
 		>
@@ -45,26 +43,27 @@
 				</v-btn>
 			</template>
 		</v-data-table>
-		<v-navigation-drawer
+  </v-card>
+
+  <v-navigation-drawer
 				v-model="isEditDrawerShow"
-        :permanent="isEditDrawerPermanent"
-				absolute
+				fixed
 				temporary
 				right
 				touchless
 				width="80%"
-				:dense="isMobile"
-				hide-overlay
+
+
 				class="elevation-24"
 		>
 			<v-container class="navDrawerContainer">
-				<v-row class=" pa-2">
-					<v-btn class="mt-0" dark color="success" elevation="0" @click="doUiAction('allotApp')">新增</v-btn>
-					<v-spacer></v-spacer>
-					<v-btn class="mr-4 mt-1 elevation-0" fab  x-small @click="isEditDrawerShow = false">
-						<v-icon dark>mdi-close</v-icon>
-					</v-btn>
-				</v-row>
+        <v-row class="pt-8" :class="{'px-12': !isMobile, 'px-4': isMobile}">
+          <v-btn class="mt-0" dark color="success" elevation="0" @click="doUiAction('allotApp')">保存选中</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="mt-0 elevation-0" :class="{'mr-16': !isMobile, 'mr-4': isMobile}" fab x-small @click="isEditDrawerShow = false">
+            <v-icon dark>mdi-close</v-icon>
+          </v-btn>
+        </v-row>
 				<v-row class="pa-2 py-0">
 					<v-data-table
 							fixed-header
@@ -74,14 +73,14 @@
 							:loading="isDrawerTableLoading"
 							:items="drawerTableData"
 							item-key="appId"
-							:dense="isMobile"
 							:footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
 							:items-per-page="-1"
 							mobile-breakpoint="0"
 							@item-selected="drawerItemSelected"
 							@toggle-select-all="drawerToggleSelectAll"
-							class="elevation-0 pt-0 mb-xs-4 flex-fill d-flex flex-column show-select"
-					>
+              class="elevation-0 flex-fill d-flex flex-column show-select pt-6"
+              :class="{'px-4': isMobile}"
+          >
 						<template v-slot:item.option="{ item }">
 							<v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', {item})">新增</v-btn>
 						</template>
@@ -89,14 +88,11 @@
 				</v-row>
 			</v-container>
 		</v-navigation-drawer>
-	</v-container>
 
-</jh-layout>
+</jh-layout-v3>
 {% endblock %}
 
 {% block vue_body %}
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
 
 	new Vue({

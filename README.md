@@ -1,4 +1,4 @@
-# jianghujs_demo_enterprise
+# jianghujs-enterprise
 
 1. user_app_management
 2. data_repository

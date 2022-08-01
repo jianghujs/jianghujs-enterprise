@@ -1,11 +1,11 @@
-{% extends 'template/jhTemplate.html'%}
+{% extends 'template/jhTemplateV3.html'%}
 
 {% block vue_template %}
 
-<jh-layout>
+<jh-layout-v3>
 
 <!-- 页面主要内容 -->
-<v-container class="fullScreen d-flex flex-column pa-xs-0 pa-0">
+<v-card>
   <v-row class="ma-0 pa-xs-4 align-center flex-none pb-0 pt-0 pa-4">
 
     <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0">
@@ -18,22 +18,23 @@
     <v-col cols="12" xs="8" sm="3" md="2" xl="2" class="pa-xs-0 pa-xs-2 col-sm-8-flex pl-0">
       <v-select class="cus-v-input mr-2" v-model="currentUserStatusType" :items="tableUserStatusList" :label="tableUserStatusList.label"
                 prefix="用户状态：" dense
-                item-text="label" item-value="value" dense outlined></v-select>
+                item-text="label" item-value="value" dense filled single-line></v-select>
     </v-col>
 
-    <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex">
-      <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense outlined></v-text-field>
+    <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex pr-0">
+      <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense filled single-line></v-text-field>
     </v-col>
 
   </v-row>
-  <v-data-table fixed-header
-                :headers="headers"
+  <v-data-table :headers="headers"
                 :items="tableData"
                 :search="searchInput"
                 :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
                 :items-per-page="-1"
                 :loading="isTableLoading"
                 checkbox-color="success"
+                mobile-breakpoint="0"
+                :class="{'mx-4': isMobile}"
                 class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
     <template v-slot:item.userType="{ item }">
       {{ (constantCollection.userType.find(({value}) => value === item.userType) || {}).text }}
@@ -57,56 +58,60 @@
       <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/appManagementOfOneUser?id=${item.userId}&title=${item.username}`)">用户的APP管理</v-btn>
     </template>
   </v-data-table>
-</v-container>
+</v-card>
 
 <!-- 编辑抽屉 -->
-<v-navigation-drawer v-model="isEditDrawerShow" absolute temporary right width="80%" hide-overlay
-                     :permanent="isEditDrawerPermanent"
+<v-navigation-drawer v-model="isEditDrawerShow" fixed temporary right width="80%"
+
                      class="elevation-24">
   <v-form v-model="isFormValid" v-if="isEditDrawerShow" ref="form" lazy-validation>
-    <v-row>
-      <span class="title pa-6">{{ currentClickButton.title }}</span>
+    <v-row class="pt-8">
+      <span class="title pa-6" :class="{'pl-12': !isMobile, 'pl-8': isMobile}">{{ currentClickButton.title }}</span>
       <v-spacer></v-spacer>
-      <v-btn class="mt-7 mr-8 elevation-0" fab x-small @click="isEditDrawerShow = false">
+      <v-btn class="mt-6 elevation-0" :class="{'mr-16': !isMobile, 'mr-8': isMobile}" fab x-small @click="isEditDrawerShow = false">
         <v-icon dark>mdi-close</v-icon>
       </v-btn>
     </v-row>
-    <v-row v-if="currentClickButton.action === 'resetUserPassword'" class="pa-0 ma-0 pa-xs-4 pb-xs-4 flex-none">
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-text-field class="cus-v-input mr-2" dense outlined label="初始密码" v-model="editItem.clearTextPassword" :rules="requireRules"></v-text-field>
+    <v-row v-if="currentClickButton.action === 'resetUserPassword'" :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}">
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">初始密码</span>
+        <v-text-field class="cus-v-input mr-2" dense filled single-line label="初始密码" v-model="editItem.clearTextPassword" :rules="requireRules"></v-text-field>
       </v-col>
     </v-row>
-    <v-row v-else class="pa-0 ma-0 pa-xs-4 pb-xs-4 flex-none">
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-text-field class="cus-v-input mr-2" disabled dense outlined label="用户ID[登陆]" v-model="editItem.userId"></v-text-field>
+    <v-row  v-else :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}">
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户ID[登陆]</span>
+        <v-text-field class="cus-v-input mr-2" disabled dense filled single-line label="用户ID[登陆]" v-model="editItem.userId"></v-text-field>
       </v-col>
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-text-field class="cus-v-input mr-2" dense outlined label="用户名" v-model="editItem.username" :rules="requireRules"></v-text-field>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户名</span>
+        <v-text-field class="cus-v-input mr-2" dense filled single-line label="用户名" v-model="editItem.username" :rules="requireRules"></v-text-field>
       </v-col>
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-select class="cus-v-input mr-2" dense outlined clearable label="用户类型" v-model="editItem.userType" :items="constantCollection.userType"></v-select>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户类型</span>
+        <v-select class="cus-v-input mr-2" dense filled single-line clearable label="用户类型" v-model="editItem.userType" :items="constantCollection.userType"></v-select>
       </v-col>
-      <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-select class="cus-v-input mr-2" dense outlined clearable label="用户状态" v-model="editItem.userStatus" :items="constantCollection.userStatus"></v-select>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户状态</span>
+        <v-select class="cus-v-input mr-2" dense filled single-line clearable label="用户状态" v-model="editItem.userStatus" :items="constantCollection.userStatus"></v-select>
       </v-col>
-      <v-col v-if="currentClickButton.action === 'add'" cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-        <v-text-field class="cus-v-input mr-2" dense outlined label="初始密码" v-model="editItem.clearTextPassword" :rules="requireRules"></v-text-field>
+      <v-col v-if="currentClickButton.action === 'add'" cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">初始密码</span>
+        <v-text-field class="cus-v-input mr-2" dense filled single-line label="初始密码" v-model="editItem.clearTextPassword" :rules="requireRules"></v-text-field>
       </v-col>
     </v-row>
-    <v-row class="justify-end pr-6">
-      <v-btn width="200" color="success" @click="doUiAction(dialogSaveInfoAction)" :style="{width: '200px'}">保存</v-btn>
-      <v-btn width="200" class="ml-2" @click="isEditDrawerShow = false" :style="{width: '200px'}">取消</v-btn>
+    <v-row class="justify-end mx-0 mt-8" :class="{'px-10': !isMobile, 'px-4': isMobile, 'mb-8': isMobile}">
+      <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)">保存</v-btn>
+      <v-btn class="elevation-0 mr-2 ml-2" @click="isEditDrawerShow = false">取消</v-btn>
     </v-row>
   </v-form>
 </v-navigation-drawer>
 
-</jh-layout>
+</jh-layout-v3>
 
 {% endblock %}
 
 {% block vue_body %}
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
 
 <script type="module">
 new Vue({
@@ -153,6 +158,9 @@ new Vue({
     dialogSaveInfoAction: ''
   },
   computed: {
+    isMobile() {
+      return window.innerWidth < 600;
+    },
     tableData() {
       if (!this.currentUserStatusType || this.currentUserStatusType === 'all') {
         return this.tableDataFromBackend;

@@ -1,11 +1,11 @@
-{% extends 'template/jhTemplate.html'%}
+{% extends 'template/jhTemplateV3.html'%}
 
 {% block vue_template %}
 
-<jh-layout>
+<jh-layout-v3>
 
   <!-- 页面主要内容 -->
-  <v-container class="fullScreen d-flex flex-column pa-xs-0 pa-0">
+  <v-card>
     <v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
 
       <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0">
@@ -15,8 +15,8 @@
 
       <v-spacer></v-spacer>
 
-      <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex">
-        <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense outlined></v-text-field>
+      <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex pr-0">
+        <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense filled single-line></v-text-field>
       </v-col>
 
     </v-row>
@@ -28,6 +28,7 @@
                   :items-per-page="20"
                   :loading="isTableLoading"
                   checkbox-color="success"
+                  :class="{'mx-4': isMobile}"
                   mobile-breakpoint="0"
                   class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
       <template v-slot:item.syncTime="{ item }">
@@ -42,16 +43,14 @@
         </v-btn>
       </template>
     </v-data-table>
-  </v-container>
+  </v-card>
 
 
-</jh-layout>
+
 
 {% endblock %}
 
 {% block vue_body %}
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
 <script type="module">
   new Vue({
     el: '#app',

@@ -1,15 +1,16 @@
-{% extends 'template/jhTemplate.html'%}
+{% extends 'template/jhTemplateV3.html'%}
 
 {% block vue_template %}
 
-<jh-layout>
+<jh-layout-v3>
 
   <!-- 页面主要内容 -->
-  <v-container class="fullScreen d-flex flex-column pa-xs-0 pa-0">
+
+  <v-card>
     <v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
       <v-col cols="12" xs="6" sm="6" md="6" xl="6" class="pl-0">
-        <v-btn color="success" small dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增同步表</v-btn>
-        <v-btn color="primary" small dark class="elevation-0 mr-2" @click="doUiAction('manualSyncAll', null)">全部-手动同步</v-btn>
+        <v-btn color="success" dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增同步表</v-btn>
+        <v-btn color="primary" dark class="elevation-0 mr-2" @click="doUiAction('manualSyncAll', null)">全部-手动同步</v-btn>
         <span class="body-2">共{{ tableData.length }}条记录</span>
         <span class="body-2"><v-chip class="ma-2" small color="default">同步模式: {{ enableDataSync ? '启用' : '未启用' }}</v-chip></span>
       </v-col>
@@ -17,7 +18,7 @@
       <v-spacer></v-spacer>
 
       <v-col cols="12" xs="6" sm="6" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex">
-        <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense outlined></v-text-field>
+        <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense filled single-line></v-text-field>
       </v-col>
 
     </v-row>
@@ -29,7 +30,8 @@
                   :items-per-page="-1"
                   :loading="isTableLoading"
                   checkbox-color="success"
-                  :dense="isMobile"
+                  :class="{'mx-4': isMobile}"
+
                   mobile-breakpoint="0"
                   class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
       <template v-slot:item.operationAt="{ item }">
@@ -44,44 +46,45 @@
         <v-btn small class="mr-2" color="" @click="doUiAction('manualSyncOneTable', {item})">同步</v-btn>
       </template>
     </v-data-table>
-  </v-container>
+  </v-card>
 
   <!-- 编辑抽屉 -->
-  <v-navigation-drawer v-model="isEditDrawerShow" absolute temporary right width="80%" hide-overlay
+  <v-navigation-drawer v-model="isEditDrawerShow" fixed temporary right width="80%"
                        class="elevation-24">
     <v-form v-model="isFormValid" ref="form" lazy-validation  v-if="isEditDrawerShow">
-      <v-row>
-        <span class="title pa-6">{{ currentClickButton.title }}信息</span>
+      <v-row class="pt-8">
+        <span class="title pa-6" :class="{'pl-12': !isMobile, 'pl-8': isMobile}">{{ currentClickButton.title }}信息</span>
         <v-spacer></v-spacer>
-        <v-btn class="mt-7 mr-8 elevation-0" fab x-small @click="isEditDrawerShow = false">
+        <v-btn class="mt-6 elevation-0" :class="{'mr-16': !isMobile, 'mr-8': isMobile}" fab x-small @click="isEditDrawerShow = false">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-row>
-      <v-row class="pa-0 ma-0 pa-xs-4 pb-xs-4 flex-none">
-        <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-          <v-select class="cus-v-input mr-2" dense outlined clearable :disabled="currentClickButton.action !== 'add'" label="数据库" :rules="requireRules" v-model="editItem.sourceDatabase" :items="constantCollection.sourceDatabase"></v-select>
+      <v-row  :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}">
+        <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">数据库</span>
+          <v-select class="cus-v-input mr-2" dense filled single-line clearable :disabled="currentClickButton.action !== 'add'" label="数据库" :rules="requireRules" v-model="editItem.sourceDatabase" :items="constantCollection.sourceDatabase"></v-select>
         </v-col>
-        <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-          <v-select class="cus-v-input mr-2" dense outlined clearable :disabled="currentClickButton.action !== 'add'" label="表格" :rules="requireRules" v-model="editItem.sourceTable" :items="constantCollection.sourceTable"></v-select>
+        <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">表格</span>
+          <v-select class="cus-v-input mr-2" dense filled single-line clearable :disabled="currentClickButton.action !== 'add'" label="表格" :rules="requireRules" v-model="editItem.sourceTable" :items="constantCollection.sourceTable"></v-select>
         </v-col>
-        <v-col cols="12" sm="12" md="4" xl="3" class="pa-xs-0 pb-xs-4 pb-3">
-          <v-text-field class="cus-v-input mr-2" dense outlined label="同步间隔（分）" type="number" :rules="numberRules" v-model="editItem.syncTimeSlot"></v-text-field>
+        <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
+        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">同步间隔（分）</span>
+          <v-text-field class="cus-v-input mr-2" dense filled single-line label="同步间隔（分）" type="number" :rules="numberRules" v-model="editItem.syncTimeSlot"></v-text-field>
         </v-col>
       </v-row>
-      <v-row class="justify-end pr-6">
-        <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)" :style="{width: isMobile ? 'calc(100% - 45px)' : '200px'}" :class="{'mb-2': isMobile, 'mr-4': isMobile}">保存</v-btn>
-        <v-btn class="ml-2" @click="isEditDrawerShow = false" :style="{width: isMobile ? 'calc(100% - 45px)' : '200px'}" :class="{'mr-4': isMobile}">取消</v-btn>
+      <v-row class="justify-end mx-0 mt-8" :class="{'px-10': !isMobile, 'px-4': isMobile, 'mb-8': isMobile}">
+        <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)">保存</v-btn>
+        <v-btn class="elevation-0 mr-2 ml-2" @click="isEditDrawerShow = false">取消</v-btn>
       </v-row>
     </v-form>
   </v-navigation-drawer>
+</jh-layout-v3>
 
-</jh-layout>
 
 {% endblock %}
 
 {% block vue_body %}
-{% include 'layout/jhLayout.html' %}
-{% include 'common/resetTableMaxHeight.html' %}
 
 <script type="module">
   new Vue({

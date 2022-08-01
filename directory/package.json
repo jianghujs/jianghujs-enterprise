@@ -1,16 +1,16 @@
 {
-  "name": "jianghujs_demo_enterprise_directory",
+  "name": "jianghujs_enterprise_enterprise_directory",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "egg": {
     "declarations": true,
-    "framework": "egg-jianghu"
+    "framework": "@jianghujs/jianghu"
   },
   "dependencies": {
     "dayjs": "1.11.0",
     "egg": "^2.15.1",
-    "egg-jianghu": "1.2.12",
+    "@jianghujs/jianghu": "3.0.7",
     "egg-scripts": "^2.11.0",
     "lodash": "4.17.21",
     "md5-node": "^1.0.1"

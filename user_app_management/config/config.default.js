@@ -3,9 +3,9 @@
 const path = require('path');
 const assert = require('assert');
 
-const { middleware, middlewareMatch } = require('egg-jianghu/config/middlewareConfig');
+const { middleware, middlewareMatch } = require('@jianghujs/jianghu/config/middlewareConfig');
 
-const eggJianghuPathTemp = require.resolve('egg-jianghu');
+const eggJianghuPathTemp = require.resolve('@jianghujs/jianghu');
 const eggJianghuPath = path.join(eggJianghuPathTemp, '../');
 
 module.exports = appInfo => {
@@ -21,7 +21,7 @@ module.exports = appInfo => {
     appLogo: `${appId}/public/img/logo.png`,
     appType: 'multiApp',
     appDirectoryLink: '/',
-    indexPage: `/${appId}/page/manual`,
+    indexPage: `/${appId}/page/appManagement`,
     loginPage: `/${appId}/page/login`,
     helpPage: `/${appId}/page/help`,
     uploadDir,

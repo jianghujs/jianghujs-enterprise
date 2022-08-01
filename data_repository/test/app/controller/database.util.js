@@ -16,9 +16,9 @@ describe('test/controller/database.util.js', () => {
 
 
       const databaseList = [
-        'jianghujs_demo_enterprise_user_app_management',
-        'jianghujs_demo_enterprise_directory',
-        'jianghujs_demo_enterprise_data_repository',
+        'jianghujs_enterprise_user_app_management',
+        'jianghujs_enterprise_directory',
+        'jianghujs_enterprise_data_repository',
       ];
       for (const database of databaseList) {
         const tableList = await knex('information_schema.TABLES')
