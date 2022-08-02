@@ -58,13 +58,13 @@
 </v-navigation-drawer>
 
 <!-- 页面主要内容 -->
-<v-container class="fullScreen d-flex flex-column pa-xs-0 pa-0" :style="{maxWidth: 'calc(100vw - ' + (isMobile ? 0 : 270) + 'px)'}">
-  <v-card>
+<v-container class="fullScreen d-flex flex-column pa-0" :style="{maxWidth: 'calc(100vw - ' + (isMobile ? 0 : 270) + 'px)'}">
+  <v-card :class="{'px-2': isMobile}">
     <v-row class="flex-nowrap ma-0">
       <v-col :style="{maxWidth: 'calc(100% - ' + (isMobile ? 0 : 270) + 'px)'}" class="d-flex flex-column ma-0 pb-0" :class="{'pa-0': isMobile}">
-        <v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pb-0': !isMobile, 'pa-2': isMobile, 'pl-0': !isMobile, 'pr-0': !isMobile}">
+        <v-row class="ma-0 align-center flex-none pt-0 " :class="{'pb-0': !isMobile, 'pa-2': isMobile, 'pl-0': !isMobile, 'pr-0': !isMobile}">
 
-          <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0 d-flex align-center">
+          <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0 d-flex align-center">
             <v-btn color="success" dark class="elevation-0 mr-4" @click="doUiAction('startCreateItem', null)">新增</v-btn>
             <div style="border-radius: 4px; padding-top: 1px" class="pr-2 mr-4">
               <v-switch class="d-inline-block ma-0 pa-0"
@@ -83,8 +83,8 @@
 
           <v-spacer></v-spacer>
 
-          <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex" :class="{'pr-0': !isMobile}">
-            <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense filled single-line></v-text-field>
+          <v-col cols="12" xs="12" sm="4" md="3" xl="3" class="px-0">
+            <v-text-field v-model="searchInput" color="success" prefix="表格过滤：" class="cus-v-input" dense filled single-line></v-text-field>
           </v-col>
 
         </v-row>
@@ -96,18 +96,17 @@
                       :items-per-page="20"
                       :loading="isTableLoading"
                       checkbox-color="success"
-                      :class="{'mx-4': isMobile}"
                       mobile-breakpoint="0"
-                      class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
+                      class="elevation-0 mt-0 flex-fill d-flex flex-column">
 
           <template v-slot:item.roleId="{ item }">
             {{ (constantCollection.userType.find(({value}) => value === item.roleId) || constantCollection.role.find(({value}) => value === item.roleId) || {}).text }}
           </template>
           <template v-slot:item.action="{ item }">
-            <v-btn :small="!isMobile" class="mr-2 success" @click="doUiAction('startUpdateItem', {item})">
+            <v-btn small class="mr-2 success" @click="doUiAction('startUpdateItem', {item})">
               修改
             </v-btn>
-            <v-btn :small="!isMobile" class="mr-2 error" @click="doUiAction('deleteItem', {item})">
+            <v-btn small class="mr-2 error" @click="doUiAction('deleteItem', {item})">
               删除
             </v-btn>
           </template>
@@ -136,29 +135,28 @@
   </v-card>
 </v-container>
 
-<v-overlay app :value="isEditDrawerShow"></v-overlay>
 <!-- 编辑抽屉 -->
 <v-navigation-drawer v-model="isEditDrawerShow" fixed temporary right width="80%"
                      class="elevation-24">
   <v-form v-model="isFormValid" ref="form" lazy-validation>
     <v-row class="pt-8">
-      <span class="title pa-6" :class="{'pl-12': !isMobile, 'pl-8': isMobile}">{{ currentClickButton.title }}信息</span>
+      <span class="title pa-6" :class="{'pl-12': !isMobile, 'pl-6': isMobile}">{{ currentClickButton.title }}信息</span>
       <v-spacer></v-spacer>
       <v-btn class="mt-6 elevation-0" :class="{'mr-16': !isMobile, 'mr-8': isMobile}" fab x-small @click="isEditDrawerShow = false">
         <v-icon dark>mdi-close</v-icon>
       </v-btn>
     </v-row>
-    <v-row  :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}">
-      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">UserID</span>
+    <v-row  :class="{'px-10': !isMobile, 'px-3': isMobile, 'pb-7': isMobile}">
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+        <span class="inputLabel">UserID</span>
         <v-select class="cus-v-input mr-2" dense filled single-line clearable label="UserID" :rules="requireRules" v-model="editItem.userId" :items="constantCollection.user"></v-select>
       </v-col>
-      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">GroupID</span>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+        <span class="inputLabel">GroupID</span>
         <v-select class="cus-v-input mr-2" dense filled single-line clearable label="GroupID" :rules="requireRules" v-model="editItem.groupId" :items="constantCollection.group"></v-select>
       </v-col>
-      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">RoleId</span>
+      <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+        <span class="inputLabel">RoleId</span>
         <v-select class="cus-v-input mr-2" dense filled single-line clearable label="RoleId" :rules="requireRules" v-model="editItem.roleId" :items="constantCollection.role"></v-select>
       </v-col>
     </v-row>
@@ -174,68 +172,68 @@
     v-model="addItemDialog"
     width="800px"
 >
-  <v-card>
-    <v-card-title class="text-h5  lighten-2 px-16 pt-12">
+  <v-card :class="{'px-2': isMobile}">
+    <v-card-title class="text-h5  lighten-2  pt-12" :class="{'px-16': !isMobile}">
       添加新{{tabItemTitle}}
     </v-card-title>
 
     <v-card-text>
       <v-form v-model="isFormValidLeft" v-if="addItemDialog" ref="formLeft" lazy-validation>
-        <v-row :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}" v-if="pageTab == 0">
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户ID</span>
+        <v-row :class="{'px-10': !isMobile, 'pb-7': isMobile}" v-if="pageTab == 0">
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">用户ID</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="用户ID" v-model="editItem.userId" :rules="requireRules"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户名</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">用户名</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="用户名" v-model="editItem.username" :rules="requireRules"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户状态</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">用户状态</span>
             <v-select class="cus-v-input mr-2" dense filled single-line clearable label="用户状态" v-model="editItem.userStatus" :items="constantCollection.userStatus"></v-select>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">用户类型</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">用户类型</span>
             <v-select class="cus-v-input mr-2" dense filled single-line clearable label="用户类型" v-model="editItem.userType" :items="constantCollection.userType"></v-select>
           </v-col>
-          <v-col v-if="currentClickButton.action === 'add'" cols="12" sm="12" md="6" class="pa-xs-0 pb-xs-4 pb-3">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">初始密码</span>
+          <v-col v-if="currentClickButton.action === 'add'" cols="12" sm="12" md="6" class="pb-xs-4 pb-3">
+            <span class="inputLabel">初始密码</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="初始密码" v-model="editItem.clearTextPassword" :rules="requireRules"></v-text-field>
           </v-col>
         </v-row>
-        <v-row :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}" v-if="pageTab == 1">
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">组织ID</span>
+        <v-row :class="{'px-10': !isMobile, 'pb-7': isMobile}" v-if="pageTab == 1">
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">组织ID</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="组织ID" v-model="editItem.groupId" :rules="requireRules"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">组织名</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">组织名</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="组织名" v-model="editItem.groupName" :rules="requireRules"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">组织描述</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">组织描述</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="组织描述" v-model="editItem.groupDesc"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">组织Logo</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">组织Logo</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="组织Logo" v-model="editItem.groupAvatar"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">拓展字段</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">拓展字段</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="拓展字段" v-model="editItem.groupExtend"></v-text-field>
           </v-col>
         </v-row>
-        <v-row :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}" v-if="pageTab == 2">
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">角色ID</span>
+        <v-row :class="{'px-10': !isMobile,  'pb-7': isMobile}" v-if="pageTab == 2">
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">角色ID</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="角色ID" v-model="editItem.roleId" :rules="requireRules"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">角色名</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">角色名</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="角色名" v-model="editItem.roleName" :rules="requireRules"></v-text-field>
           </v-col>
-          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-            <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">角色描述</span>
+          <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-3': isMobile, 'pt-6': isMobile}">
+            <span class="inputLabel">角色描述</span>
             <v-text-field class="cus-v-input mr-2" dense filled single-line label="角色描述" v-model="editItem.roleDesc"></v-text-field>
           </v-col>
         </v-row>
@@ -249,11 +247,12 @@
     </v-card-actions>
   </v-card>
 </v-dialog>
-
+</jh-layout-v3>
 
 {% endblock %}
 
 {% block vue_body %}
+{% include 'common/uiAction.html' %}
 
 <script type="module">
 new Vue({
