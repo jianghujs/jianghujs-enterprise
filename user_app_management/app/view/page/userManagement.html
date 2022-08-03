@@ -55,7 +55,7 @@
         禁用用户
       </v-btn>
       <v-btn small class="mr-2" color="error" v-if="item.userStatus === 'active'" @click="doUiAction('startResetPassword', {item})">修改密码</v-btn>
-      <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/appManagementOfOneUser?id=${item.userId}&title=${item.username}`)">用户的APP管理</v-btn>
+      <v-btn small class="mr-2" color="warning" @click="jump(`/${appInfo.appId}/page/appManagementOfOneUser?id=${item.userId}&title=${item.username}`)">用户的APP管理</v-btn>
     </template>
   </v-data-table>
 </v-card>
