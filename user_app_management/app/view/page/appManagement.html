@@ -36,7 +36,7 @@
     </template>
     <template v-slot:item.action="{ item }">
       <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', {item})">修改</v-btn>
-      <v-btn small class="mr-2" color="" @click="jump(`/${appInfo.appId}/page/userManagementOfOneApp?id=${item.appId}&title=${item.appName}`)">APP的用户管理</v-btn>
+      <v-btn small class="mr-2" color="warning" @click="jump(`/${appInfo.appId}/page/userManagementOfOneApp?id=${item.appId}&title=${item.appName}`)">APP的用户管理</v-btn>
     </template>
   </v-data-table>
 </v-card>

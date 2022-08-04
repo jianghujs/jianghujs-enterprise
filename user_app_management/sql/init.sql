@@ -4,21 +4,21 @@
 
 DROP TABLE IF EXISTS `_app`;
 CREATE TABLE `_app` (
-                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                        `appId` varchar(255) DEFAULT NULL COMMENT 'appId',
-                        `appGroup` varchar(255) DEFAULT NULL COMMENT 'app组',
-                        `appName` varchar(255) DEFAULT NULL COMMENT 'app名',
-                        `appDesc` varchar(255) DEFAULT NULL COMMENT 'app描述',
-                        `appUrl` varchar(255) DEFAULT NULL COMMENT 'app链接',
-                        `appMenu` text COMMENT 'app菜单',
-                        `appType` varchar(255) DEFAULT 'internal' COMMENT '应用类型：internal，external',
-                        `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                        `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                        `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                        `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                        `sort` int(11) DEFAULT NULL COMMENT '排序',
-                        PRIMARY KEY (`id`),
-                        KEY `appId` (`appId`) USING BTREE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `appId` varchar(255) DEFAULT NULL COMMENT 'appId',
+  `appGroup` varchar(255) DEFAULT NULL COMMENT 'app组',
+  `appName` varchar(255) DEFAULT NULL COMMENT 'app名',
+  `appDesc` varchar(255) DEFAULT NULL COMMENT 'app描述',
+  `appUrl` varchar(255) DEFAULT NULL COMMENT 'app链接',
+  `appMenu` text COMMENT 'app菜单',
+  `appType` varchar(255) DEFAULT 'internal' COMMENT '应用类型：internal，external',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `appId` (`appId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21;
 
 # ------------------------------------------------------------
@@ -32,38 +32,38 @@ INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMen
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (19,'test',NULL,'uiAction test123',NULL,NULL,NULL,'internal','jhUpdate','admin','系统管理员','2022-04-28T21:58:09+08:00',NULL);
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (20,NULL,NULL,'123',NULL,NULL,NULL,'internal','jhInsert','admin','系统管理员','2022-05-03T16:21:36+08:00',NULL);
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_INSERT
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___app_INSERT` AFTER INSERT ON `_app` FOR EACH ROW BEGIN
-    INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app`
-    (id,appId,appGroup,appName,appDesc,appUrl,appMenu,appType,operation,operationByUserId,operationByUser,operationAt,sort)
-    VALUES
-        (NEW.id,NEW.appId,NEW.appGroup,NEW.appName,NEW.appDesc,NEW.appUrl,NEW.appMenu,NEW.appType,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt,NEW.sort);
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___app_INSERT` AFTER INSERT ON `_app` FOR EACH ROW BEGIN
+            INSERT INTO `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app`
+            (id,appId,appGroup,appName,appDesc,appUrl,appMenu,appType,operation,operationByUserId,operationByUser,operationAt,sort)
+            VALUES
+            (NEW.id,NEW.appId,NEW.appGroup,NEW.appName,NEW.appDesc,NEW.appUrl,NEW.appMenu,NEW.appType,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt,NEW.sort);
+        END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_UPDATE
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___app_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___app_UPDATE` AFTER UPDATE ON `_app` FOR EACH ROW BEGIN
-    UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app`
-    SET id=NEW.id,appId=NEW.appId,appGroup=NEW.appGroup,appName=NEW.appName,appDesc=NEW.appDesc,appUrl=NEW.appUrl,appMenu=NEW.appMenu,appType=NEW.appType,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt,sort=NEW.sort
-    where id=OLD.id;
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___app_UPDATE` AFTER UPDATE ON `_app` FOR EACH ROW BEGIN
+            UPDATE `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app`
+            SET id=NEW.id,appId=NEW.appId,appGroup=NEW.appGroup,appName=NEW.appName,appDesc=NEW.appDesc,appUrl=NEW.appUrl,appMenu=NEW.appMenu,appType=NEW.appType,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt,sort=NEW.sort
+            where id=OLD.id;
+        END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_DELETE
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___app_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___app_DELETE` AFTER DELETE ON `_app` FOR EACH ROW BEGIN
-    DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app` WHERE id = OLD.id;
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___app_DELETE` AFTER DELETE ON `_app` FOR EACH ROW BEGIN
+            DELETE FROM `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` WHERE id = OLD.id;
+        END;;
 DELIMITER ;
 
 
@@ -74,16 +74,16 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `_cache`;
 CREATE TABLE `_cache` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `userId` varchar(255) NOT NULL COMMENT '用户Id',
-                          `content` longtext COMMENT '缓存数据',
-                          `recordStatus` varchar(255) DEFAULT 'active',
-                          `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                          `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                          `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                          `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                          PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 19 COMMENT = '缓存表';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(255) NOT NULL COMMENT '用户Id',
+  `content` longtext COMMENT '缓存数据',
+  `recordStatus` varchar(255) DEFAULT 'active',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB COMMENT = '缓存表';
 
 
 
@@ -94,22 +94,22 @@ CREATE TABLE `_cache` (
 
 DROP TABLE IF EXISTS `_file`;
 CREATE TABLE `_file` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `fileId` varchar(255) DEFAULT NULL COMMENT 'fileId',
-                         `fileDirectory` varchar(255) DEFAULT NULL COMMENT '文件保存路径;',
-                         `filename` varchar(255) DEFAULT NULL COMMENT '文件名;',
-                         `filenameStorage` varchar(255) DEFAULT NULL COMMENT '文件保存名',
-                         `downloadPath` varchar(255) DEFAULT NULL COMMENT '文件下载路径',
-                         `fileType` varchar(255) DEFAULT NULL COMMENT '文件类型;(预留字段)',
-                         `fileDesc` varchar(255) DEFAULT NULL COMMENT '文件描述',
-                         `binarySize` varchar(255) DEFAULT NULL COMMENT '文件二进制大小',
-                         `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                         `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                         `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                         `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                         PRIMARY KEY (`id`),
-                         KEY `fileId_index` (`fileId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 COMMENT = '文件表; 软删除未启用;';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fileId` varchar(255) DEFAULT NULL COMMENT 'fileId',
+  `fileDirectory` varchar(255) DEFAULT NULL COMMENT '文件保存路径;',
+  `filename` varchar(255) DEFAULT NULL COMMENT '文件名;',
+  `filenameStorage` varchar(255) DEFAULT NULL COMMENT '文件保存名',
+  `downloadPath` varchar(255) DEFAULT NULL COMMENT '文件下载路径',
+  `fileType` varchar(255) DEFAULT NULL COMMENT '文件类型;(预留字段)',
+  `fileDesc` varchar(255) DEFAULT NULL COMMENT '文件描述',
+  `binarySize` varchar(255) DEFAULT NULL COMMENT '文件二进制大小',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `fileId_index` (`fileId`) USING BTREE
+) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
 
 
 # ------------------------------------------------------------
@@ -125,18 +125,18 @@ CREATE TABLE `_file` (
 
 DROP TABLE IF EXISTS `_group`;
 CREATE TABLE `_group` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `groupId` varchar(255) NOT NULL COMMENT 'groupId',
-                          `groupName` varchar(255) DEFAULT NULL COMMENT '群组名',
-                          `groupDesc` varchar(255) DEFAULT NULL COMMENT '群组描述',
-                          `groupAvatar` varchar(255) DEFAULT NULL COMMENT '群logo',
-                          `groupExtend` varchar(1024) DEFAULT '{}' COMMENT '拓展字段; { groupNotice: ''xx'' }',
-                          `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                          `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                          `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                          `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                          PRIMARY KEY (`id`),
-                          KEY `groupId_index` (`groupId`) USING BTREE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `groupId` varchar(255) NOT NULL COMMENT 'groupId',
+  `groupName` varchar(255) DEFAULT NULL COMMENT '群组名',
+  `groupDesc` varchar(255) DEFAULT NULL COMMENT '群组描述',
+  `groupAvatar` varchar(255) DEFAULT NULL COMMENT '群logo',
+  `groupExtend` varchar(1024) DEFAULT '{}' COMMENT '拓展字段; { groupNotice: ''xx'' }',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `groupId_index` (`groupId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 COMMENT = '群组表; 软删除未启用;';
 
 
@@ -157,16 +157,17 @@ INSERT INTO `_group` (`id`,`groupId`,`groupName`,`groupDesc`,`groupAvatar`,`grou
 
 DROP TABLE IF EXISTS `_page`;
 CREATE TABLE `_page` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `pageId` varchar(255) DEFAULT NULL COMMENT 'pageId',
-                         `pageName` varchar(255) DEFAULT NULL COMMENT 'page name',
-                         `pageType` varchar(255) DEFAULT NULL COMMENT '页面类型; showInMenu, dynamicInMenu',
-                         `sort` varchar(255) DEFAULT NULL,
-                         `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                         `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                         `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                         `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                         PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'pageId',
+  `pageName` varchar(255) DEFAULT NULL COMMENT 'page name',
+  `pageFile` varchar(255) DEFAULT NULL COMMENT 'page文件指定; 默认使用pageId.html',
+  `pageType` varchar(255) DEFAULT NULL COMMENT '页面类型; showInMenu, dynamicInMenu',
+  `sort` varchar(255) DEFAULT NULL,
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 COMMENT = '页面表; 软删除未启用;';
 
 
@@ -174,13 +175,13 @@ CREATE TABLE `_page` (
 # DATA DUMP FOR TABLE: _page
 # ------------------------------------------------------------
 
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'help','帮助','dynamicInMenu','0','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'login','登陆','','','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (6,'manual','操作手册','showInMenu','0','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (27,'userManagement','用户管理','showInMenu','3','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (31,'appManagement','App管理','showInMenu','5','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (35,'appManagementOfOneUser','用户的App权限管理','dynamicInMenu','4','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (36,'userManagementOfOneApp','App的用户权限管理','dynamicInMenu','6','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'help','帮助',NULL,'dynamicInMenu','0','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'login','登陆',NULL,'','','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (6,'manual','操作手册',NULL,'showInMenu','0','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (27,'userManagement','用户管理',NULL,'showInMenu','3','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (31,'appManagement','App管理',NULL,'showInMenu','5','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (35,'appManagementOfOneUser','用户的App权限管理',NULL,'dynamicInMenu','4','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (36,'userManagementOfOneApp','App的用户权限管理',NULL,'dynamicInMenu','6','insert',NULL,NULL,NULL);
 
 
 
@@ -190,18 +191,18 @@ INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageType`,`sort`,`operation`,`ope
 
 DROP TABLE IF EXISTS `_record_history`;
 CREATE TABLE `_record_history` (
-                                   `id` int(11) NOT NULL AUTO_INCREMENT,
-                                   `table` varchar(255) DEFAULT NULL COMMENT '表',
-                                   `recordId` int(11) DEFAULT NULL COMMENT '数据在table中的主键id; recordContent.id',
-                                   `recordContent` json DEFAULT NULL COMMENT '数据',
-                                   `packageContent` json DEFAULT NULL COMMENT '当时请求的 package JSON',
-                                   `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
-                                   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
-                                   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
-                                   `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; recordContent.operationAt; E.g: 2021-05-28T10:24:54+08:00 ',
-                                   PRIMARY KEY (`id`),
-                                   KEY `index_record_id` (`recordId`),
-                                   KEY `index_table_action` (`table`, `operation`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `table` varchar(255) DEFAULT NULL COMMENT '表',
+  `recordId` int(11) DEFAULT NULL COMMENT '数据在table中的主键id; recordContent.id',
+  `recordContent` json DEFAULT NULL COMMENT '数据',
+  `packageContent` json DEFAULT NULL COMMENT '当时请求的 package JSON',
+  `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; recordContent.operationAt; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `index_record_id` (`recordId`) USING BTREE,
+  KEY `index_table_action` (`table`, `operation`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 111 COMMENT = '数据历史表';
 
 
@@ -213,48 +214,48 @@ CREATE TABLE `_record_history` (
 
 DROP TABLE IF EXISTS `_resource`;
 CREATE TABLE `_resource` (
-                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                             `accessControlTable` varchar(255) DEFAULT NULL COMMENT '数据规则控制表',
-                             `resourceHook` text COMMENT '[ "before": {"service": "xx", "serviceFunction": "xxx"}, "after": [] }',
-                             `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
-                             `actionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
-                             `desc` varchar(255) DEFAULT NULL COMMENT '描述',
-                             `resourceType` varchar(255) DEFAULT NULL COMMENT 'resource 类型; E.g: auth service sql',
-                             `appDataSchema` text COMMENT 'appData 参数校验',
-                             `resourceData` text COMMENT 'resource 数据; { "service": "auth", "serviceFunction": "passwordLogin" } or  { "table": "${tableName}", "action": "select", "whereCondition": ".where(function() {this.whereNot( { recordStatus: \\"active\\" })})" }',
-                             `requestDemo` text COMMENT '请求Demo',
-                             `responseDemo` text COMMENT '响应Demo',
-                             `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                             `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                             `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                             `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                             PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 380 COMMENT = '请求资源表; 软删除未启用; resourceId=`${appId}.${pageId}.${actionId}`';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accessControlTable` varchar(255) DEFAULT NULL COMMENT '数据规则控制表',
+  `resourceHook` text COMMENT '[ "before": {"service": "xx", "serviceFunction": "xxx"}, "after": [] }',
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `actionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `resourceType` varchar(255) DEFAULT NULL COMMENT 'resource 类型; E.g: auth service sql',
+  `appDataSchema` text COMMENT 'appData 参数校验',
+  `resourceData` text COMMENT 'resource 数据; { "service": "auth", "serviceFunction": "passwordLogin" } or  { "table": "${tableName}", "action": "select", "whereCondition": ".where(function() {this.whereNot( { recordStatus: \\"active\\" })})" }',
+  `requestDemo` text COMMENT '请求Demo',
+  `responseDemo` text COMMENT '响应Demo',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 375 COMMENT = '请求资源表; 软删除未启用; resourceId=`${appId}.${pageId}.${actionId}`';
 
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: _resource
 # ------------------------------------------------------------
 
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (312,NULL,NULL,'userManagement','insertItem','✅用户管理页-创建用户','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"addUser\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (313,NULL,NULL,'userManagement','updateItem','✅用户管理页-修改用户信息','sql','{}','{ \"table\": \"_user\", \"operation\": \"update\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (314,NULL,NULL,'userManagement','selectItemList','✅用户管理页-查询用户列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (315,NULL,NULL,'userManagement','resetUserPassword','✅用户管理页-修改用户密码','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"resetUserPassword\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (317,NULL,NULL,'appManagement','selectItemList','✅APP管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (318,NULL,NULL,'appManagement','updateItem','✅APP管理-更新','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhUpdate\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (319,NULL,NULL,'appManagement','insertItem','✅APP管理-创建APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhInsert\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (320,NULL,NULL,'appManagement','deleteItem','✅APP管理-删除APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhDelete\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (361,NULL,NULL,'appManagementOfOneUser','selectItemList','✅用户的App权限管理-查询列表','sql','{}','{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (362,NULL,NULL,'appManagementOfOneUser','insertItem','✅用户的App权限管理-添加','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (363,NULL,NULL,'appManagementOfOneUser','deleteItem','✅用户的App权限管理-删除','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (364,NULL,'','appManagementOfOneUser','selectAppItemList','✅用户的App权限管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (371,NULL,NULL,'userManagementOfOneApp','selectItemList','✅App的用户权限管理-查询列表','sql','{}','{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (372,NULL,NULL,'userManagementOfOneApp','insertItem','✅App的用户权限管理-添加','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (373,NULL,NULL,'userManagementOfOneApp','deleteItem','✅App的用户权限管理-删除','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }','{}','{}','insert',NULL,NULL,NULL);
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (374,NULL,'','userManagementOfOneApp','selectAppItemList','✅App的用户权限管理-查询APP列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }','{}','{}','insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"logout\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service','{}','{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (312,NULL,NULL,'userManagement','insertItem','✅用户管理页-创建用户','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"addUser\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (313,NULL,NULL,'userManagement','updateItem','✅用户管理页-修改用户信息','sql','{}','{ \"table\": \"_user\", \"operation\": \"update\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (314,NULL,NULL,'userManagement','selectItemList','✅用户管理页-查询用户列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (315,NULL,NULL,'userManagement','resetUserPassword','✅用户管理页-修改用户密码','service','{}','{ \"service\": \"userManagement\", \"serviceFunction\": \"resetUserPassword\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (317,NULL,NULL,'appManagement','selectItemList','✅APP管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (318,NULL,NULL,'appManagement','updateItem','✅APP管理-更新','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhUpdate\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (319,NULL,NULL,'appManagement','insertItem','✅APP管理-创建APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhInsert\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (320,NULL,NULL,'appManagement','deleteItem','✅APP管理-删除APP','sql','{}','{ \"table\": \"_app\", \"operation\": \"jhDelete\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (361,NULL,NULL,'appManagementOfOneUser','selectItemList','✅用户的App权限管理-查询列表','sql','{}','{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (362,NULL,NULL,'appManagementOfOneUser','insertItem','✅用户的App权限管理-添加','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (363,NULL,NULL,'appManagementOfOneUser','deleteItem','✅用户的App权限管理-删除','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (364,NULL,'','appManagementOfOneUser','selectAppItemList','✅用户的App权限管理-查询APP列表','sql','{}','{ \"table\": \"_app\", \"operation\": \"select\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (371,NULL,NULL,'userManagementOfOneApp','selectItemList','✅App的用户权限管理-查询列表','sql','{}','{ \"table\": \"_view02_user_app\", \"operation\": \"select\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (372,NULL,NULL,'userManagementOfOneApp','insertItem','✅App的用户权限管理-添加','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhInsert\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (373,NULL,NULL,'userManagementOfOneApp','deleteItem','✅App的用户权限管理-删除','sql','{}','{ \"table\": \"_user_app\", \"operation\": \"jhDelete\" }',NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (374,NULL,'','userManagementOfOneApp','selectAppItemList','✅App的用户权限管理-查询APP列表','sql','{}','{ \"table\": \"_user\", \"operation\": \"select\" }',NULL,NULL,'insert',NULL,NULL,NULL);
 
 
 
@@ -264,25 +265,26 @@ INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`acti
 
 DROP TABLE IF EXISTS `_resource_request_log`;
 CREATE TABLE `_resource_request_log` (
-                                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                                         `resourceId` varchar(255) DEFAULT NULL COMMENT 'resource id;',
-                                         `packageId` varchar(255) DEFAULT NULL COMMENT 'resource package id',
-                                         `userIp` varchar(255) DEFAULT NULL COMMENT '用户ip;',
-                                         `userAgent` varchar(255) DEFAULT NULL COMMENT '设备信息',
-                                         `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
-                                         `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
-                                         `executeSql` varchar(255) DEFAULT NULL COMMENT '执行的sql',
-                                         `requestBody` json DEFAULT NULL COMMENT '请求body',
-                                         `responseBody` json DEFAULT NULL COMMENT '响应body',
-                                         `responseStatus` varchar(255) DEFAULT NULL COMMENT '执行的结果;  success, fail',
-                                         `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                                         `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                                         `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                                         `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                                         PRIMARY KEY (`id`),
-                                         KEY `resourceId_index` (`resourceId`),
-                                         KEY `packageId_index` (`packageId`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1998 COMMENT = '文件表; 软删除未启用;';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resourceId` varchar(255) DEFAULT NULL COMMENT 'resource id;',
+  `packageId` varchar(255) DEFAULT NULL COMMENT 'resource package id',
+  `userIp` varchar(255) DEFAULT NULL COMMENT '用户ip;',
+  `userAgent` varchar(255) DEFAULT NULL COMMENT '设备信息',
+  `userId` varchar(255) DEFAULT NULL COMMENT '用户ID',
+  `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
+  `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
+  `executeSql` varchar(255) DEFAULT NULL COMMENT '执行的sql',
+  `requestBody` json DEFAULT NULL COMMENT '请求body',
+  `responseBody` json DEFAULT NULL COMMENT '响应body',
+  `responseStatus` varchar(255) DEFAULT NULL COMMENT '执行的结果;  success, fail',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `resourceId_index` (`resourceId`) USING BTREE,
+  KEY `packageId_index` (`packageId`) USING BTREE
+) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -293,15 +295,15 @@ CREATE TABLE `_resource_request_log` (
 
 DROP TABLE IF EXISTS `_role`;
 CREATE TABLE `_role` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `roleId` varchar(255) DEFAULT NULL COMMENT 'roleId',
-                         `roleName` varchar(255) DEFAULT NULL COMMENT 'role name',
-                         `roleDesc` varchar(255) DEFAULT NULL COMMENT 'role desc',
-                         `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                         `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                         `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                         `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                         PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleId` varchar(255) DEFAULT NULL COMMENT 'roleId',
+  `roleName` varchar(255) DEFAULT NULL COMMENT 'role name',
+  `roleDesc` varchar(255) DEFAULT NULL COMMENT 'role desc',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 COMMENT = '角色表; 软删除未启用;';
 
 
@@ -321,19 +323,19 @@ INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationB
 
 DROP TABLE IF EXISTS `_ui`;
 CREATE TABLE `_ui` (
-                       `id` int(11) NOT NULL AUTO_INCREMENT,
-                       `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
-                       `uiActionType` varchar(255) DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
-                       `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
-                       `desc` varchar(255) DEFAULT NULL COMMENT '描述',
-                       `uiActionConfig` text COMMENT 'ui 动作数据',
-                       `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
-                       `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                       `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                       `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                       `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                       PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 65 COMMENT = 'ui 施工方案';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `uiActionType` varchar(255) DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
+  `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `uiActionConfig` text COMMENT 'ui 动作数据',
+  `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 35 COMMENT = 'ui 施工方案';
 
 
 # ------------------------------------------------------------
@@ -374,23 +376,23 @@ INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionCon
 
 DROP TABLE IF EXISTS `_user`;
 CREATE TABLE `_user` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `idSequence` varchar(255) DEFAULT NULL COMMENT '自增id; 用于生成userId',
-                         `userId` varchar(255) DEFAULT NULL COMMENT '主键id',
-                         `username` varchar(255) DEFAULT NULL COMMENT '用户名(登陆)',
-                         `clearTextPassword` varchar(255) DEFAULT NULL COMMENT '明文密码',
-                         `password` varchar(255) DEFAULT NULL COMMENT '密码',
-                         `md5Salt` varchar(255) DEFAULT NULL COMMENT 'md5Salt',
-                         `userStatus` varchar(255) DEFAULT 'active' COMMENT '用户账号状态：活跃或关闭',
-                         `userType` varchar(255) DEFAULT NULL COMMENT '用户类型; staff, student.',
-                         `userConfig` text COMMENT '配置信息',
-                         `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                         `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                         `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                         `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `username_index` (`username`),
-                         UNIQUE KEY `userId_index` (`userId`) USING BTREE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idSequence` varchar(255) DEFAULT NULL COMMENT '自增id; 用于生成userId',
+  `userId` varchar(255) DEFAULT NULL COMMENT '主键id',
+  `username` varchar(255) DEFAULT NULL COMMENT '用户名(登陆)',
+  `clearTextPassword` varchar(255) DEFAULT NULL COMMENT '明文密码',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `md5Salt` varchar(255) DEFAULT NULL COMMENT 'md5Salt',
+  `userStatus` varchar(255) DEFAULT 'active' COMMENT '用户账号状态：活跃或关闭',
+  `userType` varchar(255) DEFAULT NULL COMMENT '用户类型; staff, student.',
+  `userConfig` text COMMENT '配置信息',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `username_index` (`username`) USING BTREE,
+  UNIQUE KEY `userId_index` (`userId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 59 COMMENT = '用户表';
 
 
@@ -407,38 +409,38 @@ INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,NULL,'H00002','令狐冲','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (58,'112','U223P','uiaction123','12345678','31166f44402dedbf27c9b2d4bcfa90cb','ajGTYtmy4cNH','active','common',NULL,'update','admin','系统管理员','2022-05-03T16:00:16+08:00');
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_INSERT
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___user_INSERT` AFTER INSERT ON `_user` FOR EACH ROW BEGIN
-    INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
-    (id,idSequence,userId,username,clearTextPassword,password,md5Salt,userStatus,userType,userConfig,operation,operationByUserId,operationByUser,operationAt)
-    VALUES
-        (NEW.id,NEW.idSequence,NEW.userId,NEW.username,NEW.clearTextPassword,NEW.password,NEW.md5Salt,NEW.userStatus,NEW.userType,NEW.userConfig,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_INSERT` AFTER INSERT ON `_user` FOR EACH ROW BEGIN
+            INSERT INTO `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`
+            (id,idSequence,userId,username,clearTextPassword,password,md5Salt,userStatus,userType,userConfig,operation,operationByUserId,operationByUser,operationAt)
+            VALUES
+            (NEW.id,NEW.idSequence,NEW.userId,NEW.username,NEW.clearTextPassword,NEW.password,NEW.md5Salt,NEW.userStatus,NEW.userType,NEW.userConfig,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
+        END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_UPDATE
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___user_UPDATE` AFTER UPDATE ON `_user` FOR EACH ROW BEGIN
-    UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
-    SET id=NEW.id,idSequence=NEW.idSequence,userId=NEW.userId,username=NEW.username,clearTextPassword=NEW.clearTextPassword,password=NEW.password,md5Salt=NEW.md5Salt,userStatus=NEW.userStatus,userType=NEW.userType,userConfig=NEW.userConfig,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
-    where id=OLD.id;
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_UPDATE` AFTER UPDATE ON `_user` FOR EACH ROW BEGIN
+            UPDATE `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`
+            SET id=NEW.id,idSequence=NEW.idSequence,userId=NEW.userId,username=NEW.username,clearTextPassword=NEW.clearTextPassword,password=NEW.password,md5Salt=NEW.md5Salt,userStatus=NEW.userStatus,userType=NEW.userType,userConfig=NEW.userConfig,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
+            where id=OLD.id;
+        END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_DELETE
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___user_DELETE` AFTER DELETE ON `_user` FOR EACH ROW BEGIN
-    DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user` WHERE id = OLD.id;
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_DELETE` AFTER DELETE ON `_user` FOR EACH ROW BEGIN
+            DELETE FROM `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` WHERE id = OLD.id;
+        END;;
 DELIMITER ;
 
 
@@ -449,14 +451,14 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `_user_app`;
 CREATE TABLE `_user_app` (
-                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                             `userId` varchar(255) DEFAULT NULL COMMENT '用户id',
-                             `appId` varchar(255) DEFAULT NULL COMMENT 'appId',
-                             `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                             `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                             `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                             `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                             PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(255) DEFAULT NULL COMMENT '用户id',
+  `appId` varchar(255) DEFAULT NULL COMMENT 'appId',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 90;
 
 
@@ -488,38 +490,38 @@ INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (88,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-04-28T23:26:04+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (89,'U223P','test','jhInsert','admin','系统管理员','2022-05-03T16:26:16+08:00');
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_INSERT
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___user_app_INSERT` AFTER INSERT ON `_user_app` FOR EACH ROW BEGIN
-    INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`
-    (id,userId,appId,operation,operationByUserId,operationByUser,operationAt)
-    VALUES
-        (NEW.id,NEW.userId,NEW.appId,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_app_INSERT` AFTER INSERT ON `_user_app` FOR EACH ROW BEGIN
+            INSERT INTO `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app`
+            (id,userId,appId,operation,operationByUserId,operationByUser,operationAt)
+            VALUES
+            (NEW.id,NEW.userId,NEW.appId,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
+        END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_UPDATE
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_app_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___user_app_UPDATE` AFTER UPDATE ON `_user_app` FOR EACH ROW BEGIN
-    UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`
-    SET id=NEW.id,userId=NEW.userId,appId=NEW.appId,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
-    where id=OLD.id;
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_app_UPDATE` AFTER UPDATE ON `_user_app` FOR EACH ROW BEGIN
+            UPDATE `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app`
+            SET id=NEW.id,userId=NEW.userId,appId=NEW.appId,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
+            where id=OLD.id;
+        END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_DELETE
+# TRIGGER DUMP FOR: jianghujs_demo_enterprise_user_app_management___user_app_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management___user_app_DELETE` AFTER DELETE ON `_user_app` FOR EACH ROW BEGIN
-    DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app` WHERE id = OLD.id;
-END;;
+CREATE TRIGGER `jianghujs_demo_enterprise_user_app_management___user_app_DELETE` AFTER DELETE ON `_user_app` FOR EACH ROW BEGIN
+            DELETE FROM `jianghujs_demo_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` WHERE id = OLD.id;
+        END;;
 DELIMITER ;
 
 
@@ -530,18 +532,18 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `_user_group_role`;
 CREATE TABLE `_user_group_role` (
-                                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                                    `userId` varchar(255) NOT NULL COMMENT '用户id',
-                                    `groupId` varchar(255) NOT NULL COMMENT '群组Id',
-                                    `roleId` varchar(255) DEFAULT NULL COMMENT '角色Id',
-                                    `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                                    `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                                    `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                                    `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                                    PRIMARY KEY (`id`),
-                                    KEY `groupId_index` (`groupId`),
-                                    KEY `userId_index` (`userId`)
-) ENGINE = InnoDB AUTO_INCREMENT = 587 COMMENT = '用户群组角色关联表; 软删除未启用;';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(255) NOT NULL COMMENT '用户id',
+  `groupId` varchar(255) NOT NULL COMMENT '群组Id',
+  `roleId` varchar(255) DEFAULT NULL COMMENT '角色Id',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `groupId_index` (`groupId`) USING BTREE,
+  KEY `userId_index` (`userId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 579 COMMENT = '用户群组角色关联表; 软删除未启用;';
 
 
 # ------------------------------------------------------------
@@ -564,18 +566,18 @@ INSERT INTO `_user_group_role` (`id`,`userId`,`groupId`,`roleId`,`operation`,`op
 
 DROP TABLE IF EXISTS `_user_group_role_page`;
 CREATE TABLE `_user_group_role_page` (
-                                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                                         `user` varchar(255) DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
-                                         `group` varchar(255) DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
-                                         `role` varchar(255) DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
-                                         `page` varchar(255) DEFAULT NULL COMMENT 'pageId id',
-                                         `allowOrDeny` varchar(255) DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
-                                         `desc` varchar(255) DEFAULT NULL COMMENT '映射描述',
-                                         `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                                         `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                                         `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                                         `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                                         PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(255) DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
+  `group` varchar(255) DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
+  `role` varchar(255) DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
+  `page` varchar(255) DEFAULT NULL COMMENT 'pageId id',
+  `allowOrDeny` varchar(255) DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
+  `desc` varchar(255) DEFAULT NULL COMMENT '映射描述',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 30 COMMENT = '用户群组角色 - 页面 映射表; 软删除未启用;';
 
 
@@ -599,18 +601,18 @@ INSERT INTO `_user_group_role_page` (`id`,`user`,`group`,`role`,`page`,`allowOrD
 
 DROP TABLE IF EXISTS `_user_group_role_resource`;
 CREATE TABLE `_user_group_role_resource` (
-                                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                                             `user` varchar(255) DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
-                                             `group` varchar(255) DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
-                                             `role` varchar(255) DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
-                                             `resource` varchar(255) DEFAULT NULL COMMENT 'resourceId 或者 通配符; 通配符: *, !resourceId',
-                                             `allowOrDeny` varchar(255) DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
-                                             `desc` varchar(255) DEFAULT NULL COMMENT '映射描述',
-                                             `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                                             `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                                             `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                                             `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                                             PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(255) DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
+  `group` varchar(255) DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
+  `role` varchar(255) DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
+  `resource` varchar(255) DEFAULT NULL COMMENT 'resourceId 或者 通配符; 通配符: *, !resourceId',
+  `allowOrDeny` varchar(255) DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
+  `desc` varchar(255) DEFAULT NULL COMMENT '映射描述',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 133 COMMENT = '用户群组角色 - 请求资源 映射表; 软删除未启用;';
 
 
@@ -641,23 +643,23 @@ INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`
 
 DROP TABLE IF EXISTS `_user_session`;
 CREATE TABLE `_user_session` (
-                                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                                 `userId` varchar(255) DEFAULT NULL COMMENT '用户id',
-                                 `userIp` varchar(255) DEFAULT NULL COMMENT '用户ip',
-                                 `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
-                                 `userAgent` text COMMENT '请求的 agent',
-                                 `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
-                                 `deviceType` varchar(255) DEFAULT 'web' COMMENT '设备类型; flutter, web, bot_databot, bot_chatbot, bot_xiaochengxu',
-                                 `socketStatus` varchar(255) DEFAULT 'offline' COMMENT 'socket状态',
-                                 `authToken` varchar(255) DEFAULT NULL COMMENT 'auth token',
-                                 `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-                                 `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
-                                 `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
-                                 `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
-                                 PRIMARY KEY (`id`),
-                                 KEY `userId_index` (`userId`),
-                                 KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
-                                 KEY `authToken_index` (`authToken`) USING BTREE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(255) DEFAULT NULL COMMENT '用户id',
+  `userIp` varchar(255) DEFAULT NULL COMMENT '用户ip',
+  `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
+  `userAgent` text COMMENT '请求的 agent',
+  `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
+  `deviceType` varchar(255) DEFAULT 'web' COMMENT '设备类型; flutter, web, bot_databot, bot_chatbot, bot_xiaochengxu',
+  `socketStatus` varchar(255) DEFAULT 'offline' COMMENT 'socket状态',
+  `authToken` varchar(255) DEFAULT NULL COMMENT 'auth token',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `userId_index` (`userId`) USING BTREE,
+  KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
+  KEY `authToken_index` (`authToken`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
 
@@ -669,22 +671,22 @@ CREATE TABLE `_user_session` (
 
 CREATE OR REPLACE VIEW `_view01_user` AS
 select
-    `_user`.`id` AS `id`,
-    `_user`.`idSequence` AS `idSequence`,
-    `_user`.`userId` AS `userId`,
-    `_user`.`username` AS `username`,
-    `_user`.`clearTextPassword` AS `clearTextPassword`,
-    `_user`.`password` AS `password`,
-    `_user`.`md5Salt` AS `md5Salt`,
-    `_user`.`userStatus` AS `userStatus`,
-    `_user`.`userType` AS `userType`,
-    `_user`.`userConfig` AS `userConfig`,
-    `_user`.`operation` AS `operation`,
-    `_user`.`operationByUserId` AS `operationByUserId`,
-    `_user`.`operationByUser` AS `operationByUser`,
-    `_user`.`operationAt` AS `operationAt`
+  `_user`.`id` AS `id`,
+  `_user`.`idSequence` AS `idSequence`,
+  `_user`.`userId` AS `userId`,
+  `_user`.`username` AS `username`,
+  `_user`.`clearTextPassword` AS `clearTextPassword`,
+  `_user`.`password` AS `password`,
+  `_user`.`md5Salt` AS `md5Salt`,
+  `_user`.`userStatus` AS `userStatus`,
+  `_user`.`userType` AS `userType`,
+  `_user`.`userConfig` AS `userConfig`,
+  `_user`.`operation` AS `operation`,
+  `_user`.`operationByUserId` AS `operationByUserId`,
+  `_user`.`operationByUser` AS `operationByUser`,
+  `_user`.`operationAt` AS `operationAt`
 from
-    `_user`;
+  `_user`;
 
 
 
@@ -696,25 +698,26 @@ from
 
 CREATE OR REPLACE VIEW `_view02_user_app` AS
 select
-    `_user_app`.`id` AS `id`,
-    `_app`.`appId` AS `appId`,
-    `_app`.`appName` AS `appName`,
-    `_user`.`userId` AS `userId`,
-    `_user`.`username` AS `username`,
-    `_user`.`userStatus` AS `userStatus`,
-    `_user`.`userType` AS `userType`,
-    `_user_app`.`operation` AS `operation`,
-    `_user_app`.`operationByUserId` AS `operationByUserId`,
-    `_user_app`.`operationByUser` AS `operationByUser`,
-    `_user_app`.`operationAt` AS `operationAt`
+  `_user_app`.`id` AS `id`,
+  `_app`.`appId` AS `appId`,
+  `_app`.`appName` AS `appName`,
+  `_user`.`userId` AS `userId`,
+  `_user`.`username` AS `username`,
+  `_user`.`userStatus` AS `userStatus`,
+  `_user`.`userType` AS `userType`,
+  `_user_app`.`operation` AS `operation`,
+  `_user_app`.`operationByUserId` AS `operationByUserId`,
+  `_user_app`.`operationByUser` AS `operationByUser`,
+  `_user_app`.`operationAt` AS `operationAt`
 from
-    (
-        (
-            `_user_app`
-                join `_user` on((`_user_app`.`userId` = `_user`.`userId`))
-        )
-            join `_app` on((`_user_app`.`appId` = `_app`.`appId`))
-        );
+  (
+  (
+    `_user_app`
+    join `_user` on((`_user_app`.`userId` = `_user`.`userId`))
+  )
+  join `_app` on((`_user_app`.`appId` = `_app`.`appId`))
+  );
+
 
 
 
