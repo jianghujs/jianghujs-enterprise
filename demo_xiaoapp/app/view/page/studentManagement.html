@@ -224,7 +224,7 @@ new Vue({
       const rows = (await window.jianghuAxios({
         data: {
           appData: {
-            pageId: 'backendSearchDemo',
+            pageId: 'studentManagement',
             actionId: 'selectItemList',
             actionData: {},
             where: {},
@@ -269,7 +269,7 @@ new Vue({
       await window.jianghuAxios({
         data: {
           appData: {
-            pageId: 'backendSearchDemo',
+            pageId: 'studentManagement',
             actionId: 'insertItem',
             actionData: this.computedEditItem
           }
@@ -307,7 +307,7 @@ new Vue({
       await window.jianghuAxios({
         data: {
           appData: {
-            pageId: 'backendSearchDemo',
+            pageId: 'studentManagement',
             actionId: 'updateItem',
             actionData: this.computedEditItem,
             where: {id: id}
@@ -329,7 +329,7 @@ new Vue({
       await window.jianghuAxios({
         data: {
           appData: {
-            pageId: 'backendSearchDemo',
+            pageId: 'studentManagement',
             actionId: 'deleteItem',
             actionData: {},
             where: { id: id }
