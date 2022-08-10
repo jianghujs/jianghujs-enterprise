@@ -6,18 +6,18 @@
 <template slot="breadcrumbsTitle">
   <div>
     APP【{{ title }}】的用户管理
-    <span style="font-size: 1rem;" :class="{'d-block': isMobile}">(ID: {{ appId }})</span>
+    <span style="font-size: 18px;">(ID: {{ appId }})</span>
   </div>
 </template>
-<v-card>
-  <v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
-    <v-col cols="12" xs="4" sm="4" md="4" xl="4" class="pl-0 ">
+<v-card :class="{'px-2': isMobile}">
+  <v-row class="ma-0  align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
+    <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0 ">
       <v-btn dark color="success" @click="isEditDrawerShow = true" class="elevation-0 mr-2">分配新的用户</v-btn>
       <span class="body-2">共{{ tableData.length }}条记录</span>
     </v-col>
     <v-spacer></v-spacer>
-    <v-col cols="12" xs="8" sm="4" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex pr-0">
-      <v-text-field dense filled single-line v-model="searchInput" label="表格过滤" class="cus-v-input"></v-text-field>
+    <v-col cols="12" xs="12" sm="4" md="3" xl="3" class="px-0">
+      <v-text-field dense filled single-line v-model="searchInput" color="success" prefix="表格过滤：" class="cus-v-input"></v-text-field>
     </v-col>
   </v-row>
   <v-data-table
@@ -28,7 +28,7 @@
       :items-per-page="-1"
       :loading="isTableLoading"
       checkbox-color="success"
-      :class="{'mx-4': isMobile}"
+      :class="{'mx-2': isMobile}"
       mobile-breakpoint="0"
       class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column"
   >
@@ -42,7 +42,7 @@
       {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
     </template>
     <template v-slot:item.option="{ item }">
-      <v-btn :small="!isMobile" :xSmall="isMobile" :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', {item})" :key="btn.value">
+      <v-btn small :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', {item})" :key="btn.value">
         {{ btn.text }}
       </v-btn>
     </template>
@@ -79,7 +79,7 @@
             @item-selected="drawerItemSelected"
             @toggle-select-all="drawerToggleSelectAll"
             class="elevation-0 flex-fill d-flex flex-column show-select pt-6"
-            :class="{'px-4': isMobile}"
+            :class="{'px-2': isMobile}"
         >
           <template v-slot:item.userType="{ item }">
             {{ (constantCollection.userType.find(({value}) => value === item.userType) || {}).text }}
@@ -91,7 +91,7 @@
             {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
           <template v-slot:item.option="{ item }">
-            <v-btn :small="!isMobile" :xSmall="isMobile" class="success" @click="doUiAction('buildRelation', {item})">新增</v-btn>
+            <v-btn small class="success" @click="doUiAction('buildRelation', {item})">新增</v-btn>
           </template>
         </v-data-table>
       </v-row>
@@ -124,7 +124,7 @@ new Vue({
       userType: [{"value": "common", "text": "普通用户"}],
     },
     headers: [
-      {text: "用户ID[登陆]", value: "userId", align: "start", sortable: true, width: 120, class: 'fixed', cellClass: 'fixed'},
+      {text: "用户ID[登陆]", value: "userId", align: "start", sortable: true, width: 120,},
       {text: "用户名", value: "username", align: "start", sortable: true, width: 140},
       {text: "用户类型", value: "userType", align: "start", sortable: true, width: 120},
       {text: "用户状态", value: "userStatus", align: "start", sortable: true, width: 120},

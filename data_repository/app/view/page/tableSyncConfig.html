@@ -6,23 +6,24 @@
 
   <!-- 页面主要内容 -->
 
-  <v-card>
-    <v-row class="ma-0 pa-xs-4 align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
-      <v-col cols="12" xs="6" sm="6" md="6" xl="6" class="pl-0">
+  <v-card :class="{'px-2': isMobile}">
+    <v-row class="ma-0  align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
+      <v-col cols="12" xs="12" sm="6" md="6" xl="6" class="pl-0">
         <v-btn color="success" dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增同步表</v-btn>
         <v-btn color="primary" dark class="elevation-0 mr-2" @click="doUiAction('manualSyncAll', null)">全部-手动同步</v-btn>
+        <template v-if="isMobile"><br></template>
         <span class="body-2">共{{ tableData.length }}条记录</span>
-        <span class="body-2"><v-chip class="ma-2" small color="default">同步模式: {{ enableDataSync ? '启用' : '未启用' }}</v-chip></span>
+        <span class="body-2"><v-chip class="ma-2" color="default">同步模式: {{ enableDataSync ? '启用' : '未启用' }}</v-chip></span>
       </v-col>
 
       <v-spacer></v-spacer>
 
-      <v-col cols="12" xs="6" sm="6" md="3" xl="3" class="pa-xs-0 pa-xs-2 col-sm-8-flex">
-        <v-text-field v-model="searchInput" label="表格过滤" class="cus-v-input" dense filled single-line></v-text-field>
+      <v-col cols="12" xs="12" sm="6" md="3" xl="3" class="px-0">
+        <v-text-field v-model="searchInput" color="success" prefix="表格过滤：" class="cus-v-input" dense filled single-line></v-text-field>
       </v-col>
 
     </v-row>
-    <v-data-table fixed-header
+    <v-data-table
                   :headers="headers"
                   :items="tableData"
                   :search="searchInput"
@@ -30,7 +31,7 @@
                   :items-per-page="-1"
                   :loading="isTableLoading"
                   checkbox-color="success"
-                  :class="{'mx-4': isMobile}"
+                  :class="{'mx-2': isMobile}"
 
                   mobile-breakpoint="0"
                   class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
@@ -59,17 +60,17 @@
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-row>
-      <v-row  :class="{'px-10': !isMobile, 'px-4': isMobile, 'pb-7': isMobile}">
+      <v-row  :class="{'px-10': !isMobile, 'px-3': isMobile, 'pb-7': isMobile}">
         <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">数据库</span>
+        <span class="inputLabel">数据库</span>
           <v-select class="cus-v-input mr-2" dense filled single-line clearable :disabled="currentClickButton.action !== 'add'" label="数据库" :rules="requireRules" v-model="editItem.sourceDatabase" :items="constantCollection.sourceDatabase"></v-select>
         </v-col>
         <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">表格</span>
+        <span class="inputLabel">表格</span>
           <v-select class="cus-v-input mr-2" dense filled single-line clearable :disabled="currentClickButton.action !== 'add'" label="表格" :rules="requireRules" v-model="editItem.sourceTable" :items="constantCollection.sourceTable"></v-select>
         </v-col>
         <v-col cols="12" sm="12" md="4" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
-        <span style="color: #3F4254;" :style="{'line-height': isMobile ? '20px' : '42px', 'font-weight': isMobile ? 400 : 500}">同步间隔（分）</span>
+        <span class="inputLabel">同步间隔（分）</span>
           <v-text-field class="cus-v-input mr-2" dense filled single-line label="同步间隔（分）" type="number" :rules="numberRules" v-model="editItem.syncTimeSlot"></v-text-field>
         </v-col>
       </v-row>
