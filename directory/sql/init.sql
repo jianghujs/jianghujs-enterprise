@@ -127,7 +127,7 @@ CREATE TABLE `_record_history` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_record_id` (`recordId`) USING BTREE,
   KEY `index_table_action` (`table`, `operation`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 COMMENT = '数据历史表';
+) ENGINE = InnoDB AUTO_INCREMENT = 7 COMMENT = '数据历史表';
 
 
 
@@ -161,10 +161,10 @@ CREATE TABLE `_resource` (
 # DATA DUMP FOR TABLE: _resource
 # ------------------------------------------------------------
 
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }',NULL,NULL,'update',NULL,NULL,'2022-04-28T23:10:35+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','{\"appData\":{\"pageId\":\"login\",\"actionId\":\"passwordLogin\",\"actionData\":{\"userId\":\"admin\",\"password\":\"123456\",\"deviceId\":\"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\"},\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\"},\"packageId\":\"1659856538525_3047161\",\"packageType\":\"httpRequest\"}','{\"packageId\":\"1659856538525_3047161\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-08-07T15:15:40+08:00\",\"appData\":{\"authToken\":\"AxBpieI19kWFfd80xrRowVccqK-tt7WzLjdD\",\"deviceId\":\"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\",\"userId\":\"admin\",\"resultData\":{\"authToken\":\"AxBpieI19kWFfd80xrRowVccqK-tt7WzLjdD\",\"deviceId\":\"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\",\"userId\":\"admin\"},\"appId\":\"directory\",\"pageId\":\"login\",\"actionId\":\"passwordLogin\"}}','update',NULL,NULL,'2022-08-07T15:15:40+08:00');
 INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"logout\" }',NULL,NULL,'update',NULL,NULL,'2022-02-23T23:08:31+08:00');
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }',NULL,NULL,'update',NULL,NULL,'2022-04-28T23:11:44+08:00');
-INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (263,NULL,NULL,'directory','selectItemList','✅查询目录','service',NULL,'{ \"service\": \"directory\", \"serviceFunction\": \"getDirectoryList\" }',NULL,NULL,'update',NULL,NULL,'2022-04-28T23:11:44+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','{\"appData\":{\"pageId\":\"allPage\",\"actionId\":\"userInfo\",\"actionData\":{},\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\"},\"packageId\":\"1659856542162_9932845\",\"packageType\":\"httpRequest\"}','{\"packageId\":\"1659856542162_9932845\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-08-07T15:15:43+08:00\"}','update',NULL,NULL,'2022-08-07T15:15:43+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (263,NULL,NULL,'directory','selectItemList','✅查询目录','service',NULL,'{ \"service\": \"directory\", \"serviceFunction\": \"getDirectoryList\" }','{\"appData\":{\"pageId\":\"directory\",\"actionId\":\"selectItemList\",\"orderBy\":[{\"column\":\"operationAt\",\"order\":\"desc\"}],\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\",\"actionData\":{}},\"packageId\":\"1659856542163_2940224\",\"packageType\":\"httpRequest\"}','{\"packageId\":\"1659856542163_2940224\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-08-07T15:15:43+08:00\"}','update',NULL,NULL,'2022-08-07T15:15:43+08:00');
 
 
 
@@ -193,7 +193,7 @@ CREATE TABLE `_resource_request_log` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `resourceId_index` (`resourceId`) USING BTREE,
   KEY `packageId_index` (`packageId`) USING BTREE
-) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 4 COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -412,7 +412,7 @@ CREATE TABLE `_user_session` (
   KEY `userId_index` (`userId`) USING BTREE,
   KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
   KEY `authToken_index` (`authToken`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 13 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
 
 
