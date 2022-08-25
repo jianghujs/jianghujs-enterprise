@@ -42,7 +42,7 @@
       {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
     </template>
     <template v-slot:item.option="{ item }">
-      <v-btn small :class="btn.color" v-for="btn of tableButtonList" @click="doUiAction('deleteRelation', {item})" :key="btn.value">
+      <v-btn small :class="btn.color" v-for="btn of tableButtonList" @click="doAction('deleteRelation', {item})" :key="btn.value">
         {{ btn.text }}
       </v-btn>
     </template>
@@ -59,7 +59,7 @@
   >
     <v-container class="navDrawerContainer">
       <v-row class="pt-8" :class="{'px-12': !isMobile, 'px-4': isMobile}">
-        <v-btn class="mt-0" dark color="success" elevation="0" @click="doUiAction('allotUser')">保存选中</v-btn>
+        <v-btn class="mt-0" dark color="success" elevation="0" @click="doAction('allotUser')">保存选中</v-btn>
         <v-spacer></v-spacer>
         <v-btn class="mt-0 elevation-0" :class="{'mr-16': !isMobile, 'mr-4': isMobile}" fab x-small @click="isEditDrawerShow = false">
           <v-icon dark>mdi-close</v-icon>
@@ -91,7 +91,7 @@
             {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
           <template v-slot:item.option="{ item }">
-            <v-btn small class="success" @click="doUiAction('buildRelation', {item})">新增</v-btn>
+            <v-btn small class="success" @click="doAction('buildRelation', {item})">新增</v-btn>
           </template>
         </v-data-table>
       </v-row>
@@ -170,10 +170,38 @@ new Vue({
     }
   },
   mounted() {
-    this.doUiAction('refreshTableData');
-    this.doUiAction('getDrawerTableData');
+    this.doAction('refreshTableData');
+    this.doAction('getDrawerTableData');
   },
   methods: {
+    async doAction(actionId, actionData) {
+				switch (actionId) {
+				case 'refreshTableData':
+					await this.refreshTableData(actionData);
+					break;
+				case 'getDrawerTableData':
+					await this.getDrawerTableData(actionData);
+					break;
+				case 'allotUser':
+					await this.confirmAllotUserDialog(actionData);
+					await this.doAllotUser(actionData);
+					await this.refreshTableData(actionData);
+					break;
+				case 'buildRelation':
+					await this.confirmAllotUserDialog(actionData);
+					await this.doBuildRelation(actionData);
+					await this.refreshTableData(actionData);
+					break;
+				case 'deleteRelation':
+					await this.confirmDeleteUserDialog(actionData);
+					await this.doDeleteRelation(actionData);
+					await this.refreshTableData(actionData);
+					break;
+				default:
+					console.error("[doAction] actionId not find", { actionId });
+					break;
+				}
+		},
     async refreshTableData() {
       this.isTableLoading = true;
       const result = await window.jianghuAxios({
@@ -210,13 +238,13 @@ new Vue({
 
     // allotStudent
     async confirmAllotUserDialog() {
-      this.isEditDrawerPermanent = true;
-      return window.confirmDialog({title: '确定将用户分配给此APP', content: '确定分配吗？'})
+      if (await window.confirmDialog({title: "确定将用户分配给此APP", content: "确定分配吗？"}) === false) {
+          throw new Error("[confirmAllotUserDialog] 否");
+      }
     },
 
     async doAllotUser() {
       for (const [i, userId] of this.drawerItemSelectedClass.entries()) {
-        this.isEditDrawerPermanent = false;
         window.vtoast.loading(`正在新增 第${i + 1}个`);
         await this.buildRelationImpl(userId);
       }
@@ -225,7 +253,6 @@ new Vue({
     },
 
     async doBuildRelation({item}) {
-      this.isEditDrawerPermanent = false;
       window.vtoast.loading("正在新增");
       await this.buildRelationImpl(item.userId);
       window.vtoast.success("新增成功");
@@ -246,7 +273,9 @@ new Vue({
 
     // allotStudent
     async confirmDeleteUserDialog() {
-      return window.confirmDialog({title: '确认将用户从APP删除', content: '确定删除吗？'})
+      if (await window.confirmDialog({title: "确认将用户从APP删除", content: "确定删除吗？"}) === false) {
+          throw new Error("[confirmDeleteUserDialog] 否");
+      }
     },
 
     async doDeleteRelation({item}) {
