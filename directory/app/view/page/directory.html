@@ -25,7 +25,7 @@
               <template v-for="(item, i) in value">
                 <v-list-item
                     :key="item.appId + '-' + item.loginId + '-' + item.appGroupNumber + '-' + item.appGroupItemSort + '-' + i"
-                    @click="jump(item.url)"
+                    @click="doAction('jump', item.url)"
                 >
                   <v-list-item-icon class="mr-2">
                     <v-icon size="18" color="grey lighten-3">mdi-link-variant</v-icon>
@@ -37,7 +37,6 @@
                     <v-icon size="18" color="grey lighten-1">mdi-chevron-right</v-icon>
                   </v-list-item-icon>
                 </v-list-item>
-                <!--          <v-divider></v-divider>-->
               </template>
             </v-list>
           </v-col>
@@ -71,9 +70,22 @@
     async created() {
     },
     mounted() {
-      this.doUiAction('refreshTableData');
+      this.doAction('refreshTableData');
     },
     methods: {
+      async doAction(actionId, actionData) {
+        switch (actionId) {
+          case 'refreshTableData':
+            await this.refreshTableData(actionData);
+            break;
+          case 'jump':
+            await this.jump(actionData);
+            break;
+          default:
+            console.error("[doAction] actionId not find", { actionId });
+            break;
+        }
+      },
       /**
        * 获取表格数据
        */
@@ -95,6 +107,7 @@
         .value();
         this.isTableLoading = false;
       },
+      // 跳转
       jump(url) {
         window.open(url);
       }

@@ -65,7 +65,7 @@
         <v-row class="ma-0 align-center flex-none pt-0 " :class="{'pb-0': !isMobile, 'pa-2': isMobile, 'pl-0': !isMobile, 'pr-0': !isMobile}">
 
           <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0 d-flex align-center">
-            <v-btn color="success" dark class="elevation-0 mr-4" @click="doUiAction('startCreateItem', null)">新增</v-btn>
+            <v-btn color="success" dark class="elevation-0 mr-4" @click="doAction('startCreateItem', null)">新增</v-btn>
             <div style="border-radius: 4px; padding-top: 1px" class="pr-2 mr-4">
               <v-switch class="d-inline-block ma-0 pa-0"
                         v-model="showAllData"
@@ -73,7 +73,7 @@
                         color="success"
                         inset
                         style="white-space: nowrap"
-                        @change="doUiAction('refreshTableData')"
+                        @change="doAction('refreshTableData')"
                         hide-details
               ></v-switch>
             </div>
@@ -103,10 +103,10 @@
             {{ (constantCollection.userType.find(({value}) => value === item.roleId) || constantCollection.role.find(({value}) => value === item.roleId) || {}).text }}
           </template>
           <template v-slot:item.action="{ item }">
-            <v-btn small class="mr-2 success" @click="doUiAction('startUpdateItem', {item})">
+            <v-btn small class="mr-2 success" @click="doAction('startUpdateItem', {item})">
               修改
             </v-btn>
-            <v-btn small class="mr-2 error" @click="doUiAction('deleteItem', {item})">
+            <v-btn small class="mr-2 error" @click="doAction('deleteItem', {item})">
               删除
             </v-btn>
           </template>
@@ -126,8 +126,8 @@
           </v-list-item>
           <v-row class="pa-5">
             <v-spacer></v-spacer>
-            <v-btn color="error" @click="doUiAction('deleteLeftItem')" class="mr-4">删除</v-btn>
-            <v-btn color="success" @click="doUiAction('updateLeftItem')">修改</v-btn>
+            <v-btn color="error" @click="doAction('deleteLeftItem')" class="mr-4">删除</v-btn>
+            <v-btn color="success" @click="doAction('updateLeftItem')">修改</v-btn>
           </v-row>
         </v-form>
       </v-col>
@@ -162,7 +162,7 @@
     </v-row>
 
     <v-row class="justify-end mx-0 mt-8" :class="{'px-10': !isMobile, 'px-4': isMobile, 'mb-8': isMobile}">
-      <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)" >保存</v-btn>
+      <v-btn color="success" @click="doAction(dialogSaveInfoAction)" >保存</v-btn>
       <v-btn class="elevation-0 mr-2 ml-2" @click="isEditDrawerShow = false" >取消</v-btn>
     </v-row>
   </v-form>
@@ -242,7 +242,7 @@
 
     <v-card-actions class="py-4">
       <v-spacer></v-spacer>
-      <v-btn color="success"  @click="doUiAction('createLeftItem')"> 保存</v-btn>
+      <v-btn color="success"  @click="doAction('createLeftItem')"> 保存</v-btn>
       <v-btn class="elevation-0 mr-2 ml-2" @click="addItemDialog = false" >取消</v-btn>
     </v-card-actions>
   </v-card>
@@ -354,20 +354,83 @@ new Vue({
   },
   watch: {
     async pageTab() {
-      this.doUiAction('refreshTableData');
+      this.doAction('refreshTableData');
     },
     selectedItem(v, ov) {
       if (v !== ov) {
-        this.doUiAction('refreshTableData');
+        this.doAction('refreshTableData');
       }
     }
   },
   async created() {
   },
   mounted() {
-    this.doUiAction('initOptions');
+    this.doAction('initOptions');
   },
   methods: {
+    async doAction(actionId, actionData) {
+        switch (actionId) {
+          case 'refreshTableData':
+            await this.refreshTableData(actionData);
+            break;
+          case 'startCreateItem':
+            await this.clearItemData(actionData);
+            await this.openCreateItemDialog(actionData);
+            break;
+          case 'createItem':
+            await this.prepareValidate(actionData);
+            await this.confirmCreateItemDialog(actionData);
+            await this.doCreateItem(actionData);
+            await this.refreshTableData(actionData);
+            await this.closeDrawerShow(actionData);
+            break;
+          case 'startUpdateItem':
+            await this.prepareItemData(actionData);
+            await this.openUpdateItemDialog(actionData);
+            break;
+          case 'updateItem':
+            await this.prepareValidate(actionData);
+            await this.confirmUpdateItemDialog(actionData);
+            await this.doUpdateItem(actionData);
+            await this.refreshTableData(actionData);
+            await this.closeDrawerShow(actionData);
+            break;
+          case 'deleteItem':
+            await this.confirmDeleteItemDialog(actionData);
+            await this.prepareItemData(actionData);
+            await this.doDeleteItem(actionData);
+            await this.refreshTableData(actionData);
+            break;
+          case 'startCreateLeftItem':
+            await this.clearItemData(actionData);
+            await this.openFormDialog(actionData);
+            break;
+          case 'createLeftItem':
+            await this.prepareLeftValidate(actionData);
+            await this.addNewItem(actionData);
+            await this.reGetLeftData(actionData);
+            await this.closeFormDialog(actionData);
+            break;
+          case 'updateLeftItem':
+            await this.prepareRightValidate(actionData);
+            await this.updateLeftItem(actionData);
+            await this.reGetLeftData(actionData);
+            break;
+          case 'deleteLeftItem':
+            await this.confirmDelLeftItemDialog(actionData);
+            await this.deleteLeftItem(actionData);
+            await this.reGetLeftData(actionData);
+            break;
+          case 'initOptions':
+            await this.selectUser(actionData);
+            await this.refreshTableData(actionData);
+            await this.initOptions(actionData);
+            break;
+          default:
+            console.error("[doAction] actionId not find", { actionId });
+            break;
+        }
+    },
     initOptions() {
       this.selectGroup();
       this.selectRole();
@@ -458,12 +521,16 @@ new Vue({
 
     // createItem
     async prepareValidate() {
-      if (!this.$refs.form.validate()) return false;
+      if (await this.$refs.form.validate() === false) {
+          throw new Error("[prepareValidate] false");
+      }
     },
 
     // createItem
     async confirmCreateItemDialog() {
-      return window.confirmDialog({title: '新增', content: '确定新增吗？'})
+      if (await window.confirmDialog({title: "新增", content: "确定新增吗？"}) === false) {
+          throw new Error("[confirmCreateFormDialog] 否");
+      }
     },
 
     /**
@@ -501,7 +568,9 @@ new Vue({
 
     // updateItem
     async confirmUpdateItemDialog() {
-      return window.confirmDialog({title: '修改', content: '确定修改吗？'});
+      if (await window.confirmDialog({title: "修改", content: "确定修改吗？"}) === false) {
+          throw new Error("[confirmUpdateItemDialog] 否");
+      }
     },
 
     /**
@@ -526,7 +595,9 @@ new Vue({
 
     // deleteItem
     async confirmDeleteItemDialog() {
-      return window.confirmDialog({title: '删除', content: '确定删除吗？'});
+      if (await window.confirmDialog({title: "删除", content: "确定删除吗？"}) === false) {
+          throw new Error("[confirmDeleteItemDialog] 否");
+      }
     },
 
     /**
@@ -548,14 +619,17 @@ new Vue({
 
     // 打开添加用户、组织、角色的表单弹窗
     async openFormDialog() {
-      this.editItem = {};
       this.addItemDialog = true;
+    },
+    // 左侧表单验证
+    async prepareLeftValidate() {
+        if (await this.$refs.formLeft.validate() === false) {
+          throw new Error("[prepareLeftValidate] false");
+        }
     },
     // 添加用户、组织、角色的表单
     async addNewItem() {
-      if (!this.$refs.formLeft.validate()) return false;
       const insertActionId = ['insertUser', 'insertGroup', 'insertRole'][this.pageTab];
-      this.addItemDialog = false;
       window.vtoast.loading("添加中")
       await window.jianghuAxios({
         data: {
@@ -567,6 +641,10 @@ new Vue({
         }
       })
       window.vtoast.success("添加成功")
+    },
+    // 关闭添加用户、组织、角色的表单弹窗
+    async closeFormDialog() {
+        this.addItemDialog = false;
     },
     // 刷新用户、组织、角色的数据
     async reGetLeftData() {
@@ -581,31 +659,40 @@ new Vue({
       }
       this.$forceUpdate()
     },
+    // deleteLeftItem 确认
+    async confirmDelLeftItemDialog() {
+        if (await window.confirmDialog({title: `确认删除该${this.tabItemTitle}？`}) === false) {
+          throw new Error("[confirmDelLeftItemDialog] 否");
+        }
+    },
     // 删除用户、组织、角色
     async deleteLeftItem() {
-      if(await window.confirmDialog({"title": `确认删除该${this.tabItemTitle}？`})) {
-        const id = this.activeItemInfo.id;
-        const actionId = ['deleteUser', 'deleteGroup', 'deleteRole'][this.pageTab];
-        const whereKey = ['userId', 'groupId', 'roleId'][this.pageTab];
-        const where = [{userId: this.activeItemInfo['userId']}, {groupId: this.activeItemInfo['groupId']}, {roleId: this.activeItemInfo['roleId']}][this.pageTab];
-        if(where[whereKey]) {
-          window.vtoast.loading("删除中");
-          await window.jianghuAxios({
-            data: {
-              appData: {
-                pageId: 'userGroupRoleManagement',
-                actionId: actionId,
-                where: where
-              }
+      const id = this.activeItemInfo.id;
+      const actionId = ['deleteUser', 'deleteGroup', 'deleteRole'][this.pageTab];
+      const whereKey = ['userId', 'groupId', 'roleId'][this.pageTab];
+      const where = [{userId: this.activeItemInfo['userId']}, {groupId: this.activeItemInfo['groupId']}, {roleId: this.activeItemInfo['roleId']}][this.pageTab];
+      if(where[whereKey]) {
+        window.vtoast.loading("删除中");
+        await window.jianghuAxios({
+          data: {
+            appData: {
+              pageId: 'userGroupRoleManagement',
+              actionId: actionId,
+              where: where
             }
-          })
-          window.vtoast.success("删除成功");
-        }
+          }
+        })
+        window.vtoast.success("删除成功");
       }
+    },
+    // 右侧表单验证
+    async prepareRightValidate() {
+        if (await this.$refs.formRight.validate() === false) {
+          throw new Error("[prepareRightValidate] false");
+        }
     },
     // 更新修改用户、组织、角色
     async updateLeftItem() {
-      if (!this.$refs.formRight.validate()) return false;
       window.vtoast.loading("保存中");
       const id = this.activeItemInfo.id;
       delete this.activeItemInfo.id;

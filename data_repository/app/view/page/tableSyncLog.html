@@ -88,18 +88,28 @@
     },
     watch: {
       showFullData() {
-        this.doUiAction('refreshTableData');
+        this.doAction('refreshTableData');
       }
     },
     async created() {
       setInterval(()=> {
-        this.doUiAction('refreshTableData');
+        this.doAction('refreshTableData');
       }, 10000)
     },
     mounted() {
-      this.doUiAction('refreshTableData');
+      this.doAction('refreshTableData');
     },
     methods: {
+      async doAction(actionId, actionData) {
+        switch (actionId) {
+          case 'refreshTableData':
+            await this.refreshTableData(actionData);
+            break;
+          default:
+            console.error("[doAction] actionId not find", { actionId });
+            break;
+        }
+      },
       /**
        * 获取表格数据
        */

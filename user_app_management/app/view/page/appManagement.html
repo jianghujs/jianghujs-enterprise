@@ -9,7 +9,7 @@
   <v-row class="ma-0  align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
 
     <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0">
-      <v-btn color="success" dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增</v-btn>
+      <v-btn color="success" dark class="elevation-0 mr-2" @click="doAction('startCreateItem', null)">新增</v-btn>
       <span class="body-2">共{{ tableData.length }}条记录</span>
     </v-col>
 
@@ -35,8 +35,8 @@
       {{ (constantCollection.appType.find(({value}) => value === item.appType) || {}).text }}
     </template>
     <template v-slot:item.action="{ item }">
-      <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', {item})">修改</v-btn>
-      <v-btn small class="mr-2" color="warning" @click="jump(`/${appInfo.appId}/page/userManagementOfOneApp?id=${item.appId}&title=${item.appName}`)">APP的用户管理</v-btn>
+      <v-btn small class="mr-2" color="success" @click="doAction('startUpdateItem', {item})">修改</v-btn>
+      <v-btn small class="mr-2" color="warning" @click="doAction('jump', `/${appInfo.appId}/page/userManagementOfOneApp?id=${item.appId}&title=${item.appName}`)">APP的用户管理</v-btn>
     </template>
   </v-data-table>
 </v-card>
@@ -67,7 +67,7 @@
       </v-col>
     </v-row>
     <v-row class="justify-end mx-0 mt-8" :class="{'px-10': !isMobile, 'px-4': isMobile, 'mb-8': isMobile}">
-      <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)">保存</v-btn>
+      <v-btn color="success" @click="doAction(dialogSaveInfoAction)">保存</v-btn>
       <v-btn class="elevation-0 mr-2 ml-2" @click="isEditDrawerShow = false">取消</v-btn>
     </v-row>
   </v-form>
@@ -128,9 +128,44 @@ new Vue({
   async created() {
   },
   mounted() {
-    this.doUiAction('refreshTableData');
+    this.doAction('refreshTableData');
   },
   methods: {
+    async doAction(actionId, actionData) {
+        switch (actionId) {
+          case 'refreshTableData':
+            await this.refreshTableData(actionData);
+            break;
+          case 'startCreateItem':
+            await this.clearItemData(actionData);
+            await this.openCreateItemDialog(actionData);
+            break;
+          case 'createItem':
+            await this.prepareValidate(actionData);
+            await this.confirmCreateItemDialog(actionData);
+            await this.doCreateItem(actionData);
+            await this.refreshTableData(actionData);
+            await this.closeDrawerShow(actionData);
+            break;
+          case 'startUpdateItem':
+            await this.prepareItemData(actionData);
+            await this.openUpdateDialog(actionData);
+            break;
+          case 'updateItem':
+            await this.prepareValidate(actionData);
+            await this.confirmUpdateItemDialog(actionData);
+            await this.doUpdateItem(actionData);
+            await this.refreshTableData(actionData);
+            await this.closeDrawerShow(actionData);
+            break;
+          case 'jump':
+            await this.jump(actionData);
+            break;
+          default:
+            console.error("[doAction] actionId not find", { actionId });
+            break;
+        }
+    },
     /**
      * 获取表格数据
      */
@@ -165,12 +200,16 @@ new Vue({
 
     // createItem
     async prepareValidate() {
-      return this.$refs.form.validate();
+      if (await this.$refs.form.validate() === false) {
+          throw new Error("[prepareValidate] false");
+      }
     },
 
     // createItem
     async confirmCreateItemDialog() {
-      return window.confirmDialog({title: '新增', content: '确定新增吗？'})
+      if (await window.confirmDialog({title: "新增", content: "确定新增吗？"}) === false) {
+          throw new Error("[confirmCreateFormDialog] 否");
+      }
     },
     /**
      * 新增学生
@@ -208,7 +247,9 @@ new Vue({
     // updateItem
     async confirmUpdateItemDialog() {
       console.log('confirmUpdateItemDialog')
-      return window.confirmDialog({title: '修改', content: '确定修改吗？'});
+      if (await window.confirmDialog({title: "修改", content: "确定修改吗？"}) === false) {
+          throw new Error("[confirmUpdateItemDialog] 否");
+      }
     },
     /**
      * 保存学生
@@ -228,6 +269,7 @@ new Vue({
       })
       await window.vtoast.success("修改应用信息成功");
     },
+    // 页面跳转
     jump(url) {
       window.location.href = url;
     },
