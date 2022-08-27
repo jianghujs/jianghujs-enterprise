@@ -315,7 +315,7 @@
         }
       },
       /**
-       * 保存学生
+       * 保存
        */
       async doUpdateItem() {
         window.vtoast.loading("保存中");
@@ -397,7 +397,6 @@
           }
         });
         window.vtoast.success("手动同步成功")
-        await this.getTableData();
       },
 
       // validate
