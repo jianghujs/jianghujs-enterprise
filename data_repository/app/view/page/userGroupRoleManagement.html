@@ -368,8 +368,8 @@ new Vue({
     this.doAction('initOptions');
   },
   methods: {
-    async doAction(actionId, actionData) {
-        switch (actionId) {
+    async doAction(uiActionId, actionData) {
+        switch (uiActionId) {
           case 'refreshTableData':
             await this.refreshTableData(actionData);
             break;
@@ -427,7 +427,7 @@ new Vue({
             await this.initOptions(actionData);
             break;
           default:
-            console.error("[doAction] actionId not find", { actionId });
+            console.error("[doAction] uiActionId not find", { uiActionId });
             break;
         }
     },
