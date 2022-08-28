@@ -10,7 +10,7 @@
 
     <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0">
       <v-btn color="success" dark class="elevation-0 mr-2" @click="doAction('startCreateItem', null)">新增</v-btn>
-      <span class="body-2">共{{ tableData.length }}条记录</span>
+      <span class="body-2">共{{ tableDataFromBackend.length }}条记录</span>
     </v-col>
 
     <v-spacer></v-spacer>
@@ -22,7 +22,7 @@
   </v-row>
   <v-data-table
                 :headers="headers"
-                :items="tableData"
+                :items="tableDataFromBackend"
                 :search="searchInput"
                 :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
                 :items-per-page="-1"
@@ -84,8 +84,8 @@ new Vue({
   el: '#app',
   template: '#app-template',
   vuetify: new Vuetify(),
-  mixins: [window.jianghuUiActionMixins],
   data: {
+    isMobile: window.innerWidth < 600,
     // 表格相关数据
     isFormValid: true,
     requireRules: [
@@ -112,17 +112,6 @@ new Vue({
     currentClickButton: {title: '新增', action: 'add'},
     editItem: {},
     dialogSaveInfoAction: ''
-  },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 600;
-    },
-    tableData() {
-      return this.tableDataFromBackend
-    },
-    computedEditItem() {
-      return this.editItem;
-    },
   },
   watch: {},
   async created() {
@@ -215,7 +204,7 @@ new Vue({
      * 新增学生
      */
     async doCreateItem() {
-      const { id, ...actionData } = this.computedEditItem;
+      const { id, ...actionData } = this.editItem;
       await window.vtoast.loading("新增应用");
       await window.jianghuAxios({
         data: {
@@ -255,7 +244,7 @@ new Vue({
      * 保存学生
      */
     async doUpdateItem() {
-      const { id, ...actionData } = this.computedEditItem;
+      const { id, ...actionData } = this.editItem;
       await window.vtoast.loading("修改应用信息");
       await window.jianghuAxios({
         data: {

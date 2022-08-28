@@ -9,10 +9,10 @@
   <v-card :class="{'px-2': isMobile}">
     <v-row class="ma-0  align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
       <v-col cols="12" xs="12" sm="6" md="6" xl="6" class="pl-0">
-        <v-btn color="success" dark class="elevation-0 mr-2" @click="doAction('startCreateItem', null)">新增同步表</v-btn>
-        <v-btn color="primary" dark class="elevation-0 mr-2" @click="doAction('manualSyncAll', null)">全部-手动同步</v-btn>
+        <v-btn color="success" dark class="elevation-0 mr-2" @click="doUiAction('startCreateItem', null)">新增同步表</v-btn>
+        <v-btn color="primary" dark class="elevation-0 mr-2" @click="doUiAction('manualSyncAll', null)">全部-手动同步</v-btn>
         <template v-if="isMobile"><br></template>
-        <span class="body-2">共{{ tableData.length }}条记录</span>
+        <span class="body-2">共{{ tableDataFromBackend.length }}条记录</span>
         <span class="body-2"><v-chip class="ma-2" color="default">同步模式: {{ enableDataSync ? '启用' : '未启用' }}</v-chip></span>
       </v-col>
 
@@ -25,7 +25,7 @@
     </v-row>
     <v-data-table
                   :headers="headers"
-                  :items="tableData"
+                  :items="tableDataFromBackend"
                   :search="searchInput"
                   :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
                   :items-per-page="-1"
@@ -42,9 +42,9 @@
         {{ item.lastSyncTime && dayjs(item.lastSyncTime).format('YYYY-MM-DD HH:mm:ss') }}
       </template>
       <template v-slot:item.action="{ item }">
-        <v-btn small class="mr-2" color="success" @click="doAction('startUpdateItem', {item})">修改</v-btn>
-        <v-btn small class="mr-2" color="error" @click="doAction('deleteItem', {item})">删除</v-btn>
-        <v-btn small class="mr-2" color="" @click="doAction('manualSyncOneTable', {item})">同步</v-btn>
+        <v-btn small class="mr-2" color="success" @click="doUiAction('startUpdateItem', {item})">修改</v-btn>
+        <v-btn small class="mr-2" color="error" @click="doUiAction('deleteItem', {item})">删除</v-btn>
+        <v-btn small class="mr-2" color="" @click="doUiAction('manualSyncOneTable', {item})">同步</v-btn>
       </template>
     </v-data-table>
   </v-card>
@@ -75,7 +75,7 @@
         </v-col>
       </v-row>
       <v-row class="justify-end mx-0 mt-8" :class="{'px-10': !isMobile, 'px-4': isMobile, 'mb-8': isMobile}">
-        <v-btn color="success" @click="doAction(dialogSaveInfoAction)">保存</v-btn>
+        <v-btn color="success" @click="doUiAction(dialogSaveInfoAction)">保存</v-btn>
         <v-btn class="elevation-0 mr-2 ml-2" @click="isEditDrawerShow = false">取消</v-btn>
       </v-row>
     </v-form>
@@ -92,8 +92,8 @@
     el: '#app',
     template: '#app-template',
     vuetify: new Vuetify(),
-    mixins: [window.jianghuUiActionMixins],
     data: {
+      isMobile: window.innerWidth < 600,
       // 表格相关数据
       isFormValid: true,
       enableDataSync: "<$ ctx.app.config.enableDataSync $>",
@@ -127,19 +127,11 @@
       ],
       dialogSaveInfoAction: ''
     },
-    computed: {
-      isMobile() {
-        return window.innerWidth < 600;
-      },
-      tableData() {
-        return this.tableDataFromBackend;
-      },
-    },
     watch: {
       editItem: {
         handler(value, oldValue) {
           if(!_.isEmpty(value.sourceDatabase)) {
-            this.doAction('resetSourceTable', {sourceDatabase: value.sourceDatabase});
+            this.doUiAction('resetSourceTable', {sourceDatabase: value.sourceDatabase});
           }
         },
         deep: true
@@ -149,11 +141,11 @@
 
     },
     mounted() {
-      this.doAction('refreshTableData');
-      this.doAction('getAllApp');
+      this.doUiAction('refreshTableData');
+      this.doUiAction('getAllApp');
     },
     methods: {
-      async doAction(uiActionId, actionData) {
+      async doUiAction(uiActionId, actionData) {
         switch (uiActionId) {
           case 'refreshTableData':
             await this.refreshTableData(actionData);
@@ -203,7 +195,7 @@
             await this.doGetAllApp(actionData);
             break;
           default:
-            console.error("[doAction] uiActionId not find", { uiActionId });
+            console.error("[doUiAction] uiActionId not find", { uiActionId });
             break;
         }
       },

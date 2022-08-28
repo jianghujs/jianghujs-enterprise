@@ -13,7 +13,7 @@
   <v-row class="ma-0  align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
     <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0 ">
       <v-btn dark color="success" @click="isEditDrawerShow = true" class="elevation-0 mr-2">分配新的用户</v-btn>
-      <span class="body-2">共{{ tableData.length }}条记录</span>
+      <span class="body-2">共{{ tableDataFromBackend.length }}条记录</span>
     </v-col>
     <v-spacer></v-spacer>
     <v-col cols="12" xs="12" sm="4" md="3" xl="3" class="px-0">
@@ -22,7 +22,7 @@
   </v-row>
   <v-data-table
       :headers="headers"
-      :items="tableData"
+      :items="tableDataFromBackend"
       :search="searchInput"
       :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
       :items-per-page="-1"
@@ -109,8 +109,8 @@ new Vue({
   el: '#app',
   template: '#app-template',
   vuetify: new Vuetify(),
-  mixins: [window.jianghuUiActionMixins],
   data: {
+    isMobile: window.innerWidth < 600,
     appId: null,
     title: null,
 
@@ -132,6 +132,7 @@ new Vue({
       {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
       {text: '操作', value: 'option', align: 'center', sortable: false, width: 200, class: 'fixed', cellClass: 'fixed'},
     ],
+    drawerTableData: [],
     drawerTableDataFromBackend: [],
     tableDataFromBackend: [],
     tableButtonList: [
@@ -139,20 +140,6 @@ new Vue({
     ],
     drawerItemSelectedClass: [],
     currentClickButton: {title: '新增', action: 'add'},
-  },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 600;
-    },
-    tableData() {
-      return this.tableDataFromBackend;
-    },
-    drawerTableData() {
-      if (_.isEmpty(this.drawerTableDataFromBackend)) {
-        return [];
-      }
-      return _.differenceBy(this.drawerTableDataFromBackend, this.tableData, 'userId');
-    },
   },
   watch: {},
   async created() {
@@ -169,33 +156,38 @@ new Vue({
       return;
     }
   },
-  mounted() {
-    this.doAction('refreshTableData');
-    this.doAction('getDrawerTableData');
+  async mounted() {
+    await this.doAction('refreshTableData');
+    await this.doAction('getDrawerTableData');
   },
   methods: {
     async doAction(uiActionId, actionData) {
 				switch (uiActionId) {
 				case 'refreshTableData':
 					await this.refreshTableData(actionData);
+					await this.buildDrawerTableData(actionData);
 					break;
 				case 'getDrawerTableData':
 					await this.getDrawerTableData(actionData);
+          await this.buildDrawerTableData(actionData);
 					break;
 				case 'allotUser':
 					await this.confirmAllotUserDialog(actionData);
 					await this.doAllotUser(actionData);
 					await this.refreshTableData(actionData);
+					await this.buildDrawerTableData(actionData);
 					break;
 				case 'buildRelation':
 					await this.confirmAllotUserDialog(actionData);
 					await this.doBuildRelation(actionData);
 					await this.refreshTableData(actionData);
+					await this.buildDrawerTableData(actionData);
 					break;
 				case 'deleteRelation':
 					await this.confirmDeleteUserDialog(actionData);
 					await this.doDeleteRelation(actionData);
 					await this.refreshTableData(actionData);
+					await this.buildDrawerTableData(actionData);
 					break;
 				default:
 					console.error("[doAction] uiActionId not find", { uiActionId });
@@ -219,6 +211,13 @@ new Vue({
       });
       this.tableDataFromBackend = result.data.appData.resultData.rows;
       this.isTableLoading = false;
+    },
+    buildDrawerTableData() {
+      if (_.isEmpty(this.drawerTableDataFromBackend)) {
+        this.drawerTableData = [];
+      } else {
+        this.drawerTableData = _.differenceBy(this.drawerTableDataFromBackend, this.tableDataFromBackend, 'userId');
+      }
     },
     // 未包含数据列表
     async getDrawerTableData() {

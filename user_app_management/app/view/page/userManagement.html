@@ -118,8 +118,8 @@ new Vue({
   el: '#app',
   template: '#app-template',
   vuetify: new Vuetify(),
-  mixins: [window.jianghuUiActionMixins],
   data: {
+    isMobile: window.innerWidth < 600,
     appInfo: window.appInfo,
     // 表格相关数据
     isFormValid: true,
@@ -140,6 +140,7 @@ new Vue({
     isEditDrawerPermanent: false,
     searchInput: null,
     isTableLoading: true,
+    tableData: [],
     tableDataFromBackend: [],
     headers: [
       {text: "用户ID[登陆]", value: "userId", align: "start", sortable: true, width: 120, class: 'fixed', cellClass: 'fixed'},
@@ -157,21 +158,15 @@ new Vue({
     defaultItem: { userType: 'common', userStatus: 'active', },
     dialogSaveInfoAction: ''
   },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 600;
-    },
-    tableData() {
-      if (!this.currentUserStatusType || this.currentUserStatusType === 'all') {
-        return this.tableDataFromBackend;
+
+  watch: {
+    currentUserStatusType: {
+      deep: true,
+      handler(value) {
+        this.doUiAction('computedTableData')
       }
-      return this.tableDataFromBackend.filter(({userStatus}) => userStatus === this.currentUserStatusType);
-    },
-    computedEditItem() {
-      return this.editItem;
-    },
+    }
   },
-  watch: {},
   async created() {
   },
   mounted() {
@@ -182,6 +177,7 @@ new Vue({
         switch (uiActionId) {
           case 'refreshTableData':
             await this.refreshTableData(actionData);
+            await this.computedTableData(actionData);
             break;
           case 'startCreateItem':
             await this.clearItemData(actionData);
@@ -192,6 +188,7 @@ new Vue({
             await this.confirmCreateItemDialog(actionData);
             await this.doCreateItem(actionData);
             await this.refreshTableData(actionData);
+            await this.computedTableData(actionData);
             await this.closeDrawerShow(actionData);
             break;
           case 'startUpdateItem':
@@ -203,6 +200,7 @@ new Vue({
             await this.confirmUpdateItemDialog(actionData);
             await this.doUpdateItem(actionData);
             await this.refreshTableData(actionData);
+            await this.computedTableData(actionData);
             await this.closeDrawerShow(actionData);
             break;
           case 'activeUserStatus':
@@ -210,6 +208,7 @@ new Vue({
             await this.prepareItemData(actionData);
             await this.doActiveUserStatus(actionData);
             await this.refreshTableData(actionData);
+            await this.computedTableData(actionData);
             break;
           case 'startResetPassword':
             await this.prepareItemData(actionData);
@@ -219,6 +218,7 @@ new Vue({
             await this.confirmResetUserPasswordDialog(actionData);
             await this.doResetUserPassword(actionData);
             await this.refreshTableData(actionData);
+            await this.computedTableData(actionData);
             await this.closeDrawerShow(actionData);
             break;
           case 'bannedUserStatus':
@@ -226,9 +226,13 @@ new Vue({
             await this.prepareItemData(actionData);
             await this.doBannedUserStatus(actionData);
             await this.refreshTableData(actionData);
+            await this.computedTableData(actionData);
             break;
           case 'jump':
             await this.jump(actionData);
+            break;
+          case 'computedTableData':
+            await this.computedTableData(actionData);
             break;
           default:
             console.error("[doAction] uiActionId not find", { uiActionId });
@@ -254,6 +258,13 @@ new Vue({
 
       this.tableDataFromBackend = result.data.appData.resultData.rows;
       this.isTableLoading = false;
+    },
+
+    computedTableData() {
+      if (!this.currentUserStatusType || this.currentUserStatusType === 'all') {
+        return this.tableDataFromBackend;
+      }
+      return this.tableDataFromBackend.filter(({userStatus}) => userStatus === this.currentUserStatusType);
     },
 
 
@@ -285,7 +296,7 @@ new Vue({
      * 新增用户
      */
     async doCreateItem() {
-      const { id, userId, ...actionData } = this.computedEditItem;
+      const { id, userId, ...actionData } = this.editItem;
       await window.vtoast.loading("新增用户");
       await window.jianghuAxios({
         data: {
@@ -325,7 +336,7 @@ new Vue({
      * 保存用户
      */
     async doUpdateItem() {
-      const { id, userId, clearTextPassword, ...actionData } = this.computedEditItem;
+      const { id, userId, clearTextPassword, ...actionData } = this.editItem;
       await window.vtoast.loading("修改用户");
       await window.jianghuAxios({
         data: {
@@ -405,7 +416,7 @@ new Vue({
 
     async doResetUserPassword() {
       this.isEditDrawerPermanent = false;
-      const { userId, clearTextPassword } = this.computedEditItem;
+      const { userId, clearTextPassword } = this.editItem;
       await window.vtoast.loading("修改密码");
       await window.jianghuAxios({
         data: {
