@@ -348,63 +348,63 @@ new Vue({
     this.doUiAction('initOptions');
   },
   methods: {
-    async doUiAction(actionId, actionData) {
+    async doUiAction(actionId, uiActionData) {
       switch (actionId) {
         case 'refreshTableData':
-          await this.refreshTableData(actionData);
+          await this.refreshTableData(uiActionData);
           break;
         case 'startCreateItem':
-          await this.clearItemData(actionData);
-          await this.openCreateItemDialog(actionData);
+          await this.clearItemData(uiActionData);
+          await this.openCreateItemDialog(uiActionData);
           break;
         case 'createItem':
-          await this.prepareValidate(actionData);
-          await this.confirmCreateItemDialog(actionData);
-          await this.doCreateItem(actionData);
-          await this.refreshTableData(actionData);
-          await this.closeDrawerShow(actionData);
+          await this.prepareValidate(uiActionData);
+          await this.confirmCreateItemDialog(uiActionData);
+          await this.doCreateItem(uiActionData);
+          await this.refreshTableData(uiActionData);
+          await this.closeDrawerShow(uiActionData);
           break;
         case 'startUpdateItem':
-          await this.prepareItemData(actionData);
-          await this.openUpdateItemDialog(actionData);
+          await this.prepareItemData(uiActionData);
+          await this.openUpdateItemDialog(uiActionData);
           break;
         case 'updateItem':
-          await this.prepareValidate(actionData);
-          await this.confirmUpdateItemDialog(actionData);
-          await this.doUpdateItem(actionData);
-          await this.refreshTableData(actionData);
-          await this.closeDrawerShow(actionData);
+          await this.prepareValidate(uiActionData);
+          await this.confirmUpdateItemDialog(uiActionData);
+          await this.doUpdateItem(uiActionData);
+          await this.refreshTableData(uiActionData);
+          await this.closeDrawerShow(uiActionData);
           break;
         case 'deleteItem':
-          await this.confirmDeleteItemDialog(actionData);
-          await this.prepareItemData(actionData);
-          await this.doDeleteItem(actionData);
-          await this.refreshTableData(actionData);
+          await this.confirmDeleteItemDialog(uiActionData);
+          await this.prepareItemData(uiActionData);
+          await this.doDeleteItem(uiActionData);
+          await this.refreshTableData(uiActionData);
           break;
         case 'startCreateLeftItem':
-          await this.clearItemData(actionData);
-          await this.openFormDialog(actionData);
+          await this.clearItemData(uiActionData);
+          await this.openFormDialog(uiActionData);
           break;
         case 'createLeftItem':
-          await this.prepareLeftValidate(actionData);
-          await this.addNewItem(actionData);
-          await this.reGetLeftData(actionData);
-          await this.closeFormDialog(actionData);
+          await this.prepareLeftValidate(uiActionData);
+          await this.addNewItem(uiActionData);
+          await this.reGetLeftData(uiActionData);
+          await this.closeFormDialog(uiActionData);
           break;
         case 'updateLeftItem':
-          await this.prepareRightValidate(actionData);
-          await this.updateLeftItem(actionData);
-          await this.reGetLeftData(actionData);
+          await this.prepareRightValidate(uiActionData);
+          await this.updateLeftItem(uiActionData);
+          await this.reGetLeftData(uiActionData);
           break;
         case 'deleteLeftItem':
-          await this.confirmDelLeftItemDialog(actionData);
-          await this.deleteLeftItem(actionData);
-          await this.reGetLeftData(actionData);
+          await this.confirmDelLeftItemDialog(uiActionData);
+          await this.deleteLeftItem(uiActionData);
+          await this.reGetLeftData(uiActionData);
           break;
         case 'initOptions':
-          await this.selectUser(actionData);
-          await this.refreshTableData(actionData);
-          await this.initOptions(actionData);
+          await this.selectUser(uiActionData);
+          await this.refreshTableData(uiActionData);
+          await this.initOptions(uiActionData);
           break;
         default:
           console.error("[doUiAction] actionId not find", { actionId });

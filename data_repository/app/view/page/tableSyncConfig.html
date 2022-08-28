@@ -145,54 +145,54 @@
       this.doUiAction('getAllApp');
     },
     methods: {
-      async doUiAction(uiActionId, actionData) {
+      async doUiAction(uiActionId, uiActionData) {
         switch (uiActionId) {
           case 'refreshTableData':
-            await this.refreshTableData(actionData);
+            await this.refreshTableData(uiActionData);
             break;
           case 'startCreateItem':
-            await this.clearItemData(actionData);
-            await this.openCreateItemDialog(actionData);
+            await this.clearItemData(uiActionData);
+            await this.openCreateItemDialog(uiActionData);
             break;
           case 'createItem':
-            await this.prepareValidate(actionData);
-            await this.confirmCreateItemDialog(actionData);
-            await this.doCreateItem(actionData);
-            await this.refreshTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.prepareValidate(uiActionData);
+            await this.confirmCreateItemDialog(uiActionData);
+            await this.doCreateItem(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.closeDrawerShow(uiActionData);
             break;
           case 'startUpdateItem':
-            await this.prepareItemData(actionData);
-            await this.openUpdateDialog(actionData);
+            await this.prepareItemData(uiActionData);
+            await this.openUpdateDialog(uiActionData);
             break;
           case 'updateItem':
-            await this.prepareValidate(actionData);
-            await this.confirmUpdateItemDialog(actionData);
-            await this.doUpdateItem(actionData);
-            await this.refreshTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.prepareValidate(uiActionData);
+            await this.confirmUpdateItemDialog(uiActionData);
+            await this.doUpdateItem(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.closeDrawerShow(uiActionData);
             break;
           case 'deleteItem':
-            await this.confirmDeleteItemDialog(actionData);
-            await this.prepareItemData(actionData);
-            await this.doDeleteItem(actionData);
-            await this.refreshTableData(actionData);
+            await this.confirmDeleteItemDialog(uiActionData);
+            await this.prepareItemData(uiActionData);
+            await this.doDeleteItem(uiActionData);
+            await this.refreshTableData(uiActionData);
             break;
           case 'manualSyncOneTable':
-            await this.confirmSyncOneTableDialog(actionData);
-            await this.doManualSyncOneTable(actionData);
-            await this.refreshTableData(actionData);
+            await this.confirmSyncOneTableDialog(uiActionData);
+            await this.doManualSyncOneTable(uiActionData);
+            await this.refreshTableData(uiActionData);
             break;
           case 'manualSyncAll':
-            await this.confirmManualSyncAllDialog(actionData);
-            await this.doManualSyncAll(actionData);
-            await this.refreshTableData(actionData);
+            await this.confirmManualSyncAllDialog(uiActionData);
+            await this.doManualSyncAll(uiActionData);
+            await this.refreshTableData(uiActionData);
             break;
           case 'resetSourceTable':
-            await this.doResetSourceTable(actionData);
+            await this.doResetSourceTable(uiActionData);
             break;
           case 'getAllApp':
-            await this.doGetAllApp(actionData);
+            await this.doGetAllApp(uiActionData);
             break;
           default:
             console.error("[doUiAction] uiActionId not find", { uiActionId });

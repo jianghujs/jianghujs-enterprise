@@ -92,10 +92,10 @@
       this.doUiAction('refreshTableData');
     },
     methods: {
-      async doUiAction(uiActionId, actionData) {
+      async doUiAction(uiActionId, uiActionData) {
         switch (uiActionId) {
           case 'refreshTableData':
-            await this.refreshTableData(actionData);
+            await this.refreshTableData(uiActionData);
             break;
           default:
             console.error("[doUiAction] uiActionId not find", { uiActionId });

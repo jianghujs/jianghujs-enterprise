@@ -225,45 +225,45 @@ new Vue({
     this.doUiAction('refreshTableData');
   },
   methods: {
-    async doUiAction(uiActionId, actionData) {
+    async doUiAction(uiActionId, uiActionData) {
       switch (uiActionId) {
         case 'refreshTableData':
-          await this.refreshTableData(actionData);
-          await this.computedTableData(actionData);
+          await this.refreshTableData(uiActionData);
+          await this.computedTableData(uiActionData);
           break;
         case 'startCreateItem':
-          await this.clearItemData(actionData);
-          await this.openCreateItemDialog(actionData);
+          await this.clearItemData(uiActionData);
+          await this.openCreateItemDialog(uiActionData);
           break;
         case 'createItem':
-          await this.prepareValidate(actionData);
-          await this.confirmCreateItemDialog(actionData);
-          await this.doCreateItem(actionData);
-          await this.refreshTableData(actionData);
-          await this.computedTableData(actionData);
-          await this.closeDrawerShow(actionData);
+          await this.prepareValidate(uiActionData);
+          await this.confirmCreateItemDialog(uiActionData);
+          await this.doCreateItem(uiActionData);
+          await this.refreshTableData(uiActionData);
+          await this.computedTableData(uiActionData);
+          await this.closeDrawerShow(uiActionData);
           break;
         case 'startUpdateItem':
-          await this.prepareItemData(actionData);
-          await this.openUpdateItemDialog(actionData);
+          await this.prepareItemData(uiActionData);
+          await this.openUpdateItemDialog(uiActionData);
           break;
         case 'updateItem':
-          await this.prepareValidate(actionData);
-          await this.confirmUpdateItemDialog(actionData);
-          await this.doUpdateItem(actionData);
-          await this.refreshTableData(actionData);
-          await this.computedTableData(actionData);
-          await this.closeDrawerShow(actionData);
+          await this.prepareValidate(uiActionData);
+          await this.confirmUpdateItemDialog(uiActionData);
+          await this.doUpdateItem(uiActionData);
+          await this.refreshTableData(uiActionData);
+          await this.computedTableData(uiActionData);
+          await this.closeDrawerShow(uiActionData);
           break;
         case 'deleteItem':
-          await this.confirmDeleteItemDialog(actionData);
-          await this.prepareItemData(actionData);
-          await this.doDeleteItem(actionData);
-          await this.refreshTableData(actionData);
-          await this.computedTableData(actionData);
+          await this.confirmDeleteItemDialog(uiActionData);
+          await this.prepareItemData(uiActionData);
+          await this.doDeleteItem(uiActionData);
+          await this.refreshTableData(uiActionData);
+          await this.computedTableData(uiActionData);
           break;
         case 'computedTableData':
-          await this.computedTableData(actionData);
+          await this.computedTableData(uiActionData);
           break;
         default:
           console.error("[doUiAction] uiActionId not find", {uiActionId});
