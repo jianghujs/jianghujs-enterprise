@@ -161,33 +161,33 @@ new Vue({
     await this.doAction('getDrawerTableData');
   },
   methods: {
-    async doAction(uiActionId, actionData) {
+    async doAction(uiActionId, uiActionData) {
 				switch (uiActionId) {
 				case 'refreshTableData':
-					await this.refreshTableData(actionData);
-					await this.buildDrawerTableData(actionData);
+					await this.refreshTableData(uiActionData);
+					await this.buildDrawerTableData(uiActionData);
 					break;
 				case 'getDrawerTableData':
-					await this.getDrawerTableData(actionData);
-          await this.buildDrawerTableData(actionData);
+					await this.getDrawerTableData(uiActionData);
+          await this.buildDrawerTableData(uiActionData);
 					break;
 				case 'allotUser':
-					await this.confirmAllotUserDialog(actionData);
-					await this.doAllotUser(actionData);
-					await this.refreshTableData(actionData);
-					await this.buildDrawerTableData(actionData);
+					await this.confirmAllotUserDialog(uiActionData);
+					await this.doAllotUser(uiActionData);
+					await this.refreshTableData(uiActionData);
+					await this.buildDrawerTableData(uiActionData);
 					break;
 				case 'buildRelation':
-					await this.confirmAllotUserDialog(actionData);
-					await this.doBuildRelation(actionData);
-					await this.refreshTableData(actionData);
-					await this.buildDrawerTableData(actionData);
+					await this.confirmAllotUserDialog(uiActionData);
+					await this.doBuildRelation(uiActionData);
+					await this.refreshTableData(uiActionData);
+					await this.buildDrawerTableData(uiActionData);
 					break;
 				case 'deleteRelation':
-					await this.confirmDeleteUserDialog(actionData);
-					await this.doDeleteRelation(actionData);
-					await this.refreshTableData(actionData);
-					await this.buildDrawerTableData(actionData);
+					await this.confirmDeleteUserDialog(uiActionData);
+					await this.doDeleteRelation(uiActionData);
+					await this.refreshTableData(uiActionData);
+					await this.buildDrawerTableData(uiActionData);
 					break;
 				default:
 					console.error("[doAction] uiActionId not find", { uiActionId });

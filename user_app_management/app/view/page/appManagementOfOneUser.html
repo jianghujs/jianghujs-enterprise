@@ -147,33 +147,33 @@ new Vue({
     await this.doUiAction('getDrawerTableData');
   },
   methods: {
-    async doUiAction(uiActionId, actionData) {
+    async doUiAction(uiActionId, UiActionData) {
       switch (uiActionId) {
         case 'refreshTableData':
-          await this.refreshTableData(actionData);
-          await this.buildDrawerTableData(actionData);
+          await this.refreshTableData(UiActionData);
+          await this.buildDrawerTableData(UiActionData);
           break;
         case 'getDrawerTableData':
-          await this.getDrawerTableData(actionData);
-          await this.buildDrawerTableData(actionData);
+          await this.getDrawerTableData(UiActionData);
+          await this.buildDrawerTableData(UiActionData);
           break;
         case 'allotApp':
-          await this.confirmAllotAppDialog(actionData);
-          await this.doAllotApp(actionData);
-          await this.refreshTableData(actionData);
-          await this.buildDrawerTableData(actionData);
+          await this.confirmAllotAppDialog(UiActionData);
+          await this.doAllotApp(UiActionData);
+          await this.refreshTableData(UiActionData);
+          await this.buildDrawerTableData(UiActionData);
           break;
         case 'buildRelation':
-          await this.confirmAllotAppDialog(actionData);
-          await this.doBuildRelation(actionData);
-          await this.refreshTableData(actionData);
-          await this.buildDrawerTableData(actionData);
+          await this.confirmAllotAppDialog(UiActionData);
+          await this.doBuildRelation(UiActionData);
+          await this.refreshTableData(UiActionData);
+          await this.buildDrawerTableData(UiActionData);
           break;
         case 'deleteRelation':
-          await this.confirmDeleteAppDialog(actionData);
-          await this.doDeleteRelation(actionData);
-          await this.refreshTableData(actionData);
-          await this.buildDrawerTableData(actionData);
+          await this.confirmDeleteAppDialog(UiActionData);
+          await this.doDeleteRelation(UiActionData);
+          await this.refreshTableData(UiActionData);
+          await this.buildDrawerTableData(UiActionData);
           break;
         default:
           console.error("[doUiAction] uiActionId not find", {uiActionId});

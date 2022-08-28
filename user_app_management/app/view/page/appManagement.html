@@ -120,35 +120,35 @@ new Vue({
     this.doAction('refreshTableData');
   },
   methods: {
-    async doAction(uiActionId, actionData) {
+    async doAction(uiActionId, UiActionData) {
         switch (uiActionId) {
           case 'refreshTableData':
-            await this.refreshTableData(actionData);
+            await this.refreshTableData(UiActionData);
             break;
           case 'startCreateItem':
-            await this.clearItemData(actionData);
-            await this.openCreateItemDialog(actionData);
+            await this.clearItemData(UiActionData);
+            await this.openCreateItemDialog(UiActionData);
             break;
           case 'createItem':
-            await this.prepareValidate(actionData);
-            await this.confirmCreateItemDialog(actionData);
-            await this.doCreateItem(actionData);
-            await this.refreshTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.prepareValidate(UiActionData);
+            await this.confirmCreateItemDialog(UiActionData);
+            await this.doCreateItem(UiActionData);
+            await this.refreshTableData(UiActionData);
+            await this.closeDrawerShow(UiActionData);
             break;
           case 'startUpdateItem':
-            await this.prepareItemData(actionData);
-            await this.openUpdateDialog(actionData);
+            await this.prepareItemData(UiActionData);
+            await this.openUpdateDialog(UiActionData);
             break;
           case 'updateItem':
-            await this.prepareValidate(actionData);
-            await this.confirmUpdateItemDialog(actionData);
-            await this.doUpdateItem(actionData);
-            await this.refreshTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.prepareValidate(UiActionData);
+            await this.confirmUpdateItemDialog(UiActionData);
+            await this.doUpdateItem(UiActionData);
+            await this.refreshTableData(UiActionData);
+            await this.closeDrawerShow(UiActionData);
             break;
           case 'jump':
-            await this.jump(actionData);
+            await this.jump(UiActionData);
             break;
           default:
             console.error("[doAction] uiActionId not find", { uiActionId });

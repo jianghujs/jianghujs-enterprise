@@ -173,66 +173,66 @@ new Vue({
     this.doAction('refreshTableData');
   },
   methods: {
-    async doAction(uiActionId, actionData) {
+    async doAction(uiActionId, uiActionData) {
         switch (uiActionId) {
           case 'refreshTableData':
-            await this.refreshTableData(actionData);
-            await this.computedTableData(actionData);
+            await this.refreshTableData(uiActionData);
+            await this.computedTableData(uiActionData);
             break;
           case 'startCreateItem':
-            await this.clearItemData(actionData);
-            await this.openCreateItemDialog(actionData);
+            await this.clearItemData(uiActionData);
+            await this.openCreateItemDialog(uiActionData);
             break;
           case 'createItem':
-            await this.prepareValidate(actionData);
-            await this.confirmCreateItemDialog(actionData);
-            await this.doCreateItem(actionData);
-            await this.refreshTableData(actionData);
-            await this.computedTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.prepareValidate(uiActionData);
+            await this.confirmCreateItemDialog(uiActionData);
+            await this.doCreateItem(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.computedTableData(uiActionData);
+            await this.closeDrawerShow(uiActionData);
             break;
           case 'startUpdateItem':
-            await this.prepareItemData(actionData);
-            await this.openUpdateItemDialog(actionData);
+            await this.prepareItemData(uiActionData);
+            await this.openUpdateItemDialog(uiActionData);
             break;
           case 'updateItem':
-            await this.prepareValidate(actionData);
-            await this.confirmUpdateItemDialog(actionData);
-            await this.doUpdateItem(actionData);
-            await this.refreshTableData(actionData);
-            await this.computedTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.prepareValidate(uiActionData);
+            await this.confirmUpdateItemDialog(uiActionData);
+            await this.doUpdateItem(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.computedTableData(uiActionData);
+            await this.closeDrawerShow(uiActionData);
             break;
           case 'activeUserStatus':
-            await this.confirmActiveUserStatusDialog(actionData);
-            await this.prepareItemData(actionData);
-            await this.doActiveUserStatus(actionData);
-            await this.refreshTableData(actionData);
-            await this.computedTableData(actionData);
+            await this.confirmActiveUserStatusDialog(uiActionData);
+            await this.prepareItemData(uiActionData);
+            await this.doActiveUserStatus(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.computedTableData(uiActionData);
             break;
           case 'startResetPassword':
-            await this.prepareItemData(actionData);
-            await this.openResetUserPasswordDialog(actionData);
+            await this.prepareItemData(uiActionData);
+            await this.openResetUserPasswordDialog(uiActionData);
             break;
           case 'resetUserPassword':
-            await this.confirmResetUserPasswordDialog(actionData);
-            await this.doResetUserPassword(actionData);
-            await this.refreshTableData(actionData);
-            await this.computedTableData(actionData);
-            await this.closeDrawerShow(actionData);
+            await this.confirmResetUserPasswordDialog(uiActionData);
+            await this.doResetUserPassword(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.computedTableData(uiActionData);
+            await this.closeDrawerShow(uiActionData);
             break;
           case 'bannedUserStatus':
-            await this.confirmBannedUserStatusDialog(actionData);
-            await this.prepareItemData(actionData);
-            await this.doBannedUserStatus(actionData);
-            await this.refreshTableData(actionData);
-            await this.computedTableData(actionData);
+            await this.confirmBannedUserStatusDialog(uiActionData);
+            await this.prepareItemData(uiActionData);
+            await this.doBannedUserStatus(uiActionData);
+            await this.refreshTableData(uiActionData);
+            await this.computedTableData(uiActionData);
             break;
           case 'jump':
-            await this.jump(actionData);
+            await this.jump(uiActionData);
             break;
           case 'computedTableData':
-            await this.computedTableData(actionData);
+            await this.computedTableData(uiActionData);
             break;
           default:
             console.error("[doAction] uiActionId not find", { uiActionId });
