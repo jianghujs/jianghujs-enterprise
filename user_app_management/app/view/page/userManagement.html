@@ -10,7 +10,7 @@
 
     <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0">
       <v-btn color="success" dark class="elevation-0 mr-2" @click="doAction('startCreateItem', null)">新增</v-btn>
-      <span class="body-2">共{{ tableData.length }}条记录</span>
+      <span class="body-2">共{{ tableDataFromBackend.length }}条记录</span>
     </v-col>
 
     <v-spacer></v-spacer>
@@ -27,7 +27,7 @@
 
   </v-row>
   <v-data-table :headers="headers"
-                :items="tableData"
+                :items="tableDataFromBackend"
                 :search="searchInput"
                 :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
                 :items-per-page="-1"
@@ -140,7 +140,6 @@ new Vue({
     isEditDrawerPermanent: false,
     searchInput: null,
     isTableLoading: true,
-    tableData: [],
     tableDataFromBackend: [],
     headers: [
       {text: "用户ID[登陆]", value: "userId", align: "start", sortable: true, width: 120, class: 'fixed', cellClass: 'fixed'},
