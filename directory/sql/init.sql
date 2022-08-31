@@ -1,482 +1,509 @@
-/*
- Navicat Premium Data Transfer
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _cache
+# ------------------------------------------------------------
 
- Source Server         : jianghu
- Source Server Type    : MySQL
- Source Server Version : 50737
- Source Host           : 127.0.0.1:40002
- Source Schema         : jianghujs_enterprise_directory
-
- Target Server Type    : MySQL
- Target Server Version : 50737
- File Encoding         : 65001
-
- Date: 27/08/2022 21:41:20
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for _cache
--- ----------------------------
 DROP TABLE IF EXISTS `_cache`;
 CREATE TABLE `_cache` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '用户Id',
-  `content` longtext COLLATE utf8mb4_bin COMMENT '缓存数据',
-  `recordStatus` varchar(255) COLLATE utf8mb4_bin DEFAULT 'active',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `userId` varchar(255) NOT NULL COMMENT '用户Id',
+  `content` longtext COMMENT '缓存数据',
+  `recordStatus` varchar(255) DEFAULT 'active',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='缓存表';
+) ENGINE = InnoDB COMMENT = '缓存表';
 
--- ----------------------------
--- Records of _cache
--- ----------------------------
-BEGIN;
-COMMIT;
 
--- ----------------------------
--- Table structure for _file
--- ----------------------------
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _file
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_file`;
 CREATE TABLE `_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fileId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'fileId',
-  `fileDirectory` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件保存路径;',
-  `filename` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件名;',
-  `filenameStorage` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件保存名',
-  `downloadPath` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件下载路径',
-  `fileType` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件类型;(预留字段)',
-  `fileDesc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件描述',
-  `binarySize` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件二进制大小',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `fileId` varchar(255) DEFAULT NULL COMMENT 'fileId',
+  `fileDirectory` varchar(255) DEFAULT NULL COMMENT '文件保存路径;',
+  `filename` varchar(255) DEFAULT NULL COMMENT '文件名;',
+  `filenameStorage` varchar(255) DEFAULT NULL COMMENT '文件保存名',
+  `downloadPath` varchar(255) DEFAULT NULL COMMENT '文件下载路径',
+  `fileType` varchar(255) DEFAULT NULL COMMENT '文件类型;(预留字段)',
+  `fileDesc` varchar(255) DEFAULT NULL COMMENT '文件描述',
+  `binarySize` varchar(255) DEFAULT NULL COMMENT '文件二进制大小',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fileId_index` (`fileId`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='文件表; 软删除未启用;';
+) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
 
--- ----------------------------
--- Records of _file
--- ----------------------------
-BEGIN;
-COMMIT;
 
--- ----------------------------
--- Table structure for _group
--- ----------------------------
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _group
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_group`;
 CREATE TABLE `_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `groupId` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT 'groupId',
-  `groupName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '群组名',
-  `groupDesc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '群组描述',
-  `groupAvatar` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '群logo',
-  `groupExtend` varchar(1024) COLLATE utf8mb4_bin DEFAULT '{}' COMMENT '拓展字段; { groupNotice: ''xx'' }',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `groupId` varchar(255) NOT NULL COMMENT 'groupId',
+  `groupName` varchar(255) DEFAULT NULL COMMENT '群组名',
+  `groupDesc` varchar(255) DEFAULT NULL COMMENT '群组描述',
+  `groupAvatar` varchar(255) DEFAULT NULL COMMENT '群logo',
+  `groupExtend` varchar(1024) DEFAULT '{}' COMMENT '拓展字段; { groupNotice: ''xx'' }',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `groupId_index` (`groupId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='群组表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 2 COMMENT = '群组表; 软删除未启用;';
 
--- ----------------------------
--- Records of _group
--- ----------------------------
-BEGIN;
-INSERT INTO `_group` (`id`, `groupId`, `groupName`, `groupDesc`, `groupAvatar`, `groupExtend`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (1, 'authorization', '权限组', NULL, NULL, '{}', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _page
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _group
+# ------------------------------------------------------------
+
+INSERT INTO `_group` (`id`,`groupId`,`groupName`,`groupDesc`,`groupAvatar`,`groupExtend`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'authorization','权限组',NULL,NULL,'{}','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _page
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_page`;
 CREATE TABLE `_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pageId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'pageId',
-  `pageName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'page name',
-  `pageFile` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'page文件指定; 默认使用pageId.html',
-  `pageType` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '页面类型; showInMenu, dynamicInMenu',
-  `sort` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'pageId',
+  `pageName` varchar(255) DEFAULT NULL COMMENT 'page name',
+  `pageFile` varchar(255) DEFAULT NULL COMMENT 'page文件指定; 默认使用pageId.html',
+  `pageType` varchar(255) DEFAULT NULL COMMENT '页面类型; showInMenu, dynamicInMenu',
+  `sort` varchar(255) DEFAULT NULL,
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='页面表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 9 COMMENT = '页面表; 软删除未启用;';
 
--- ----------------------------
--- Records of _page
--- ----------------------------
-BEGIN;
-INSERT INTO `_page` (`id`, `pageId`, `pageName`, `pageFile`, `pageType`, `sort`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (2, 'help', '帮助', NULL, NULL, NULL, 'insert', NULL, NULL, NULL);
-INSERT INTO `_page` (`id`, `pageId`, `pageName`, `pageFile`, `pageType`, `sort`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (3, 'login', '登陆', NULL, NULL, NULL, 'insert', NULL, NULL, NULL);
-INSERT INTO `_page` (`id`, `pageId`, `pageName`, `pageFile`, `pageType`, `sort`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (6, 'manual', '操作手册', NULL, NULL, NULL, 'insert', NULL, NULL, NULL);
-INSERT INTO `_page` (`id`, `pageId`, `pageName`, `pageFile`, `pageType`, `sort`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (8, 'directory', '目录', NULL, 'showInMenu', '1', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _record_history
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _page
+# ------------------------------------------------------------
+
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'help','帮助',NULL,NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'login','登陆',NULL,NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (6,'manual','操作手册',NULL,NULL,NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (8,'directory','目录',NULL,'showInMenu','1','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _record_history
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_record_history`;
 CREATE TABLE `_record_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `table` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '表',
+  `table` varchar(255) DEFAULT NULL COMMENT '表',
   `recordId` int(11) DEFAULT NULL COMMENT '数据在table中的主键id; recordContent.id',
   `recordContent` json NOT NULL COMMENT '数据JSON',
   `packageContent` json NOT NULL COMMENT '当时请求的 package JSON',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; recordContent.operationAt; E.g: 2021-05-28T10:24:54+08:00 ',
+  `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; recordContent.operationAt; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_record_id` (`recordId`) USING BTREE,
-  KEY `index_table_action` (`table`,`operation`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据历史表';
+  KEY `index_table_action` (`table`, `operation`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 COMMENT = '数据历史表';
 
--- ----------------------------
--- Records of _record_history
--- ----------------------------
-BEGIN;
-INSERT INTO `_record_history` (`id`, `table`, `recordId`, `recordContent`, `packageContent`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (5, '_user_session', 11, '{\"id\": 11, \"userId\": \"admin\", \"userIp\": \"127.0.0.1\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_b42b5784_chrome\", \"authToken\": \"eOI3440xGE4GYmUBraqC5hAOqf-N3fqbyPNf\", \"operation\": \"jhInsert\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\", \"deviceType\": \"web\", \"operationAt\": \"2022-04-28T23:10:35+08:00\", \"socketStatus\": \"offline\", \"userIpRegion\": \"\", \"operationByUser\": null, \"operationByUserId\": null}', '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\", \"actionData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_b42b5784_chrome\", \"password\": \"123456\"}}, \"packageId\": \"1651158634229_3004509\", \"packageType\": \"httpRequest\"}', 'jhInsert', NULL, NULL, '2022-04-28T23:10:35+08:00');
-INSERT INTO `_record_history` (`id`, `table`, `recordId`, `recordContent`, `packageContent`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (6, '_user_session', 12, '{\"id\": 12, \"userId\": \"admin\", \"userIp\": \"127.0.0.1\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"authToken\": \"AxBpieI19kWFfd80xrRowVccqK-tt7WzLjdD\", \"operation\": \"jhInsert\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\", \"deviceType\": \"web\", \"operationAt\": \"2022-08-07T15:15:39+08:00\", \"socketStatus\": \"offline\", \"userIpRegion\": \"\", \"operationByUser\": null, \"operationByUserId\": null}', '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\", \"actionData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"password\": \"123456\"}}, \"packageId\": \"1659856538525_3047161\", \"packageType\": \"httpRequest\"}', 'jhInsert', NULL, NULL, '2022-08-07T15:15:39+08:00');
-INSERT INTO `_record_history` (`id`, `table`, `recordId`, `recordContent`, `packageContent`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (7, '_user_session', 13, '{\"id\": 13, \"userId\": \"admin\", \"userIp\": \"127.0.0.1\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"authToken\": \"PX-6UWilxyWmmywHreoO6Um6fZ8YlzgaKVU9\", \"operation\": \"jhInsert\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"deviceType\": \"web\", \"operationAt\": \"2022-08-25T23:40:04+08:00\", \"socketStatus\": \"offline\", \"userIpRegion\": \"\", \"operationByUser\": null, \"operationByUserId\": null}', '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"password\": \"123456\"}}, \"packageId\": \"1661442002654_3978419\", \"packageType\": \"httpRequest\"}', 'jhInsert', NULL, NULL, '2022-08-25T23:40:04+08:00');
-COMMIT;
 
--- ----------------------------
--- Table structure for _resource
--- ----------------------------
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _resource
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_resource`;
 CREATE TABLE `_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `accessControlTable` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据规则控制表',
-  `resourceHook` text COLLATE utf8mb4_bin COMMENT '[ "before": {"service": "xx", "serviceFunction": "xxx"}, "after": [] }',
-  `pageId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'page id; E.g: index',
-  `actionId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
-  `desc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `resourceType` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'resource 类型; E.g: auth service sql',
-  `appDataSchema` text COLLATE utf8mb4_bin COMMENT 'appData 参数校验',
-  `resourceData` text COLLATE utf8mb4_bin COMMENT 'resource 数据; { "service": "auth", "serviceFunction": "passwordLogin" } or  { "table": "${tableName}", "action": "select", "whereCondition": ".where(function() {this.whereNot( { recordStatus: \\"active\\" })})" }',
-  `requestDemo` text COLLATE utf8mb4_bin COMMENT '请求Demo',
-  `responseDemo` text COLLATE utf8mb4_bin COMMENT '响应Demo',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `accessControlTable` varchar(255) DEFAULT NULL COMMENT '数据规则控制表',
+  `resourceHook` text COMMENT '[ "before": {"service": "xx", "serviceFunction": "xxx"}, "after": [] }',
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `actionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `resourceType` varchar(255) DEFAULT NULL COMMENT 'resource 类型; E.g: auth service sql',
+  `appDataSchema` text COMMENT 'appData 参数校验',
+  `resourceData` text COMMENT 'resource 数据; { "service": "auth", "serviceFunction": "passwordLogin" } or  { "table": "${tableName}", "action": "select", "whereCondition": ".where(function() {this.whereNot( { recordStatus: \\"active\\" })})" }',
+  `requestDemo` text COMMENT '请求Demo',
+  `responseDemo` text COMMENT '响应Demo',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=264 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='请求资源表; 软删除未启用; resourceId=`${appId}.${pageId}.${actionId}`';
+) ENGINE = InnoDB AUTO_INCREMENT = 264 COMMENT = '请求资源表; 软删除未启用; resourceId=`${appId}.${pageId}.${actionId}`';
 
--- ----------------------------
--- Records of _resource
--- ----------------------------
-BEGIN;
-INSERT INTO `_resource` (`id`, `accessControlTable`, `resourceHook`, `pageId`, `actionId`, `desc`, `resourceType`, `appDataSchema`, `resourceData`, `requestDemo`, `responseDemo`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (231, NULL, NULL, 'login', 'passwordLogin', '✅登陆', 'service', NULL, '{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }', '{\"appData\":{\"pageId\":\"login\",\"actionId\":\"passwordLogin\",\"actionData\":{\"userId\":\"admin\",\"password\":\"123456\",\"deviceId\":\"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\"},\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\"},\"packageId\":\"1661442002654_3978419\",\"packageType\":\"httpRequest\"}', '{\"packageId\":\"1661442002654_3978419\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-08-25T23:40:05+08:00\",\"appData\":{\"authToken\":\"PX-6UWilxyWmmywHreoO6Um6fZ8YlzgaKVU9\",\"deviceId\":\"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\",\"userId\":\"admin\",\"resultData\":{\"authToken\":\"PX-6UWilxyWmmywHreoO6Um6fZ8YlzgaKVU9\",\"deviceId\":\"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\",\"userId\":\"admin\"},\"appId\":\"directory\",\"pageId\":\"login\",\"actionId\":\"passwordLogin\"}}', 'update', NULL, NULL, '2022-08-25T23:40:05+08:00');
-INSERT INTO `_resource` (`id`, `accessControlTable`, `resourceHook`, `pageId`, `actionId`, `desc`, `resourceType`, `appDataSchema`, `resourceData`, `requestDemo`, `responseDemo`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (251, NULL, NULL, 'allPage', 'logout', '✅登出', 'service', NULL, '{ \"service\": \"user\", \"serviceFunction\": \"logout\" }', NULL, NULL, 'update', NULL, NULL, '2022-02-23T23:08:31+08:00');
-INSERT INTO `_resource` (`id`, `accessControlTable`, `resourceHook`, `pageId`, `actionId`, `desc`, `resourceType`, `appDataSchema`, `resourceData`, `requestDemo`, `responseDemo`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (253, NULL, NULL, 'allPage', 'userInfo', '✅获取用户信息', 'service', NULL, '{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }', '{\"appData\":{\"pageId\":\"allPage\",\"actionId\":\"userInfo\",\"actionData\":{},\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\"},\"packageId\":\"1661443618239_7807412\",\"packageType\":\"httpRequest\"}', '{\"packageId\":\"1661443618239_7807412\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-08-26T00:07:03+08:00\"}', 'update', NULL, NULL, '2022-08-26T00:07:03+08:00');
-INSERT INTO `_resource` (`id`, `accessControlTable`, `resourceHook`, `pageId`, `actionId`, `desc`, `resourceType`, `appDataSchema`, `resourceData`, `requestDemo`, `responseDemo`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (263, NULL, NULL, 'directory', 'selectItemList', '✅查询目录', 'service', NULL, '{ \"service\": \"directory\", \"serviceFunction\": \"getDirectoryList\" }', '{\"appData\":{\"pageId\":\"directory\",\"actionId\":\"selectItemList\",\"orderBy\":[{\"column\":\"operationAt\",\"order\":\"desc\"}],\"appId\":\"directory\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\",\"actionData\":{}},\"packageId\":\"1661443618239_8855656\",\"packageType\":\"httpRequest\"}', '{\"packageId\":\"1661443618239_8855656\",\"packageType\":\"httpResponse\",\"status\":\"success\",\"timestamp\":\"2022-08-26T00:07:02+08:00\"}', 'update', NULL, NULL, '2022-08-26T00:07:03+08:00');
-COMMIT;
 
--- ----------------------------
--- Table structure for _resource_request_log
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _resource
+# ------------------------------------------------------------
+
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (231,NULL,NULL,'login','passwordLogin','✅登陆','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"passwordLogin\" }','','','update',NULL,NULL,'2022-08-25T23:40:05+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (251,NULL,NULL,'allPage','logout','✅登出','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"logout\" }','','','update',NULL,NULL,'2022-02-23T23:08:31+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (253,NULL,NULL,'allPage','userInfo','✅获取用户信息','service',NULL,'{ \"service\": \"user\", \"serviceFunction\": \"userInfo\" }','','','update',NULL,NULL,'2022-08-26T00:07:03+08:00');
+INSERT INTO `_resource` (`id`,`accessControlTable`,`resourceHook`,`pageId`,`actionId`,`desc`,`resourceType`,`appDataSchema`,`resourceData`,`requestDemo`,`responseDemo`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (263,NULL,NULL,'directory','selectItemList','✅查询目录','service',NULL,'{ \"service\": \"directory\", \"serviceFunction\": \"getDirectoryList\" }','','','update',NULL,NULL,'2022-08-26T00:07:03+08:00');
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _resource_request_log
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_resource_request_log`;
 CREATE TABLE `_resource_request_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `resourceId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'resource id;',
-  `packageId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'resource package id',
-  `userIp` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户ip;',
-  `userAgent` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '设备信息',
-  `userId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户ID',
-  `deviceId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '设备id',
-  `userIpRegion` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户Ip区域',
-  `executeSql` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '执行的sql',
+  `resourceId` varchar(255) DEFAULT NULL COMMENT 'resource id;',
+  `packageId` varchar(255) DEFAULT NULL COMMENT 'resource package id',
+  `userIp` varchar(255) DEFAULT NULL COMMENT '用户ip;',
+  `userAgent` varchar(255) DEFAULT NULL COMMENT '设备信息',
+  `userId` varchar(255) DEFAULT NULL COMMENT '用户ID',
+  `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
+  `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
+  `executeSql` varchar(255) DEFAULT NULL COMMENT '执行的sql',
   `requestBody` json DEFAULT NULL COMMENT '请求body',
   `responseBody` json DEFAULT NULL COMMENT '响应body',
-  `responseStatus` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '执行的结果;  success, fail',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `responseStatus` varchar(255) DEFAULT NULL COMMENT '执行的结果;  success, fail',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `resourceId_index` (`resourceId`) USING BTREE,
   KEY `packageId_index` (`packageId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 13 COMMENT = '文件表; 软删除未启用;';
 
--- ----------------------------
--- Records of _resource_request_log
--- ----------------------------
-BEGIN;
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (1, 'login.passwordLogin', '1659856538525_3047161', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', NULL, NULL, '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\", \"actionData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"password\": \"123456\"}}, \"packageId\": \"1659856538525_3047161\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"userId\": \"admin\", \"actionId\": \"passwordLogin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"authToken\": \"AxBpieI19kWFfd80xrRowVccqK-tt7WzLjdD\", \"resultData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"authToken\": \"AxBpieI19kWFfd80xrRowVccqK-tt7WzLjdD\"}}, \"packageId\": \"1659856538525_3047161\", \"timestamp\": \"2022-08-07T15:15:40+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-07T15:15:40+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (2, 'allPage.userInfo', '1659856542162_9932845', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1659856542162_9932845\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-07T15:15:39+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"appId\": \"directory\", \"pageId\": \"allPage\", \"userId\": \"admin\", \"actionId\": \"userInfo\", \"username\": \"系统管理员\", \"resultData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-07T15:15:39+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"userId\": \"admin\", \"username\": \"系统管理员\", \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"packageId\": \"1659856542162_9932845\", \"timestamp\": \"2022-08-07T15:15:43+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-07T15:15:43+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (3, 'directory.selectItemList', '1659856542163_2940224', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"directory\", \"orderBy\": [{\"order\": \"desc\", \"column\": \"operationAt\"}], \"actionId\": \"selectItemList\", \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1659856542163_2940224\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7001/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7001/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}], \"appId\": \"directory\", \"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resultData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7001/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7001/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}]}}, \"packageId\": \"1659856542163_2940224\", \"timestamp\": \"2022-08-07T15:15:43+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-07T15:15:43+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (4, 'login.passwordLogin', '1661442002654_3978419', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, NULL, '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"password\": \"123456\"}}, \"packageId\": \"1661442002654_3978419\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"appId\": \"directory\", \"pageId\": \"login\", \"userId\": \"admin\", \"actionId\": \"passwordLogin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"authToken\": \"PX-6UWilxyWmmywHreoO6Um6fZ8YlzgaKVU9\", \"resultData\": {\"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"authToken\": \"PX-6UWilxyWmmywHreoO6Um6fZ8YlzgaKVU9\"}}, \"packageId\": \"1661442002654_3978419\", \"timestamp\": \"2022-08-25T23:40:05+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:40:05+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (5, 'allPage.userInfo', '1661442201215_2961740', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661442201215_2961740\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"appId\": \"directory\", \"pageId\": \"allPage\", \"userId\": \"admin\", \"actionId\": \"userInfo\", \"username\": \"系统管理员\", \"resultData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"userId\": \"admin\", \"username\": \"系统管理员\", \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"packageId\": \"1661442201215_2961740\", \"timestamp\": \"2022-08-25T23:43:22+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:43:22+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (6, 'directory.selectItemList', '1661442201216_6664231', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"directory\", \"orderBy\": [{\"order\": \"desc\", \"column\": \"operationAt\"}], \"actionId\": \"selectItemList\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661442201216_6664231\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7001/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7001/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}], \"appId\": \"directory\", \"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resultData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7001/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7001/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}]}}, \"packageId\": \"1661442201216_6664231\", \"timestamp\": \"2022-08-25T23:43:22+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:43:22+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (7, 'directory.selectItemList', '1661442707461_5441277', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"directory\", \"orderBy\": [{\"order\": \"desc\", \"column\": \"operationAt\"}], \"actionId\": \"selectItemList\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661442707461_5441277\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7001/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7001/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}], \"appId\": \"directory\", \"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resultData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7001/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7001/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}]}}, \"packageId\": \"1661442707461_5441277\", \"timestamp\": \"2022-08-25T23:51:49+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:51:49+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (8, 'allPage.userInfo', '1661442707458_7600262', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661442707458_7600262\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"appId\": \"directory\", \"pageId\": \"allPage\", \"userId\": \"admin\", \"actionId\": \"userInfo\", \"username\": \"系统管理员\", \"resultData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"userId\": \"admin\", \"username\": \"系统管理员\", \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"packageId\": \"1661442707458_7600262\", \"timestamp\": \"2022-08-25T23:51:50+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:51:50+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (9, 'allPage.userInfo', '1661442766109_5092874', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661442766109_5092874\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"appId\": \"directory\", \"pageId\": \"allPage\", \"userId\": \"admin\", \"actionId\": \"userInfo\", \"username\": \"系统管理员\", \"resultData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"userId\": \"admin\", \"username\": \"系统管理员\", \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"packageId\": \"1661442766109_5092874\", \"timestamp\": \"2022-08-25T23:52:47+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:52:47+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (10, 'directory.selectItemList', '1661442766110_5280648', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"directory\", \"orderBy\": [{\"order\": \"desc\", \"column\": \"operationAt\"}], \"actionId\": \"selectItemList\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661442766110_5280648\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7006/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7006/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}], \"appId\": \"directory\", \"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resultData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7006/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7006/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7002/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}]}}, \"packageId\": \"1661442766110_5280648\", \"timestamp\": \"2022-08-25T23:52:47+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-25T23:52:47+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (11, 'directory.selectItemList', '1661443618239_8855656', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"directory\", \"orderBy\": [{\"order\": \"desc\", \"column\": \"operationAt\"}], \"actionId\": \"selectItemList\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661443618239_8855656\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7006/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7006/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7005/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}], \"appId\": \"directory\", \"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resultData\": {\"rows\": [{\"id\": 13, \"url\": \"https://www.zhihu.com/\", \"appId\": \"zhihu\", \"appName\": \"知乎\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"有问题就会有答案\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 14, \"url\": \"https://www.baidu.com\", \"appId\": \"baidu\", \"appName\": \"百度\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"百度一下, 你就知道\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 15, \"url\": \"https://www.so.com/\", \"appId\": \"360\", \"appName\": \"360\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"最安全的搜索引擎\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}, {\"id\": 16, \"url\": \"https://www.sogou.com/\", \"appId\": \"sougou\", \"appName\": \"搜狗\", \"operation\": \"insert\", \"accessType\": \"public\", \"description\": null, \"displayName\": \"上网从搜狗开始\", \"operationAt\": null, \"appGroupName\": \"搜索\", \"appGroupNumber\": \"10\", \"operationByUser\": null, \"appGroupItemSort\": \"04\", \"operationByUserId\": null}, {\"id\": 51, \"url\": \"http://127.0.0.1:7006/user_app_management/page/userManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"用户管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"01\", \"operationByUserId\": null}, {\"id\": 52, \"url\": \"http://127.0.0.1:7006/user_app_management/page/appManagement\", \"appId\": \"user_app_management\", \"appName\": \"账号权限管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"APP管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"02\", \"operationByUserId\": null}, {\"id\": 53, \"url\": \"http://127.0.0.1:7005/data_repository/page/tableSyncConfig\", \"appId\": \"data_repository\", \"appName\": \"数据中心管理\", \"operation\": \"insert\", \"accessType\": \"app\", \"description\": null, \"displayName\": \"数据同步表管理\", \"operationAt\": null, \"appGroupName\": \"系统管理\", \"appGroupNumber\": \"20\", \"operationByUser\": null, \"appGroupItemSort\": \"03\", \"operationByUserId\": null}]}}, \"packageId\": \"1661443618239_8855656\", \"timestamp\": \"2022-08-26T00:07:02+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-26T00:07:02+08:00');
-INSERT INTO `_resource_request_log` (`id`, `resourceId`, `packageId`, `userIp`, `userAgent`, `userId`, `deviceId`, `userIpRegion`, `executeSql`, `requestBody`, `responseBody`, `responseStatus`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (12, 'allPage.userInfo', '1661443618239_7807412', '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', NULL, '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', '', NULL, '{\"appData\": {\"appId\": \"directory\", \"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\", \"actionData\": {}}, \"packageId\": \"1661443618239_7807412\", \"packageType\": \"httpRequest\"}', '{\"status\": \"success\", \"appData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"appId\": \"directory\", \"pageId\": \"allPage\", \"userId\": \"admin\", \"actionId\": \"userInfo\", \"username\": \"系统管理员\", \"resultData\": {\"user\": {\"id\": 42, \"userId\": \"admin\", \"deviceId\": \"127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome\", \"userType\": \"common\", \"username\": \"系统管理员\", \"loginTime\": \"2022-08-25T23:40:04+08:00\", \"operation\": \"update\", \"deviceType\": \"web\", \"idSequence\": \"111\", \"userConfig\": null, \"userStatus\": \"active\", \"operationAt\": \"2022-02-19T15:02:24+08:00\", \"operationByUser\": null, \"operationByUserId\": null}, \"userId\": \"admin\", \"username\": \"系统管理员\", \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"socketList\": [], \"userAppList\": [{\"id\": 62, \"appId\": \"data_repository\", \"userId\": \"admin\", \"appName\": \"数据中心管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 63, \"appId\": \"directory\", \"userId\": \"admin\", \"appName\": \"APP目录\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 64, \"appId\": \"user_app_management\", \"userId\": \"admin\", \"appName\": \"账号权限管理\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"insert\", \"userStatus\": \"active\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}, {\"id\": 80, \"appId\": \"test\", \"userId\": \"admin\", \"appName\": \"uiAction test123\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T22:58:44+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}, {\"id\": 88, \"appId\": \"demo_xiaoapp\", \"userId\": \"admin\", \"appName\": \"小APPDemo项目\", \"userType\": \"common\", \"username\": \"系统管理员\", \"operation\": \"jhInsert\", \"userStatus\": \"active\", \"operationAt\": \"2022-04-28T23:26:04+08:00\", \"operationByUser\": \"系统管理员\", \"operationByUserId\": \"admin\"}], \"allowPageList\": [{\"sort\": null, \"pageId\": \"help\", \"pageFile\": null, \"pageName\": \"帮助\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"login\", \"pageFile\": null, \"pageName\": \"登陆\", \"pageType\": null}, {\"sort\": null, \"pageId\": \"manual\", \"pageFile\": null, \"pageName\": \"操作手册\", \"pageType\": null}, {\"sort\": \"1\", \"pageId\": \"directory\", \"pageFile\": null, \"pageName\": \"目录\", \"pageType\": \"showInMenu\"}], \"allowResourceList\": [{\"pageId\": \"login\", \"actionId\": \"passwordLogin\", \"resourceId\": \"login.passwordLogin\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"logout\", \"resourceId\": \"allPage.logout\", \"resourceType\": \"service\"}, {\"pageId\": \"allPage\", \"actionId\": \"userInfo\", \"resourceId\": \"allPage.userInfo\", \"resourceType\": \"service\"}, {\"pageId\": \"directory\", \"actionId\": \"selectItemList\", \"resourceId\": \"directory.selectItemList\", \"resourceType\": \"service\"}], \"userGroupRoleList\": [{\"id\": 568, \"roleId\": \"appManager\", \"userId\": \"admin\", \"groupId\": \"authorization\", \"roleName\": \"应用负责人\", \"groupName\": \"权限组\", \"operation\": \"insert\", \"groupAvatar\": null, \"groupExtend\": \"{}\", \"operationAt\": null, \"operationByUser\": null, \"operationByUserId\": null}]}, \"packageId\": \"1661443618239_7807412\", \"timestamp\": \"2022-08-26T00:07:03+08:00\", \"packageType\": \"httpResponse\"}', 'success', 'insert', NULL, NULL, '2022-08-26T00:07:03+08:00');
-COMMIT;
 
--- ----------------------------
--- Table structure for _role
--- ----------------------------
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _role
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_role`;
 CREATE TABLE `_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `roleId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'roleId',
-  `roleName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'role name',
-  `roleDesc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'role desc',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `roleId` varchar(255) DEFAULT NULL COMMENT 'roleId',
+  `roleName` varchar(255) DEFAULT NULL COMMENT 'role name',
+  `roleDesc` varchar(255) DEFAULT NULL COMMENT 'role desc',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 6 COMMENT = '角色表; 软删除未启用;';
 
--- ----------------------------
--- Records of _role
--- ----------------------------
-BEGIN;
-INSERT INTO `_role` (`id`, `roleId`, `roleName`, `roleDesc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (3, 'appManager', '应用负责人', '', 'insert', NULL, NULL, NULL);
-INSERT INTO `_role` (`id`, `roleId`, `roleName`, `roleDesc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (4, 'teacher', '老师', '', 'insert', NULL, NULL, NULL);
-INSERT INTO `_role` (`id`, `roleId`, `roleName`, `roleDesc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (5, 'student', '学生', '', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _test_case
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _role
+# ------------------------------------------------------------
+
+INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'appManager','应用负责人','','insert',NULL,NULL,NULL);
+INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (4,'teacher','老师','','insert',NULL,NULL,NULL);
+INSERT INTO `_role` (`id`,`roleId`,`roleName`,`roleDesc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (5,'student','学生','','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _test_case
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_test_case`;
 CREATE TABLE `_test_case` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pageId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '页面Id',
-  `testId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '测试用例Id; 10000 ++',
-  `testName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '测试用例名',
-  `uiActionIdList` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'uiAction列表; 一个测试用例对应多个uiActionId',
-  `testOpeartion` text COLLATE utf8mb4_bin COMMENT '测试用例步骤;',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; recordContent.operationAt; E.g: 2021-05-28T10:24:54+08:00 ',
+  `pageId` varchar(255) DEFAULT NULL COMMENT '页面Id',
+  `testId` varchar(255) DEFAULT NULL COMMENT '测试用例Id; 10000 ++',
+  `testName` varchar(255) DEFAULT NULL COMMENT '测试用例名',
+  `uiActionIdList` varchar(255) DEFAULT NULL COMMENT 'uiAction列表; 一个测试用例对应多个uiActionId',
+  `testOpeartion` text COMMENT '测试用例步骤;',
+  `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; recordContent.operationAt; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='测试用例表';
+) ENGINE = InnoDB COMMENT = '测试用例表';
 
--- ----------------------------
--- Records of _test_case
--- ----------------------------
-BEGIN;
-COMMIT;
 
--- ----------------------------
--- Table structure for _ui
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _test_case
+# ------------------------------------------------------------
+
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_ui`;
 CREATE TABLE `_ui` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pageId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'page id; E.g: index',
-  `uiActionType` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
-  `uiActionId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
-  `desc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `uiActionConfig` text COLLATE utf8mb4_bin COMMENT 'ui 动作数据',
+  `pageId` varchar(255) DEFAULT NULL COMMENT 'page id; E.g: index',
+  `uiActionType` varchar(255) DEFAULT NULL COMMENT 'ui 动作类型，如：fetchData, postData, changeUi',
+  `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
+  `desc` varchar(255) DEFAULT NULL COMMENT '描述',
+  `uiActionConfig` text COMMENT 'ui 动作数据',
   `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='ui 施工方案';
+) ENGINE = InnoDB AUTO_INCREMENT = 2 COMMENT = 'ui 施工方案';
 
--- ----------------------------
--- Records of _ui
--- ----------------------------
-BEGIN;
-INSERT INTO `_ui` (`id`, `pageId`, `uiActionType`, `uiActionId`, `desc`, `uiActionConfig`, `appDataSchema`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (1, 'directory', 'ui', 'refreshTableData', '✅获取表格数据', '{\"main\": [{\"function\": \"refreshTableData\"}]}', NULL, 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _user_group_role
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _ui
+# ------------------------------------------------------------
+
+INSERT INTO `_ui` (`id`,`pageId`,`uiActionType`,`uiActionId`,`desc`,`uiActionConfig`,`appDataSchema`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'directory','ui','refreshTableData','✅获取表格数据','{\"main\": [{\"function\": \"refreshTableData\"}]}',NULL,'insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _user_group_role
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_user_group_role`;
 CREATE TABLE `_user_group_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '用户id',
-  `groupId` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '群组Id',
-  `roleId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '角色Id',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `userId` varchar(255) NOT NULL COMMENT '用户id',
+  `groupId` varchar(255) NOT NULL COMMENT '群组Id',
+  `roleId` varchar(255) DEFAULT NULL COMMENT '角色Id',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `groupId_index` (`groupId`) USING BTREE,
   KEY `userId_index` (`userId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=582 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户群组角色关联表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 582 COMMENT = '用户群组角色关联表; 软删除未启用;';
 
--- ----------------------------
--- Records of _user_group_role
--- ----------------------------
-BEGIN;
-INSERT INTO `_user_group_role` (`id`, `userId`, `groupId`, `roleId`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (568, 'admin', 'authorization', 'appManager', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role` (`id`, `userId`, `groupId`, `roleId`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (569, 'T66661G', 'authorization', 'teacher', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role` (`id`, `userId`, `groupId`, `roleId`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (580, 'T66662G', 'authorization', 'teacher', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role` (`id`, `userId`, `groupId`, `roleId`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (581, 'T66663G', 'authorization', 'teacher', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _user_group_role_page
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _user_group_role
+# ------------------------------------------------------------
+
+INSERT INTO `_user_group_role` (`id`,`userId`,`groupId`,`roleId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (568,'admin','authorization','appManager','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role` (`id`,`userId`,`groupId`,`roleId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (569,'T66661G','authorization','teacher','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role` (`id`,`userId`,`groupId`,`roleId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (580,'T66662G','authorization','teacher','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role` (`id`,`userId`,`groupId`,`roleId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (581,'T66663G','authorization','teacher','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _user_group_role_page
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_user_group_role_page`;
 CREATE TABLE `_user_group_role_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
-  `group` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
-  `role` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
-  `page` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'pageId id',
-  `allowOrDeny` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
-  `desc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '映射描述',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `user` varchar(255) DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
+  `group` varchar(255) DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
+  `role` varchar(255) DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
+  `page` varchar(255) DEFAULT NULL COMMENT 'pageId id',
+  `allowOrDeny` varchar(255) DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
+  `desc` varchar(255) DEFAULT NULL COMMENT '映射描述',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户群组角色 - 页面 映射表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 22 COMMENT = '用户群组角色 - 页面 映射表; 软删除未启用;';
 
--- ----------------------------
--- Records of _user_group_role_page
--- ----------------------------
-BEGIN;
-INSERT INTO `_user_group_role_page` (`id`, `user`, `group`, `role`, `page`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (17, '*', 'public', '*', 'login', 'allow', '登陆页; 开放给所有用户;', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_page` (`id`, `user`, `group`, `role`, `page`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (18, '*', 'login', '*', 'manual', 'allow', '操作手册页; 开放给登陆用户;', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_page` (`id`, `user`, `group`, `role`, `page`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (19, '*', 'login', '*', 'help', 'allow', '帮助页; 开放给登陆用户;', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_page` (`id`, `user`, `group`, `role`, `page`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (20, '*', 'authorization', 'appManager', 'userGroupRole', 'allow', '权限管理页; 开放给应用管理者;', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_page` (`id`, `user`, `group`, `role`, `page`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (21, '*', 'authorization', 'appManager', '*', 'allow', '所有页面; 开放给应用管理者;', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _user_group_role_resource
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _user_group_role_page
+# ------------------------------------------------------------
+
+INSERT INTO `_user_group_role_page` (`id`,`user`,`group`,`role`,`page`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (17,'*','public','*','login','allow','登陆页; 开放给所有用户;','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_page` (`id`,`user`,`group`,`role`,`page`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (18,'*','login','*','manual','allow','操作手册页; 开放给登陆用户;','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_page` (`id`,`user`,`group`,`role`,`page`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (19,'*','login','*','help','allow','帮助页; 开放给登陆用户;','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_page` (`id`,`user`,`group`,`role`,`page`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (20,'*','authorization','appManager','userGroupRole','allow','权限管理页; 开放给应用管理者;','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_page` (`id`,`user`,`group`,`role`,`page`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (21,'*','authorization','appManager','*','allow','所有页面; 开放给应用管理者;','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _user_group_role_resource
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_user_group_role_resource`;
 CREATE TABLE `_user_group_role_resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
-  `group` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
-  `role` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
-  `resource` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'resourceId 或者 通配符; 通配符: *, !resourceId',
-  `allowOrDeny` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
-  `desc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '映射描述',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `user` varchar(255) DEFAULT NULL COMMENT 'userId 或者 通配符; 通配符: *',
+  `group` varchar(255) DEFAULT NULL COMMENT 'groupId 或者 通配符; 通配符: *',
+  `role` varchar(255) DEFAULT NULL COMMENT 'roleId 或者 通配符; 通配符: *',
+  `resource` varchar(255) DEFAULT NULL COMMENT 'resourceId 或者 通配符; 通配符: *, !resourceId',
+  `allowOrDeny` varchar(255) DEFAULT NULL COMMENT '用户群组角色 匹配后 执行动作; allow、deny',
+  `desc` varchar(255) DEFAULT NULL COMMENT '映射描述',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户群组角色 - 请求资源 映射表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 77 COMMENT = '用户群组角色 - 请求资源 映射表; 软删除未启用;';
 
--- ----------------------------
--- Records of _user_group_role_resource
--- ----------------------------
-BEGIN;
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (1, '*', 'public', '*', 'login.passwordLogin', 'allow', '登陆resource, 开放给所有用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (11, '*', 'public', '*', 'allPage.getConstantList', 'allow', '查询常量resource, 开放给所有登陆成功的用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (31, '*', 'login', '*', 'allPage.logout', 'allow', '登出resource, 开放给所有登陆成功的用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (32, '*', 'login', '*', 'allPage.refreshToken', 'allow', '刷新authToken resource, 开放给所有登陆成功的用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (33, '*', 'login', '*', 'allPage.userInfo', 'allow', '用户个人信息resource, 开放给所有登陆成功的用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (34, '*', 'login', '*', 'allPage.uploadByBase64', 'allow', '上传文件resource, 开放给所有登陆成功的用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (35, '*', 'login', '*', 'allPage.uploadByStream', 'allow', '上传文件resource, 开放给所有登陆成功的用户', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (51, '*', 'authorization', 'appManager', '*', 'allow', '应用管理者, 赋予所有resource权限', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (52, '*', 'authorization', 'appManager', 'userGroupRole.*', 'allow', '应用管理者, 赋予所有resource权限', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (71, '*', 'authorization', 'teacher', 'newStudent.*', 'allow', '老师, 赋予所有newStudent页面resource的权限', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (72, '*', 'authorization', 'teacher', 'studentBill.*', 'allow', '老师, 赋予所有studentBill页面resource的权限', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (73, '*', 'authorization', 'teacher', 'studentBillPayment.*', 'allow', '老师, 赋予所有studentBillPayment页面resource的权限', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (74, '*', 'authorization', 'teacher', 'studentPayment.*', 'allow', '老师, 赋予所有studentPayment页面resource的权限', 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (75, '*', 'public', '*', 'directory.selectItemList', 'allow', NULL, 'insert', NULL, NULL, NULL);
-INSERT INTO `_user_group_role_resource` (`id`, `user`, `group`, `role`, `resource`, `allowOrDeny`, `desc`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (76, '*', 'login', '*', 'allPage.downloadFileDirect', 'allow', '下载文件，仅开放给所有登陆的用户', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- Table structure for _user_session
--- ----------------------------
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _user_group_role_resource
+# ------------------------------------------------------------
+
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (1,'*','public','*','login.passwordLogin','allow','登陆resource, 开放给所有用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (11,'*','public','*','allPage.getConstantList','allow','查询常量resource, 开放给所有登陆成功的用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (31,'*','login','*','allPage.logout','allow','登出resource, 开放给所有登陆成功的用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (32,'*','login','*','allPage.refreshToken','allow','刷新authToken resource, 开放给所有登陆成功的用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (33,'*','login','*','allPage.userInfo','allow','用户个人信息resource, 开放给所有登陆成功的用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (34,'*','login','*','allPage.uploadByBase64','allow','上传文件resource, 开放给所有登陆成功的用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (35,'*','login','*','allPage.uploadByStream','allow','上传文件resource, 开放给所有登陆成功的用户','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (51,'*','authorization','appManager','*','allow','应用管理者, 赋予所有resource权限','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (52,'*','authorization','appManager','userGroupRole.*','allow','应用管理者, 赋予所有resource权限','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (71,'*','authorization','teacher','newStudent.*','allow','老师, 赋予所有newStudent页面resource的权限','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (72,'*','authorization','teacher','studentBill.*','allow','老师, 赋予所有studentBill页面resource的权限','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (73,'*','authorization','teacher','studentBillPayment.*','allow','老师, 赋予所有studentBillPayment页面resource的权限','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (74,'*','authorization','teacher','studentPayment.*','allow','老师, 赋予所有studentPayment页面resource的权限','insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (75,'*','public','*','directory.selectItemList','allow',NULL,'insert',NULL,NULL,NULL);
+INSERT INTO `_user_group_role_resource` (`id`,`user`,`group`,`role`,`resource`,`allowOrDeny`,`desc`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (76,'*','login','*','allPage.downloadFileDirect','allow','下载文件，仅开放给所有登陆的用户','insert',NULL,NULL,NULL);
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _user_session
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `_user_session`;
 CREATE TABLE `_user_session` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '用户id',
-  `userIp` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '用户ip',
-  `userIpRegion` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '用户Ip区域',
-  `userAgent` text CHARACTER SET utf8mb4 COMMENT '请求的 agent',
-  `deviceId` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '设备id',
-  `deviceType` varchar(255) CHARACTER SET utf8mb4 DEFAULT 'web' COMMENT '设备类型; flutter, web, bot_databot, bot_chatbot, bot_xiaochengxu',
-  `socketStatus` varchar(255) CHARACTER SET utf8mb4 DEFAULT 'offline' COMMENT 'socket状态',
-  `authToken` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT 'auth token',
-  `operation` varchar(255) CHARACTER SET utf8mb4 DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `userId` varchar(255) DEFAULT NULL COMMENT '用户id',
+  `userIp` varchar(255) DEFAULT NULL COMMENT '用户ip',
+  `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
+  `userAgent` text COMMENT '请求的 agent',
+  `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
+  `deviceType` varchar(255) DEFAULT 'web' COMMENT '设备类型; flutter, web, bot_databot, bot_chatbot, bot_xiaochengxu',
+  `socketStatus` varchar(255) DEFAULT 'offline' COMMENT 'socket状态',
+  `authToken` varchar(255) DEFAULT NULL COMMENT 'auth token',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `userId_index` (`userId`) USING BTREE,
-  KEY `userId_deviceId_index` (`userId`,`deviceId`) USING BTREE,
+  KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
   KEY `authToken_index` (`authToken`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户session表; deviceId 维度;软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 14 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
--- ----------------------------
--- Records of _user_session
--- ----------------------------
-BEGIN;
-INSERT INTO `_user_session` (`id`, `userId`, `userIp`, `userIpRegion`, `userAgent`, `deviceId`, `deviceType`, `socketStatus`, `authToken`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (11, 'admin', '127.0.0.1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36', '127.0.0.1:7007_Windows.10.0_b42b5784_chrome', 'web', 'offline', 'eOI3440xGE4GYmUBraqC5hAOqf-N3fqbyPNf', 'jhInsert', NULL, NULL, '2022-04-28T23:10:35+08:00');
-INSERT INTO `_user_session` (`id`, `userId`, `userIp`, `userIpRegion`, `userAgent`, `deviceId`, `deviceType`, `socketStatus`, `authToken`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (12, 'admin', '127.0.0.1', '', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', '127.0.0.1:7007_Windows.10.0_5f48a3f5_chrome', 'web', 'offline', 'AxBpieI19kWFfd80xrRowVccqK-tt7WzLjdD', 'jhInsert', NULL, NULL, '2022-08-07T15:15:39+08:00');
-INSERT INTO `_user_session` (`id`, `userId`, `userIp`, `userIpRegion`, `userAgent`, `deviceId`, `deviceType`, `socketStatus`, `authToken`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (13, 'admin', '127.0.0.1', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36', '127.0.0.1:7007_Mac.10.15.7_fbae8120_chrome', 'web', 'offline', 'PX-6UWilxyWmmywHreoO6Um6fZ8YlzgaKVU9', 'jhInsert', NULL, NULL, '2022-08-25T23:40:04+08:00');
-COMMIT;
 
--- ----------------------------
--- Table structure for directory
--- ----------------------------
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: directory
+# ------------------------------------------------------------
+
 DROP TABLE IF EXISTS `directory`;
 CREATE TABLE `directory` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `appId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '应用ID; 可以是内部应用 E.g: user_app_management; 也可以是外部应用 E.g: taobao, baidu, zhihu',
-  `appName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '应用名',
-  `appGroupName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '应用组名',
-  `appGroupNumber` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '应用组排序',
-  `appGroupItemSort` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '应用组下url的排序',
-  `url` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '链接; 可以是外部链接, 也可是内部应用链接',
-  `displayName` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '链接展示名',
-  `description` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '链接描述',
-  `accessType` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '链接权限类型, public: 所有登陆用户都可以拿到, app: 只有用户有app权限才能拿到',
-  `operation` varchar(255) COLLATE utf8mb4_bin DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
-  `operationByUserId` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者userId',
-  `operationByUser` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作者用户名',
-  `operationAt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  `appId` varchar(255) DEFAULT NULL COMMENT '应用ID; 可以是内部应用 E.g: user_app_management; 也可以是外部应用 E.g: taobao, baidu, zhihu',
+  `appName` varchar(255) DEFAULT NULL COMMENT '应用名',
+  `appGroupName` varchar(255) DEFAULT NULL COMMENT '应用组名',
+  `appGroupNumber` varchar(255) DEFAULT NULL COMMENT '应用组排序',
+  `appGroupItemSort` varchar(255) DEFAULT NULL COMMENT '应用组下url的排序',
+  `url` varchar(255) DEFAULT NULL COMMENT '链接; 可以是外部链接, 也可是内部应用链接',
+  `displayName` varchar(255) DEFAULT NULL COMMENT '链接展示名',
+  `description` varchar(255) DEFAULT NULL COMMENT '链接描述',
+  `accessType` varchar(255) DEFAULT NULL COMMENT '链接权限类型, public: 所有登陆用户都可以拿到, app: 只有用户有app权限才能拿到',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE = InnoDB AUTO_INCREMENT = 54;
 
--- ----------------------------
--- Records of directory
--- ----------------------------
-BEGIN;
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (13, 'zhihu', '知乎', '搜索', '10', '01', 'https://www.zhihu.com/', '有问题就会有答案', NULL, 'public', 'insert', NULL, NULL, NULL);
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (14, 'baidu', '百度', '搜索', '10', '02', 'https://www.baidu.com', '百度一下, 你就知道', NULL, 'public', 'insert', NULL, NULL, NULL);
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (15, '360', '360', '搜索', '10', '03', 'https://www.so.com/', '最安全的搜索引擎', NULL, 'public', 'insert', NULL, NULL, NULL);
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (16, 'sougou', '搜狗', '搜索', '10', '04', 'https://www.sogou.com/', '上网从搜狗开始', NULL, 'public', 'insert', NULL, NULL, NULL);
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (51, 'user_app_management', '账号权限管理', '系统管理', '20', '01', 'http://127.0.0.1:7006/user_app_management/page/userManagement', '用户管理', NULL, 'app', 'insert', NULL, NULL, NULL);
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (52, 'user_app_management', '账号权限管理', '系统管理', '20', '02', 'http://127.0.0.1:7006/user_app_management/page/appManagement', 'APP管理', NULL, 'app', 'insert', NULL, NULL, NULL);
-INSERT INTO `directory` (`id`, `appId`, `appName`, `appGroupName`, `appGroupNumber`, `appGroupItemSort`, `url`, `displayName`, `description`, `accessType`, `operation`, `operationByUserId`, `operationByUser`, `operationAt`) VALUES (53, 'data_repository', '数据中心管理', '系统管理', '20', '03', 'http://127.0.0.1:7005/data_repository/page/tableSyncConfig', '数据同步表管理', NULL, 'app', 'insert', NULL, NULL, NULL);
-COMMIT;
 
--- ----------------------------
--- View structure for _view01_user
--- ----------------------------
-DROP VIEW IF EXISTS `_view01_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `_view01_user` AS select `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`id` AS `id`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`idSequence` AS `idSequence`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userId` AS `userId`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`username` AS `username`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`clearTextPassword` AS `clearTextPassword`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`password` AS `password`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`md5Salt` AS `md5Salt`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userStatus` AS `userStatus`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userType` AS `userType`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userConfig` AS `userConfig`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operation` AS `operation`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUserId` AS `operationByUserId`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUser` AS `operationByUser`,`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationAt` AS `operationAt` from `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`;
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: directory
+# ------------------------------------------------------------
 
--- ----------------------------
--- View structure for _view02_user_app
--- ----------------------------
-DROP VIEW IF EXISTS `_view02_user_app`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `_view02_user_app` AS select `_user_app`.`id` AS `id`,`_app`.`appId` AS `appId`,`_app`.`appName` AS `appName`,`_user`.`userId` AS `userId`,`_user`.`username` AS `username`,`_user`.`userStatus` AS `userStatus`,`_user`.`userType` AS `userType`,`_user_app`.`operation` AS `operation`,`_user_app`.`operationByUserId` AS `operationByUserId`,`_user_app`.`operationByUser` AS `operationByUser`,`_user_app`.`operationAt` AS `operationAt` from ((`jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` `_user_app` join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))) join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`)));
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (13,'zhihu','知乎','搜索','10','01','https://www.zhihu.com/','有问题就会有答案',NULL,'public','insert',NULL,NULL,NULL);
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (14,'baidu','百度','搜索','10','02','https://www.baidu.com','百度一下, 你就知道',NULL,'public','insert',NULL,NULL,NULL);
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (15,'360','360','搜索','10','03','https://www.so.com/','最安全的搜索引擎',NULL,'public','insert',NULL,NULL,NULL);
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (16,'sougou','搜狗','搜索','10','04','https://www.sogou.com/','上网从搜狗开始',NULL,'public','insert',NULL,NULL,NULL);
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (51,'user_app_management','账号权限管理','系统管理','20','01','http://127.0.0.1:7006/user_app_management/page/userManagement','用户管理',NULL,'app','insert',NULL,NULL,NULL);
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (52,'user_app_management','账号权限管理','系统管理','20','02','http://127.0.0.1:7006/user_app_management/page/appManagement','APP管理',NULL,'app','insert',NULL,NULL,NULL);
+INSERT INTO `directory` (`id`,`appId`,`appName`,`appGroupName`,`appGroupNumber`,`appGroupItemSort`,`url`,`displayName`,`description`,`accessType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (53,'data_repository','数据中心管理','系统管理','20','03','http://127.0.0.1:7005/data_repository/page/tableSyncConfig','数据同步表管理',NULL,'app','insert',NULL,NULL,NULL);
 
-SET FOREIGN_KEY_CHECKS = 1;
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _view01_user
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW `_view01_user` AS
+select
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`id` AS `id`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`idSequence` AS `idSequence`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userId` AS `userId`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`username` AS `username`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`clearTextPassword` AS `clearTextPassword`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`password` AS `password`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`md5Salt` AS `md5Salt`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userStatus` AS `userStatus`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userType` AS `userType`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userConfig` AS `userConfig`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operation` AS `operation`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUserId` AS `operationByUserId`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUser` AS `operationByUser`,
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationAt` AS `operationAt`
+from
+  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`;
+
+
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _view02_user_app
+# ------------------------------------------------------------
+
+CREATE OR REPLACE VIEW `_view02_user_app` AS
+select
+  `_user_app`.`id` AS `id`,
+  `_app`.`appId` AS `appId`,
+  `_app`.`appName` AS `appName`,
+  `_user`.`userId` AS `userId`,
+  `_user`.`username` AS `username`,
+  `_user`.`userStatus` AS `userStatus`,
+  `_user`.`userType` AS `userType`,
+  `_user_app`.`operation` AS `operation`,
+  `_user_app`.`operationByUserId` AS `operationByUserId`,
+  `_user_app`.`operationByUser` AS `operationByUser`,
+  `_user_app`.`operationAt` AS `operationAt`
+from
+  (
+  (
+    `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` `_user_app`
+    join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
+  )
+  join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
+  );
+
+
+
+
+
