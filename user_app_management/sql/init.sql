@@ -32,14 +32,14 @@ INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMen
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (19,'test',NULL,'uiAction test123',NULL,NULL,NULL,'internal','jhUpdate','admin','系统管理员','2022-04-28T21:58:09+08:00',NULL);
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (20,NULL,NULL,'123',NULL,NULL,NULL,'internal','jhInsert','admin','系统管理员','2022-05-03T16:21:36+08:00',NULL);
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___app_INSERT
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___app_INSERT` AFTER INSERT
-        ON `jianghujs_enterprise_user_app_management`.`_app` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___app_INSERT` AFTER INSERT
+        ON `{{dbPrefix}}user_app_management`.`_app` FOR EACH ROW
         BEGIN
-            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app`
+            INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app`
             (id,appId,appGroup,appName,appDesc,appUrl,appMenu,appType,operation,operationByUserId,operationByUser,operationAt,sort)
             VALUES
             (NEW.id,NEW.appId,NEW.appGroup,NEW.appName,NEW.appDesc,NEW.appUrl,NEW.appMenu,NEW.appType,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt,NEW.sort);
@@ -47,28 +47,28 @@ CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___app_UPDATE
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___app_UPDATE` AFTER UPDATE
-        ON `jianghujs_enterprise_user_app_management`.`_app` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___app_UPDATE` AFTER UPDATE
+        ON `{{dbPrefix}}user_app_management`.`_app` FOR EACH ROW
         BEGIN
-            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app`
+            UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app`
             SET id=NEW.id,appId=NEW.appId,appGroup=NEW.appGroup,appName=NEW.appName,appDesc=NEW.appDesc,appUrl=NEW.appUrl,appMenu=NEW.appMenu,appType=NEW.appType,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt,sort=NEW.sort
             where id=OLD.id;
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___app_DELETE
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___app_DELETE` AFTER DELETE
-        ON `jianghujs_enterprise_user_app_management`.`_app` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___app_DELETE` AFTER DELETE
+        ON `{{dbPrefix}}user_app_management`.`_app` FOR EACH ROW
         BEGIN
-            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app` WHERE id = OLD.id;
+            DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app` WHERE id = OLD.id;
         END;;
 DELIMITER ;
 
@@ -116,6 +116,11 @@ CREATE TABLE `_file` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fileId_index` (`fileId`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _file
+# ------------------------------------------------------------
 
 
 
@@ -409,14 +414,14 @@ INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,NULL,'H00002','令狐冲','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (58,'112','U223P','uiaction123','12345678','31166f44402dedbf27c9b2d4bcfa90cb','ajGTYtmy4cNH','active','common',NULL,'update','admin','系统管理员','2022-05-03T16:00:16+08:00');
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_INSERT
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_INSERT` AFTER INSERT
-        ON `jianghujs_enterprise_user_app_management`.`_user` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_INSERT` AFTER INSERT
+        ON `{{dbPrefix}}user_app_management`.`_user` FOR EACH ROW
         BEGIN
-            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user`
+            INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
             (id,idSequence,userId,username,clearTextPassword,password,md5Salt,userStatus,userType,userConfig,operation,operationByUserId,operationByUser,operationAt)
             VALUES
             (NEW.id,NEW.idSequence,NEW.userId,NEW.username,NEW.clearTextPassword,NEW.password,NEW.md5Salt,NEW.userStatus,NEW.userType,NEW.userConfig,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
@@ -424,28 +429,28 @@ CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_UPDATE
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_UPDATE` AFTER UPDATE
-        ON `jianghujs_enterprise_user_app_management`.`_user` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_UPDATE` AFTER UPDATE
+        ON `{{dbPrefix}}user_app_management`.`_user` FOR EACH ROW
         BEGIN
-            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user`
+            UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
             SET id=NEW.id,idSequence=NEW.idSequence,userId=NEW.userId,username=NEW.username,clearTextPassword=NEW.clearTextPassword,password=NEW.password,md5Salt=NEW.md5Salt,userStatus=NEW.userStatus,userType=NEW.userType,userConfig=NEW.userConfig,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
             where id=OLD.id;
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_DELETE
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_DELETE` AFTER DELETE
-        ON `jianghujs_enterprise_user_app_management`.`_user` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_DELETE` AFTER DELETE
+        ON `{{dbPrefix}}user_app_management`.`_user` FOR EACH ROW
         BEGIN
-            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user` WHERE id = OLD.id;
+            DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user` WHERE id = OLD.id;
         END;;
 DELIMITER ;
 
@@ -496,14 +501,14 @@ INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (88,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-04-28T23:26:04+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (89,'U223P','test','jhInsert','admin','系统管理员','2022-05-03T16:26:16+08:00');
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_INSERT
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_app_INSERT` AFTER INSERT
-        ON `jianghujs_enterprise_user_app_management`.`_user_app` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_app_INSERT` AFTER INSERT
+        ON `{{dbPrefix}}user_app_management`.`_user_app` FOR EACH ROW
         BEGIN
-            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app`
+            INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`
             (id,userId,appId,operation,operationByUserId,operationByUser,operationAt)
             VALUES
             (NEW.id,NEW.userId,NEW.appId,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
@@ -511,28 +516,28 @@ CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_UPDATE
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_app_UPDATE` AFTER UPDATE
-        ON `jianghujs_enterprise_user_app_management`.`_user_app` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_app_UPDATE` AFTER UPDATE
+        ON `{{dbPrefix}}user_app_management`.`_user_app` FOR EACH ROW
         BEGIN
-            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app`
+            UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`
             SET id=NEW.id,userId=NEW.userId,appId=NEW.appId,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
             where id=OLD.id;
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_DELETE
+# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_app_DELETE` AFTER DELETE
-        ON `jianghujs_enterprise_user_app_management`.`_user_app` FOR EACH ROW
+CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_app_DELETE` AFTER DELETE
+        ON `{{dbPrefix}}user_app_management`.`_user_app` FOR EACH ROW
         BEGIN
-            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app` WHERE id = OLD.id;
+            DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app` WHERE id = OLD.id;
         END;;
 DELIMITER ;
 

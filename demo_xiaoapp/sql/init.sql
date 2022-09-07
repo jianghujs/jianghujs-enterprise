@@ -68,6 +68,11 @@ CREATE TABLE `_file` (
 ) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
 
 
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _file
+# ------------------------------------------------------------
+
+
 
 
 # ------------------------------------------------------------
@@ -477,22 +482,33 @@ INSERT INTO `student` (`id`,`studentId`,`name`,`gender`,`dateOfBirth`,`classId`,
 
 CREATE OR REPLACE VIEW `_view01_user` AS
 select
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`id` AS `id`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`idSequence` AS `idSequence`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userId` AS `userId`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`username` AS `username`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`clearTextPassword` AS `clearTextPassword`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`password` AS `password`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`md5Salt` AS `md5Salt`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userStatus` AS `userStatus`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userType` AS `userType`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`userConfig` AS `userConfig`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operation` AS `operation`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUserId` AS `operationByUserId`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationByUser` AS `operationByUser`,
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`.`operationAt` AS `operationAt`
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`id` AS `id`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`idSequence` AS `idSequence`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userId` AS `userId`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`username` AS `username`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`clearTextPassword` AS `clearTextPassword`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`password` AS `password`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`md5Salt` AS `md5Salt`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userStatus` AS `userStatus`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userType` AS `userType`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userConfig` AS `userConfig`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operation` AS `operation`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operationByUserId` AS `operationByUserId`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operationByUser` AS `operationByUser`,
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`operationAt` AS `operationAt`
 from
-  `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user`;
+  (
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
+  join `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app` on(
+    (
+    `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`.`userId` = `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`.`userId`
+    )
+  )
+  )
+where
+  (
+  `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`.`appId` = 'demo_xiaoapp'
+  );
 
 
 
@@ -518,10 +534,10 @@ select
 from
   (
   (
-    `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` `_user_app`
-    join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
+    `{{dbPrefix}}data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` `_user_app`
+    join `{{dbPrefix}}data_repository`.`jianghujs_demo_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
   )
-  join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
+  join `{{dbPrefix}}data_repository`.`jianghujs_demo_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
   );
 
 
