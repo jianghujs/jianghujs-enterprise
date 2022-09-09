@@ -685,7 +685,6 @@ new Vue({
     async updateLeftItem() {
       window.vtoast.loading("保存中");
       const id = this.activeItemInfo.id;
-      delete this.activeItemInfo.id;
       const actionId = ['updateUser', 'updateGroup', 'updateRole'][this.pageTab];
       await window.jianghuAxios({
         data: {
