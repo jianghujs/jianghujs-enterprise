@@ -20,7 +20,7 @@ module.exports = appInfo => {
     appTitle: '江湖演示-企业级-账号权限管理',
     appLogo: `${appId}/public/img/logo.png`,
     appType: 'multiApp',
-    appDirectoryLink: '/',
+    appDirectoryLink: 'http://127.0.0.1:7007/directory',
     indexPage: `/${appId}/page/appManagement`,
     loginPage: `/${appId}/page/login`,
     helpPage: `/${appId}/page/help`,

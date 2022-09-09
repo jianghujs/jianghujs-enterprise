@@ -7,7 +7,7 @@ module.exports = appInfo => {
 
   assert(appInfo);
   return {
-    appDirectoryLink: '',
+    appDirectoryLink: 'http://127.0.0.1:7007/directory',
     debug: true,
     jiangHuConfig: {
       packageIdCheck: false,

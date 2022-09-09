@@ -20,7 +20,7 @@ module.exports = appInfo => {
     appTitle: '模版项目',
     appLogo: `${appId}/public/img/logo.png`,
     appType: 'multiApp',
-    appDirectoryLink: '/',
+    appDirectoryLink: 'http://127.0.0.1:7007/directory',
     indexPage: `/${appId}/page/studentManagement`,
     loginPage: `/${appId}/page/login`,
     helpPage: `/${appId}/page/help`,
