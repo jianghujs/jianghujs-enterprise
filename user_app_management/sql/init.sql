@@ -19,7 +19,7 @@ CREATE TABLE `_app` (
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `appId` (`appId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21;
+) ENGINE = InnoDB AUTO_INCREMENT = 23;
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: _app
@@ -29,46 +29,48 @@ INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMen
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (13,'data_repository','base','数据中心管理',NULL,NULL,NULL,'internal','insert',NULL,NULL,NULL,NULL);
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (14,'directory','base','APP目录',NULL,NULL,NULL,'internal','insert',NULL,NULL,NULL,NULL);
 INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (18,'demo_xiaoapp',NULL,'小APPDemo项目',NULL,NULL,NULL,'internal','jhInsert','admin','系统管理员','2022-02-24T20:18:14+08:00',NULL);
-INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (19,'test',NULL,'uiAction test123',NULL,NULL,NULL,'internal','jhUpdate','admin','系统管理员','2022-04-28T21:58:09+08:00',NULL);
-INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (20,NULL,NULL,'123',NULL,NULL,NULL,'internal','jhInsert','admin','系统管理员','2022-05-03T16:21:36+08:00',NULL);
+INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (19,'test',NULL,'uiAction23',NULL,NULL,NULL,'internal','jhUpdate','admin','系统管理员','2022-09-08T15:13:22+08:00',NULL);
+INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (20,NULL,NULL,'0908',NULL,NULL,NULL,'internal','jhUpdate','admin','系统管理员','2022-09-08T14:54:51+08:00',NULL);
+INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (21,'test',NULL,'123456',NULL,NULL,NULL,'external','jhInsert','admin','系统管理员','2022-09-08T14:55:07+08:00',NULL);
+INSERT INTO `_app` (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`) VALUES (22,'090909',NULL,'090909',NULL,NULL,NULL,'internal','jhInsert','admin','系统管理员','2022-09-09T16:26:10+08:00',NULL);
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_INSERT
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___app_INSERT` AFTER INSERT
-        ON `{{dbPrefix}}user_app_management`.`_app` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___app_INSERT` AFTER INSERT
+        ON `jianghujs_enterprise_user_app_management`.`_app` FOR EACH ROW
         BEGIN
-            INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app`
-            (id,appId,appGroup,appName,appDesc,appUrl,appMenu,appType,operation,operationByUserId,operationByUser,operationAt,sort)
+            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app`
+            (`id`,`appId`,`appGroup`,`appName`,`appDesc`,`appUrl`,`appMenu`,`appType`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`,`sort`)
             VALUES
-            (NEW.id,NEW.appId,NEW.appGroup,NEW.appName,NEW.appDesc,NEW.appUrl,NEW.appMenu,NEW.appType,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt,NEW.sort);
+            (NEW.`id`,NEW.`appId`,NEW.`appGroup`,NEW.`appName`,NEW.`appDesc`,NEW.`appUrl`,NEW.`appMenu`,NEW.`appType`,NEW.`operation`,NEW.`operationByUserId`,NEW.`operationByUser`,NEW.`operationAt`,NEW.`sort`);
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_UPDATE
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___app_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___app_UPDATE` AFTER UPDATE
-        ON `{{dbPrefix}}user_app_management`.`_app` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___app_UPDATE` AFTER UPDATE
+        ON `jianghujs_enterprise_user_app_management`.`_app` FOR EACH ROW
         BEGIN
-            UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app`
-            SET id=NEW.id,appId=NEW.appId,appGroup=NEW.appGroup,appName=NEW.appName,appDesc=NEW.appDesc,appUrl=NEW.appUrl,appMenu=NEW.appMenu,appType=NEW.appType,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt,sort=NEW.sort
+            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app`
+            SET `id`=NEW.`id`,`appId`=NEW.`appId`,`appGroup`=NEW.`appGroup`,`appName`=NEW.`appName`,`appDesc`=NEW.`appDesc`,`appUrl`=NEW.`appUrl`,`appMenu`=NEW.`appMenu`,`appType`=NEW.`appType`,`operation`=NEW.`operation`,`operationByUserId`=NEW.`operationByUserId`,`operationByUser`=NEW.`operationByUser`,`operationAt`=NEW.`operationAt`,`sort`=NEW.`sort`
             where id=OLD.id;
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___app_DELETE
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___app_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___app_DELETE` AFTER DELETE
-        ON `{{dbPrefix}}user_app_management`.`_app` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___app_DELETE` AFTER DELETE
+        ON `jianghujs_enterprise_user_app_management`.`_app` FOR EACH ROW
         BEGIN
-            DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___app` WHERE id = OLD.id;
+            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app` WHERE id = OLD.id;
         END;;
 DELIMITER ;
 
@@ -116,11 +118,6 @@ CREATE TABLE `_file` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fileId_index` (`fileId`) USING BTREE
 ) ENGINE = InnoDB COMMENT = '文件表; 软删除未启用;';
-
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: _file
-# ------------------------------------------------------------
 
 
 
@@ -181,8 +178,8 @@ CREATE TABLE `_page` (
 # DATA DUMP FOR TABLE: _page
 # ------------------------------------------------------------
 
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'help','帮助',NULL,'dynamicInMenu','0','insert',NULL,NULL,NULL);
-INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'login','登陆',NULL,'','','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (2,'help','帮助','helpV3','dynamicInMenu','0','insert',NULL,NULL,NULL);
+INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (3,'login','登陆','loginV3','','','insert',NULL,NULL,NULL);
 INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (27,'userManagement','用户管理',NULL,'showInMenu','3','insert',NULL,NULL,NULL);
 INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (31,'appManagement','App管理',NULL,'showInMenu','5','insert',NULL,NULL,NULL);
 INSERT INTO `_page` (`id`,`pageId`,`pageName`,`pageFile`,`pageType`,`sort`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (35,'appManagementOfOneUser','用户的App权限管理',NULL,'dynamicInMenu','4','insert',NULL,NULL,NULL);
@@ -199,8 +196,8 @@ CREATE TABLE `_record_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table` varchar(255) DEFAULT NULL COMMENT '表',
   `recordId` int(11) DEFAULT NULL COMMENT '数据在table中的主键id; recordContent.id',
-  `recordContent` text COMMENT '数据',
-  `packageContent` text COMMENT '当时请求的 package JSON',
+  `recordContent` json DEFAULT NULL COMMENT '数据',
+  `packageContent` json DEFAULT NULL COMMENT '当时请求的 package JSON',
   `operation` varchar(255) DEFAULT NULL COMMENT '操作; jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId; recordContent.operationByUserId',
   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名; recordContent.operationByUser',
@@ -208,7 +205,7 @@ CREATE TABLE `_record_history` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_record_id` (`recordId`) USING BTREE,
   KEY `index_table_action` (`table`, `operation`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 112 COMMENT = '数据历史表';
+) ENGINE = InnoDB AUTO_INCREMENT = 274 COMMENT = '数据历史表';
 
 
 
@@ -279,8 +276,8 @@ CREATE TABLE `_resource_request_log` (
   `deviceId` varchar(255) DEFAULT NULL COMMENT '设备id',
   `userIpRegion` varchar(255) DEFAULT NULL COMMENT '用户Ip区域',
   `executeSql` varchar(255) DEFAULT NULL COMMENT '执行的sql',
-  `requestBody` text COMMENT '请求body',
-  `responseBody` text COMMENT '响应body',
+  `requestBody` json DEFAULT NULL COMMENT '请求body',
+  `responseBody` json DEFAULT NULL COMMENT '响应body',
   `responseStatus` varchar(255) DEFAULT NULL COMMENT '执行的结果;  success, fail',
   `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
@@ -289,7 +286,7 @@ CREATE TABLE `_resource_request_log` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `resourceId_index` (`resourceId`) USING BTREE,
   KEY `packageId_index` (`packageId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 COMMENT = '文件表; 软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 204 COMMENT = '文件表; 软删除未启用;';
 
 
 
@@ -334,7 +331,7 @@ CREATE TABLE `_ui` (
   `uiActionId` varchar(255) DEFAULT NULL COMMENT 'action id; E.g: selectXXXByXXX',
   `desc` varchar(255) DEFAULT NULL COMMENT '描述',
   `uiActionConfig` text COMMENT 'ui 动作数据',
-  `appDataSchema` text COMMENT 'ui 校验数据',
+  `appDataSchema` json DEFAULT NULL COMMENT 'ui 校验数据',
   `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
   `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
@@ -398,7 +395,7 @@ CREATE TABLE `_user` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `username_index` (`username`) USING BTREE,
   UNIQUE KEY `userId_index` (`userId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 59 COMMENT = '用户表';
+) ENGINE = InnoDB AUTO_INCREMENT = 60 COMMENT = '用户表';
 
 
 # ------------------------------------------------------------
@@ -412,45 +409,46 @@ INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (46,NULL,'G00002','郭靖','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'update','admin','系统管理员','2022-05-03T13:45:14+08:00');
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (47,NULL,'H00001','岳不群','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
 INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (48,NULL,'H00002','令狐冲','123456','38d61d315e62546fe7f1013e31d42f57','Xs4JSZnhiwsR','active',NULL,NULL,'insert',NULL,NULL,NULL);
-INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (58,'112','U223P','uiaction123','12345678','31166f44402dedbf27c9b2d4bcfa90cb','ajGTYtmy4cNH','active','common',NULL,'update','admin','系统管理员','2022-05-03T16:00:16+08:00');
+INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (58,'112','U223P','uiaction123','12345678','31166f44402dedbf27c9b2d4bcfa90cb','ajGTYtmy4cNH','banned','common',NULL,'update','admin','系统管理员','2022-09-09T16:03:56+08:00');
+INSERT INTO `_user` (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (59,'113','U224R','0909','123456','8146695749e5e774d1904e6c5bc21e74','rYnxj8ABbbCd','active','common',NULL,'insert','admin','系统管理员','2022-09-09T16:21:39+08:00');
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_INSERT
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_INSERT` AFTER INSERT
-        ON `{{dbPrefix}}user_app_management`.`_user` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_INSERT` AFTER INSERT
+        ON `jianghujs_enterprise_user_app_management`.`_user` FOR EACH ROW
         BEGIN
-            INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
-            (id,idSequence,userId,username,clearTextPassword,password,md5Salt,userStatus,userType,userConfig,operation,operationByUserId,operationByUser,operationAt)
+            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user`
+            (`id`,`idSequence`,`userId`,`username`,`clearTextPassword`,`password`,`md5Salt`,`userStatus`,`userType`,`userConfig`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`)
             VALUES
-            (NEW.id,NEW.idSequence,NEW.userId,NEW.username,NEW.clearTextPassword,NEW.password,NEW.md5Salt,NEW.userStatus,NEW.userType,NEW.userConfig,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
+            (NEW.`id`,NEW.`idSequence`,NEW.`userId`,NEW.`username`,NEW.`clearTextPassword`,NEW.`password`,NEW.`md5Salt`,NEW.`userStatus`,NEW.`userType`,NEW.`userConfig`,NEW.`operation`,NEW.`operationByUserId`,NEW.`operationByUser`,NEW.`operationAt`);
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_UPDATE
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_UPDATE` AFTER UPDATE
-        ON `{{dbPrefix}}user_app_management`.`_user` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_UPDATE` AFTER UPDATE
+        ON `jianghujs_enterprise_user_app_management`.`_user` FOR EACH ROW
         BEGIN
-            UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user`
-            SET id=NEW.id,idSequence=NEW.idSequence,userId=NEW.userId,username=NEW.username,clearTextPassword=NEW.clearTextPassword,password=NEW.password,md5Salt=NEW.md5Salt,userStatus=NEW.userStatus,userType=NEW.userType,userConfig=NEW.userConfig,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
+            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user`
+            SET `id`=NEW.`id`,`idSequence`=NEW.`idSequence`,`userId`=NEW.`userId`,`username`=NEW.`username`,`clearTextPassword`=NEW.`clearTextPassword`,`password`=NEW.`password`,`md5Salt`=NEW.`md5Salt`,`userStatus`=NEW.`userStatus`,`userType`=NEW.`userType`,`userConfig`=NEW.`userConfig`,`operation`=NEW.`operation`,`operationByUserId`=NEW.`operationByUserId`,`operationByUser`=NEW.`operationByUser`,`operationAt`=NEW.`operationAt`
             where id=OLD.id;
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_DELETE
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_DELETE` AFTER DELETE
-        ON `{{dbPrefix}}user_app_management`.`_user` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_DELETE` AFTER DELETE
+        ON `jianghujs_enterprise_user_app_management`.`_user` FOR EACH ROW
         BEGIN
-            DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user` WHERE id = OLD.id;
+            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user` WHERE id = OLD.id;
         END;;
 DELIMITER ;
 
@@ -470,18 +468,15 @@ CREATE TABLE `_user_app` (
   `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
   `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 90;
+) ENGINE = InnoDB AUTO_INCREMENT = 153;
 
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: _user_app
 # ------------------------------------------------------------
 
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (55,'W00001','test','jhInsert','admin','系统管理员','2022-04-28T22:18:16+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (56,'U223P','demo_xiaoapp','jhInsert','admin','系统管理员','2022-04-28T22:34:42+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (62,'admin','data_repository','insert',NULL,NULL,NULL);
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (63,'admin','directory','insert',NULL,NULL,NULL);
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (64,'admin','user_app_management','insert',NULL,NULL,NULL);
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (68,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:53:46+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (69,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:53:47+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (70,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:53:49+08:00');
@@ -494,50 +489,131 @@ INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (77,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:57:51+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (78,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:57:52+08:00');
 INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (79,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:57:53+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (80,'admin','test','jhInsert','admin','系统管理员','2022-04-28T22:58:44+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (83,'U223P','user_app_management','jhInsert','admin','系统管理员','2022-04-28T23:04:25+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (86,'G00002','test','jhInsert','admin','系统管理员','2022-04-28T23:05:54+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (87,'H00001','test','jhInsert','admin','系统管理员','2022-04-28T23:05:55+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (88,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-04-28T23:26:04+08:00');
-INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (89,'U223P','test','jhInsert','admin','系统管理员','2022-05-03T16:26:16+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (109,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-09-09T16:13:16+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (133,'admin','test','jhInsert','admin','系统管理员','2022-09-09T16:24:08+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (135,'W00002','null','jhInsert','admin','系统管理员','2022-09-09T16:25:18+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (139,'W00002','null','jhInsert','admin','系统管理员','2022-09-09T16:25:35+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (141,'admin','null','jhInsert','admin','系统管理员','2022-09-09T16:25:35+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (148,'admin','090909','jhInsert','admin','系统管理员','2022-09-09T16:26:27+08:00');
+INSERT INTO `_user_app` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (152,'U224R','090909','jhInsert','admin','系统管理员','2022-09-09T16:27:03+08:00');
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_INSERT
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_INSERT
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_app_INSERT` AFTER INSERT
-        ON `{{dbPrefix}}user_app_management`.`_user_app` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_app_INSERT` AFTER INSERT
+        ON `jianghujs_enterprise_user_app_management`.`_user_app` FOR EACH ROW
         BEGIN
-            INSERT INTO `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`
-            (id,userId,appId,operation,operationByUserId,operationByUser,operationAt)
+            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app`
+            (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`)
             VALUES
-            (NEW.id,NEW.userId,NEW.appId,NEW.operation,NEW.operationByUserId,NEW.operationByUser,NEW.operationAt);
+            (NEW.`id`,NEW.`userId`,NEW.`appId`,NEW.`operation`,NEW.`operationByUserId`,NEW.`operationByUser`,NEW.`operationAt`);
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_UPDATE
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_UPDATE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_app_UPDATE` AFTER UPDATE
-        ON `{{dbPrefix}}user_app_management`.`_user_app` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_app_UPDATE` AFTER UPDATE
+        ON `jianghujs_enterprise_user_app_management`.`_user_app` FOR EACH ROW
         BEGIN
-            UPDATE `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app`
-            SET id=NEW.id,userId=NEW.userId,appId=NEW.appId,operation=NEW.operation,operationByUserId=NEW.operationByUserId,operationByUser=NEW.operationByUser,operationAt=NEW.operationAt
+            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app`
+            SET `id`=NEW.`id`,`userId`=NEW.`userId`,`appId`=NEW.`appId`,`operation`=NEW.`operation`,`operationByUserId`=NEW.`operationByUserId`,`operationByUser`=NEW.`operationByUser`,`operationAt`=NEW.`operationAt`
             where id=OLD.id;
         END;;
 DELIMITER ;
 
 # ------------------------------------------------------------
-# TRIGGER DUMP FOR: {{dbPrefix}}user_app_management___user_app_DELETE
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_DELETE
 # ------------------------------------------------------------
 
 DELIMITER ;;
-CREATE TRIGGER `{{dbPrefix}}user_app_management`.`{{dbPrefix}}user_app_management___user_app_DELETE` AFTER DELETE
-        ON `{{dbPrefix}}user_app_management`.`_user_app` FOR EACH ROW
+CREATE TRIGGER `jianghujs_enterprise_user_app_management`.`jianghujs_enterprise_user_app_management___user_app_DELETE` AFTER DELETE
+        ON `jianghujs_enterprise_user_app_management`.`_user_app` FOR EACH ROW
         BEGIN
-            DELETE FROM `{{dbPrefix}}data_repository`.`{{dbPrefix}}user_app_management___user_app` WHERE id = OLD.id;
+            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app` WHERE id = OLD.id;
+        END;;
+DELIMITER ;
+
+
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: _user_app_09_12
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `_user_app_09_12`;
+CREATE TABLE `_user_app_09_12` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(255) DEFAULT NULL COMMENT '用户id',
+  `appId` varchar(255) DEFAULT NULL COMMENT 'appId',
+  `operation` varchar(255) DEFAULT 'insert' COMMENT '操作; insert, update, jhInsert, jhUpdate, jhDelete jhRestore',
+  `operationByUserId` varchar(255) DEFAULT NULL COMMENT '操作者userId',
+  `operationByUser` varchar(255) DEFAULT NULL COMMENT '操作者用户名',
+  `operationAt` varchar(255) DEFAULT NULL COMMENT '操作时间; E.g: 2021-05-28T10:24:54+08:00 ',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 153;
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: _user_app_09_12
+# ------------------------------------------------------------
+
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (62,'admin','data_repository','insert',NULL,NULL,NULL);
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (63,'admin','directory','insert',NULL,NULL,NULL);
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (64,'admin','user_app_management','insert',NULL,NULL,NULL);
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (68,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:53:46+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (69,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:53:47+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (70,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:53:49+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (71,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:55:10+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (72,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:55:12+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (73,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:55:13+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (74,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:56:34+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (75,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:56:35+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (76,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:56:36+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (77,'0','test','jhInsert','admin','系统管理员','2022-04-28T22:57:51+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (78,'1','test','jhInsert','admin','系统管理员','2022-04-28T22:57:52+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (79,'2','test','jhInsert','admin','系统管理员','2022-04-28T22:57:53+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (109,'admin','demo_xiaoapp','jhInsert','admin','系统管理员','2022-09-09T16:13:16+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (133,'admin','test','jhInsert','admin','系统管理员','2022-09-09T16:24:08+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (135,'W00002','null','jhInsert','admin','系统管理员','2022-09-09T16:25:18+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (139,'W00002','null','jhInsert','admin','系统管理员','2022-09-09T16:25:35+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (141,'admin','null','jhInsert','admin','系统管理员','2022-09-09T16:25:35+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (148,'admin','090909','jhInsert','admin','系统管理员','2022-09-09T16:26:27+08:00');
+INSERT INTO `_user_app_09_12` (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`) VALUES (152,'U224R','090909','jhInsert','admin','系统管理员','2022-09-09T16:27:03+08:00');
+# ------------------------------------------------------------
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_INSERT_copy1
+# ------------------------------------------------------------
+
+DELIMITER ;;
+CREATE TRIGGER `jianghujs_enterprise_user_app_management___user_app_INSERT_copy1` AFTER INSERT ON `_user_app_09_12` FOR EACH ROW BEGIN
+            INSERT INTO `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app`
+            (`id`,`userId`,`appId`,`operation`,`operationByUserId`,`operationByUser`,`operationAt`)
+            VALUES
+            (NEW.`id`,NEW.`userId`,NEW.`appId`,NEW.`operation`,NEW.`operationByUserId`,NEW.`operationByUser`,NEW.`operationAt`);
+        END;;
+DELIMITER ;
+
+# ------------------------------------------------------------
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_UPDATE_copy1
+# ------------------------------------------------------------
+
+DELIMITER ;;
+CREATE TRIGGER `jianghujs_enterprise_user_app_management___user_app_UPDATE_copy1` AFTER UPDATE ON `_user_app_09_12` FOR EACH ROW BEGIN
+            UPDATE `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app`
+            SET `id`=NEW.`id`,`userId`=NEW.`userId`,`appId`=NEW.`appId`,`operation`=NEW.`operation`,`operationByUserId`=NEW.`operationByUserId`,`operationByUser`=NEW.`operationByUser`,`operationAt`=NEW.`operationAt`
+            where id=OLD.id;
+        END;;
+DELIMITER ;
+
+# ------------------------------------------------------------
+# TRIGGER DUMP FOR: jianghujs_enterprise_user_app_management___user_app_DELETE_copy1
+# ------------------------------------------------------------
+
+DELIMITER ;;
+CREATE TRIGGER `jianghujs_enterprise_user_app_management___user_app_DELETE_copy1` AFTER DELETE ON `_user_app_09_12` FOR EACH ROW BEGIN
+            DELETE FROM `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app` WHERE id = OLD.id;
         END;;
 DELIMITER ;
 
@@ -677,7 +753,7 @@ CREATE TABLE `_user_session` (
   KEY `userId_index` (`userId`) USING BTREE,
   KEY `userId_deviceId_index` (`userId`, `deviceId`) USING BTREE,
   KEY `authToken_index` (`authToken`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
+) ENGINE = InnoDB AUTO_INCREMENT = 23 COMMENT = '用户session表; deviceId 维度;软删除未启用;';
 
 
 
