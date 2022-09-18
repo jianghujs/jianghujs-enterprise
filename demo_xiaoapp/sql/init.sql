@@ -452,10 +452,10 @@ select
 from
   (
   (
-    `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user_app` `_user_app`
-    join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
+    `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user_app` `_user_app`
+    join `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___user` `_user` on((`_user_app`.`userId` = `_user`.`userId`))
   )
-  join `jianghujs_enterprise_data_repository`.`jianghujs_demo_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
+  join `jianghujs_enterprise_data_repository`.`jianghujs_enterprise_user_app_management___app` `_app` on((`_user_app`.`appId` = `_app`.`appId`))
   );
 
 
