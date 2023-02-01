@@ -29,41 +29,57 @@
           <v-card :class="{'px-2': isMobile}">
             <v-row class="ma-0  align-center flex-none pt-0 " :class="{'pa-4': !isMobile, 'pb-0': !isMobile, 'pa-2': isMobile}">
               <v-col cols="12" xs="12" sm="4" md="4" xl="4" class="pl-0 ">
-                <v-btn dark color="success" @click="isEditDrawerShow = true" class="elevation-0 mr-2">分配新的用户</v-btn>
-                <span class="body-2">共{{ tableDataFromBackend.length }}条记录</span>
+                <v-btn small dark color="success" @click="isEditDrawerShow = true" class="elevation-0 mr-2">分配新的用户</v-btn>
               </v-col>
               <v-spacer></v-spacer>
               <v-col cols="12" xs="12" sm="4" md="3" xl="3" class="px-0">
                 <v-text-field dense filled single-line v-model="searchInput" color="success" prefix="表格过滤：" class="cus-v-input"></v-text-field>
               </v-col>
             </v-row>
-            <v-data-table
-                :headers="headers"
-                :items="tableDataFromBackend"
-                :search="searchInput"
-                :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
-                :items-per-page="-1"
-                :loading="isTableLoading"
-                checkbox-color="success"
-                :class="{'mx-2': isMobile}"
-                mobile-breakpoint="0"
-                class="elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column"
-            >
-              <template v-slot:item.userType="{ item }">
-                {{ (constantCollection.userType.find(({value}) => value === item.userType) || {}).text }}
-              </template>
-              <template v-slot:item.userStatus="{ item }">
-                {{ (constantCollection.userStatus.find(({value}) => value === item.userStatus) || {}).text }}
-              </template>
-              <template v-slot:item.operationAt="{ item }">
-                {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
-              </template>
-              <template v-slot:item.option="{ item }">
-                <v-btn small :class="btn.color" v-for="btn of tableButtonList" @click="doAction('deleteRelation', {item})" :key="btn.value">
-                  {{ btn.text }}
-                </v-btn>
-              </template>
-            </v-data-table>
+            <v-data-table 
+                  fixed-header
+                  :headers="headers"
+                  :items="tableDataFromBackend"
+                  :search="searchInput"
+                  :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1], itemsPerPageText: '每页行数', itemsPerPageAllText: '所有'}"
+                  :items-per-page="20"
+                  mobile-breakpoint="0"
+                  :loading="isTableLoading"
+                  checkbox-color="success" 
+                  :class="{'zebraLine': showTableZebraLine }"
+                  class="fixed-table-height elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
+                <template v-slot:footer.prepend>
+                  <span class="ml-2 table-search-hint-text">共{{ tableDataFromBackend.length }}条记录</span>
+                  <v-menu top offset-y :close-on-content-click="false">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-bind="attrs" v-on="on" icon>
+                        <v-icon>mdi-menu</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item>
+                        <v-switch v-model="showTableZebraLine" label="显示斑马纹" dense flat></v-switch>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </template>
+                <template v-slot:footer.page-text="pagination">
+                  <span>{{pagination.pageStart}}-{{pagination.pageStop}}</span>
+                  <span class="ml-1">共{{pagination.itemsLength}}条</span>
+                </template>
+                <template v-slot:item.userType="{ item }">
+                  {{ (constantCollection.userType.find(({value}) => value === item.userType) || {}).text }}
+                </template>
+                <template v-slot:item.userStatus="{ item }">
+                  {{ (constantCollection.userStatus.find(({value}) => value === item.userStatus) || {}).text }}
+                </template>
+                <template v-slot:item.operationAt="{ item }">
+                  {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
+                </template>
+                <template v-slot:item.option="{ item }">
+                  <v-btn v-for="tableButton of tableButtonList" :color="tableButton.color" outlined x-small class="elevation-0 mr-2" @click="doAction(tableButton.action, {item, button: tableButton})">{{ tableButton.text }}</v-btn>
+                </template>
+              </v-data-table>
           </v-card>
           <v-navigation-drawer
               v-model="isEditDrawerShow"
@@ -75,29 +91,45 @@
               class="elevation-24"
           >
             <v-container class="navDrawerContainer">
-              <v-row class="pt-8" :class="{'px-12': !isMobile, 'px-4': isMobile}">
-                <v-btn class="mt-0" dark color="success" elevation="0" @click="doAction('allotUser')">保存选中</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn class="mt-0 elevation-0" :class="{'mr-16': !isMobile, 'mr-4': isMobile}" fab x-small @click="isEditDrawerShow = false">
-                  <v-icon dark>mdi-close</v-icon>
-                </v-btn>
+              <v-row class="my-2" :class="{'px-4': isMobile, 'px-6': !isMobile}">
+                <v-btn class="mt-0" dark color="success" elevation="0" @click="doAction('allotUser')" small>保存选中</v-btn>
               </v-row>
-              <v-row class="pa-2 py-0">
+              <v-row :class="{'px-6': !isMobile, 'px-3': isMobile, 'pb-7': isMobile}">
                 <v-data-table
-                    show-select
-                    checkbox-color="success"
-                    :headers="headers"
-                    :loading="isDrawerTableLoading"
-                    :items="drawerTableData"
-                    item-key="userId"
-                    :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1] }"
-                    :items-per-page="-1"
-                    mobile-breakpoint="0"
-                    @item-selected="drawerItemSelected"
-                    @toggle-select-all="drawerToggleSelectAll"
-                    class="elevation-0 flex-fill d-flex flex-column show-select pt-6"
-                    :class="{'px-2': isMobile}"
+                fixed-header
+                show-select
+                checkbox-color="success"
+                :headers="drawerHeaders"
+                :loading="isDrawerTableLoading"
+                :items="drawerTableData"
+                :footer-props="{ itemsPerPageOptions: [20, 40, 60, 100, -1], itemsPerPageText: '每页行数', itemsPerPageAllText: '所有'}" 
+                :items-per-page="20"
+                mobile-breakpoint="0"
+                @item-selected="drawerItemSelected"
+                @toggle-select-all="drawerToggleSelectAll"
+                :class="{'zebraLine': showDrawerTableZebraLine }"
+                class="fixed-table-height fixed-first-column not-fixed-wrapper-height elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column"
                 >
+                  <template v-slot:footer.prepend>
+                    <span class="ml-2 table-search-hint-text">共{{ drawerTableData.length }}条记录</span>
+                    <v-menu top offset-y :close-on-content-click="false">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" icon>
+                          <v-icon>mdi-menu</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item>
+                          <v-switch v-model="showDrawerTableZebraLine" label="显示斑马纹" dense flat></v-switch>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </template>
+                  <template v-slot:footer.page-text="pagination">
+                    <span>{{pagination.pageStart}}-{{pagination.pageStop}}</span>
+                    <span class="ml-1">共{{pagination.itemsLength}}条</span>
+                  </template>
+                  
                   <template v-slot:item.userType="{ item }">
                     {{ (constantCollection.userType.find(({value}) => value === item.userType) || {}).text }}
                   </template>
@@ -108,10 +140,14 @@
                     {{ item.operationAt && dayjs(item.operationAt).format('YYYY-MM-DD HH:mm:ss') }}
                   </template>
                   <template v-slot:item.option="{ item }">
-                    <v-btn small class="success" @click="doAction('buildRelation', {item})">新增</v-btn>
+                    <v-btn color="success" outlined x-small class="elevation-0 mr-2" @click="doAction('buildRelation', {item})">新增</v-btn>
                   </template>
                 </v-data-table>
               </v-row>
+              <!--抽屉关闭按钮-->
+              <v-btn elevation="0" color="success" fab absolute top left small tile class="drawer-close-float-btn" @click="isEditDrawerShow = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
             </v-container>
           </v-navigation-drawer>
           <!-- <<<<<<<<<<<<< 页面内容 -->
@@ -150,6 +186,8 @@ new Vue({
   template: '#app-template',
   vuetify: new Vuetify(),
   data: {
+    showTableZebraLine: true,
+    showDrawerTableZebraLine: true,
     isMobile: window.innerWidth < 600,
     appId: null,
     title: null,
@@ -164,19 +202,28 @@ new Vue({
       userType: [{"value": "common", "text": "普通用户"}],
     },
     headers: [
+      {text: '操作', value: 'option', align: 'center', sortable: false, width: 120, class: 'fixed', cellClass: 'fixed'},
       {text: "用户ID[登陆]", value: "userId", align: "start", sortable: true, width: 120,},
       {text: "用户名", value: "username", align: "start", sortable: true, width: 140},
       {text: "用户类型", value: "userType", align: "start", sortable: true, width: 120},
       {text: "用户状态", value: "userStatus", align: "start", sortable: true, width: 120},
       {text: "操作人", value: "operationByUser", align: "start", sortable: true, width: 120},
       {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
-      {text: '操作', value: 'option', align: 'center', sortable: false, width: 200, class: 'fixed', cellClass: 'fixed'},
+    ],
+    drawerHeaders: [
+      {text: "用户ID[登陆]", value: "userId", align: "start", sortable: true, width: 120,},
+      {text: "用户名", value: "username", align: "start", sortable: true, width: 140},
+      {text: "用户类型", value: "userType", align: "start", sortable: true, width: 120},
+      {text: "用户状态", value: "userStatus", align: "start", sortable: true, width: 120},
+      {text: "操作人", value: "operationByUser", align: "start", sortable: true, width: 120},
+      {text: "操作时间", value: "operationAt", align: "start", sortable: true, width: 250},
+      {text: '操作', value: 'option', align: 'center', sortable: false, width: 100, class: 'fixed', cellClass: 'fixed'},
     ],
     drawerTableData: [],
     drawerTableDataFromBackend: [],
     tableDataFromBackend: [],
     tableButtonList: [
-      {text: '删除', buttonType: 'delete', color: 'error',},
+      {text: '删除', buttonType: 'delete', color: 'error', action: 'deleteRelation'},
     ],
     drawerItemSelectedClass: [],
     currentClickButton: {title: '新增', action: 'add'},
