@@ -138,16 +138,29 @@ class UtilService extends Service {
     const allTableMap = Object.fromEntries(allTable.map(obj => [ `${obj.database}.${obj.tableName}`, obj ]));
 
     // 准备外部数据库 knex，并补充外部数据库表结构信息
+    const validTableSyncConfigList = [];
     for (const tableSyncConfig of tableSyncConfigList) {
       const { sourceDatabase } = tableSyncConfig;
       if (sourceDatabase.startsWith('{') && !outsideKnexMap[sourceDatabase]) {
         const { name, ...knexConfig } = JSON.parse(sourceDatabase);
-        outsideKnexMap[sourceDatabase] = Knex({ client: 'mysql', connection: knexConfig });
-        const outsideKnex = outsideKnexMap[sourceDatabase];
-        const allTableOutside = await outsideKnex('information_schema.tables').select('table_schema as database', 'table_name as tableName');
-        allTableOutside.forEach(obj => allTableMap[`${sourceDatabase}.${obj.tableName}`] = obj);
+        try {
+          outsideKnexMap[sourceDatabase] = Knex({ client: 'mysql', connection: knexConfig });
+          const outsideKnex = outsideKnexMap[sourceDatabase];
+          const allTableOutside = await outsideKnex('information_schema.tables').select('table_schema as database', 'table_name as tableName');
+          allTableOutside.forEach(obj => allTableMap[`${sourceDatabase}.${obj.tableName}`] = obj);
+        } catch (err) {
+          delete outsideKnexMap[sourceDatabase]
+          const syncDesc = '【数据库连接】外部连接失败;' + err;
+          await jianghuKnex(tableEnum.table_sync_config)
+            .where({ id: tableSyncConfig.id })
+            .update({ syncDesc, lastSyncTime });
+          logger.error(`[database-${name}]【数据库连接】外部连接失败`, syncDesc); 
+          continue;
+        }
       }
+      validTableSyncConfigList.push(tableSyncConfig);
     }
+    tableSyncConfigList = validTableSyncConfigList;
 
     tableSyncConfigList = await this.tableExistCheck({ tableSyncConfigList, allTableMap, targetDatabase });
     if (useSyncTimeSlotFilter === true) {
@@ -167,7 +180,7 @@ class UtilService extends Service {
 
     await this.tableConsistentCheckAndSync({ tableSyncConfigList, allTableMap, targetDatabase, outsideKnexMap });
     await this.tableMysqlTriggerCheckAndSync({ tableSyncConfigList, targetDatabase });
-    await this.clearUselessMysqlTrigger({ allTableMap });
+    await this.clearUselessMysqlTrigger({ allTableMap, outsideKnexMap });
 
     // 标记为正常
     await jianghuKnex(tableEnum.table_sync_config)
@@ -388,12 +401,14 @@ class UtilService extends Service {
   }
 
 
-  async clearUselessMysqlTrigger({ allTableMap }) {
+  async clearUselessMysqlTrigger({ allTableMap, outsideKnexMap }) {
 
     const { jianghuKnex, logger } = this.app;
     const targetDatabase = this.getTargetDatabase();
 
     let tableSyncConfigList = await jianghuKnex(tableEnum.table_sync_config).select();
+    // 过滤 knex 连接失败的外部表同步配置
+    tableSyncConfigList = tableSyncConfigList.filter(o => !o.sourceDatabase.startsWith('{') || outsideKnexMap[o.sourceDatabase])
     tableSyncConfigList = await this.tableExistCheck({ tableSyncConfigList, allTableMap, targetDatabase });
 
     const triggerList = await jianghuKnex('information_schema.triggers')
