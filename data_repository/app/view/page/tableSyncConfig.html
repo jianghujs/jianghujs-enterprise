@@ -11,7 +11,7 @@
         <div class="d-flex" :style="{'flex-wrap': isMobile ? 'wrap' : 'nowrap'}" :class="{'px-8': !isMobile, 'px-4': isMobile}"><div>
             <div class="appTitle pt-3" style="font-size: 18px; font-weight: 700">{{ breadcrumbs[1].fullText }}
               <!-- 帮助页按钮 -->
-              <v-icon @click="isHelpPageDrawerShow = true" small>mdi-help-circle-outline</v-icon>
+              <v-icon @click="isHelpPageDrawerShown = true" small>mdi-help-circle-outline</v-icon>
             </div>
             <v-breadcrumbs class="pb-3 pt-0 pl-0" :items="breadcrumbs" divider="-"></v-breadcrumbs>
           </div>
@@ -36,7 +36,7 @@
               </v-col>
 
             </v-row>
-            <v-data-table 
+            <v-data-table
                   fixed-header
                   :headers="headers"
                   :items="tableData"
@@ -45,8 +45,8 @@
                   :items-per-page="20"
                   mobile-breakpoint="0"
                   :loading="isTableLoading"
-                  checkbox-color="success" 
-                  :class="{'zebraLine': showTableZebraLine }"
+                  checkbox-color="success"
+                  :class="{'zebraLine': isTableZebraLineShown }"
                   class="fixed-table-height elevation-0 mt-0 mb-xs-4 flex-fill d-flex flex-column">
                 <template v-slot:footer.prepend>
                   <span class="ml-2 table-search-hint-text">共{{ tableData.length }}条记录</span>
@@ -58,7 +58,7 @@
                     </template>
                     <v-list>
                       <v-list-item>
-                        <v-switch v-model="showTableZebraLine" label="显示斑马纹" dense flat></v-switch>
+                        <v-switch v-model="isTableZebraLineShown" label="显示斑马纹" dense flat></v-switch>
                       </v-list-item>
                     </v-list>
                   </v-menu>
@@ -91,11 +91,11 @@
               <v-row class="mt-0" :class="{'px-6': !isMobile, 'px-3': isMobile, 'pb-7': isMobile}">
                 <v-col cols="12" sm="12" md="4" xl="3" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
                 <span class="inputLabel">数据库</span>
-                  <v-select class="cus-v-input mr-2" dense filled single-line clearable label="数据库" :rules="requireRules" v-model="editItem.sourceDatabase" :items="constantCollection.sourceDatabase"></v-select>
+                  <v-select class="cus-v-input mr-2" dense filled single-line clearable label="数据库" :rules="requireRules" v-model="editItem.sourceDatabase" :items="constantObj.sourceDatabase"></v-select>
                 </v-col>
                 <v-col cols="12" sm="12" md="4" xl="3" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
                 <span class="inputLabel">表格</span>
-                  <v-select class="cus-v-input mr-2" dense filled single-line clearable label="表格" :rules="requireRules" v-model="editItem.sourceTable" :items="constantCollection.sourceTable"></v-select>
+                  <v-select class="cus-v-input mr-2" dense filled single-line clearable label="表格" :rules="requireRules" v-model="editItem.sourceTable" :items="constantObj.sourceTable"></v-select>
                 </v-col>
                 <v-col cols="12" sm="12" md="4" xl="3" :class="{'pa-0': isMobile, 'px-4': isMobile, 'pt-6': isMobile}">
                 <span class="inputLabel">同步间隔（分）</span>
@@ -117,9 +117,9 @@
         </div>
 
         <!-- 帮助页抽屉 >>>>>>>>>>>>> -->
-        <v-navigation-drawer v-model="isHelpPageDrawerShow" fixed temporary right width="80%" class="elevation-24">
+        <v-navigation-drawer v-model="isHelpPageDrawerShown" fixed temporary right width="80%" class="elevation-24">
           <iframe style="border: 0" :src="`/${appInfo.appId}/pageDoc?markdownPath#1.tableSyncConfig.md`" width="100%" height="100%"></iframe>
-          <v-btn elevation="0" color="success" fab absolute top left small tile class="drawer-close-float-btn" @click="isHelpPageDrawerShow = false">
+          <v-btn elevation="0" color="success" fab absolute top left small tile class="drawer-close-float-btn" @click="isHelpPageDrawerShown = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-navigation-drawer>
@@ -128,7 +128,7 @@
       </v-main>
     </v-app>
 
-    <jhToast />
+    <jh-toast />
     <jhMask />
     <jhConfirmDialog />
   </div>
@@ -148,14 +148,14 @@
     template: '#app-template',
     vuetify: new Vuetify(),
     data: {
-      showTableZebraLine: true,
-      isMobile: window.innerWidth < 600,
+      isTableZebraLineShown: true,
+      isMobile: window.innerWidth < 500,
       // 表格相关数据
       isFormValid: true,
       dataSyncStatus: "<$ ctx.app.config.dataSyncStatus $>",
       requireRules: [ v => !!v || 'This is required' ],
       numberRules: [ v => !_.isEmpty(_.trim(v)) && !isNaN(v) || 'This is number'],
-      constantCollection: {
+      constantObj: {
         sourceDatabase: [],
         sourceTable: []
       },
@@ -183,7 +183,7 @@
       ],
       dialogSaveInfoAction: '',
       breadcrumbs: window.breadcrumbs,
-      isHelpPageDrawerShow: false,
+      isHelpPageDrawerShown: false,
     },
     watch: {
       editItem: {
@@ -199,14 +199,14 @@
 
     },
     mounted() {
-      this.doUiAction('refreshTableData');
+      this.doUiAction('getTableData');
       this.doUiAction('getAllApp');
     },
     methods: {
       async doUiAction(uiActionId, uiActionData) {
         switch (uiActionId) {
-          case 'refreshTableData':
-            await this.refreshTableData(uiActionData);
+          case 'getTableData':
+            await this.getTableData(uiActionData);
             break;
           case 'startCreateItem':
             await this.clearItemData(uiActionData);
@@ -216,7 +216,7 @@
             await this.prepareValidate(uiActionData);
             await this.confirmCreateItemDialog(uiActionData);
             await this.doCreateItem(uiActionData);
-            await this.refreshTableData(uiActionData);
+            await this.getTableData(uiActionData);
             await this.closeDrawerShow(uiActionData);
             break;
           case 'startUpdateItem':
@@ -227,24 +227,24 @@
             await this.prepareValidate(uiActionData);
             await this.confirmUpdateItemDialog(uiActionData);
             await this.doUpdateItem(uiActionData);
-            await this.refreshTableData(uiActionData);
+            await this.getTableData(uiActionData);
             await this.closeDrawerShow(uiActionData);
             break;
           case 'deleteItem':
             await this.confirmDeleteItemDialog(uiActionData);
             await this.prepareItemData(uiActionData);
             await this.doDeleteItem(uiActionData);
-            await this.refreshTableData(uiActionData);
+            await this.getTableData(uiActionData);
             break;
           case 'manualSyncOneTable':
             await this.confirmSyncOneTableDialog(uiActionData);
             await this.doManualSyncOneTable(uiActionData);
-            await this.refreshTableData(uiActionData);
+            await this.getTableData(uiActionData);
             break;
           case 'manualSyncAll':
             await this.confirmManualSyncAllDialog(uiActionData);
             await this.doManualSyncAll(uiActionData);
-            await this.refreshTableData(uiActionData);
+            await this.getTableData(uiActionData);
             break;
           case 'resetSourceTable':
             await this.doResetSourceTable(uiActionData);
@@ -269,7 +269,7 @@
             }
           }
         });
-        this.constantCollection.sourceDatabase = result.data.appData.resultData.rows.map((row) => { return {"value": row.sourceDatabase, "text": row.sourceDatabase } })
+        this.constantObj.sourceDatabase = result.data.appData.resultData.rows.map((row) => { return {"value": row.sourceDatabase, "text": row.sourceDatabase } })
       },
       /**
        * 获取表格数据
@@ -285,12 +285,12 @@
             }
           }
         });
-        this.constantCollection.sourceTable = result.data.appData.resultData.rows.map((table) => { return {"value": table.sourceTable, "text": table.sourceTable} });
+        this.constantObj.sourceTable = result.data.appData.resultData.rows.map((table) => { return {"value": table.sourceTable, "text": table.sourceTable} });
       },
       /**
        * 获取表格数据
        */
-      async refreshTableData() {
+      async getTableData() {
         this.isTableLoading = true;
         const result = await window.jianghuAxios({
           data: {
