@@ -33,7 +33,7 @@
             :headers="headers"
             :items="tableData"
             :search="searchInput"
-            :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页行数', itemsPerPageAllText: '所有'}"
+            :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页', itemsPerPageAllText: '所有'}"
             :items-per-page="-1"
             mobile-breakpoint="0"
             :loading="isTableLoading"
@@ -82,7 +82,7 @@
           <!--抽屉表单主体-->
           <v-row class="mt-0 px-6">
             <v-data-table
-              :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页行数', itemsPerPageAllText: '所有'}"
+              :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页', itemsPerPageAllText: '所有'}"
               :items-per-page="-1"
               :class="{'zebraLine': isTableZebraLineShown }"
               checkbox-color="success"
@@ -183,22 +183,22 @@ new Vue({
       userType: [{"value": "common", "text": "普通用户"}],
     },
     headers: [
-      {text: '操作', value: 'action', align: 'center', sortable: false, width: 80, class: 'fixed', cellClass: 'fixed'},
-      {text: "用户ID[登陆]", value: "userId",},
-      {text: "用户名", value: "username", align: "start"},
-      {text: "用户类型", value: "userType"},
+      {text: '操作', value: 'action', align: 'center', sortable: false, width: 60, class: 'fixed', cellClass: 'fixed'},
+      {text: "用户ID[登陆]", value: "userId", width: 120},
+      {text: "用户名", value: "username", align: "start", width: 120},
+      {text: "用户类型", value: "userType", width: 120},
       {text: "用户状态", value: "userStatus"},
-      {text: "操作人", value: "operationByUser"},
-      {text: "操作时间", value: "operationAt"},
+      {text: "操作人", value: "operationByUser", width: 120},
+      {text: "操作时间", value: "operationAt", width: 160},
     ],
     drawerHeaders: [
       {text: '操作', value: 'action', align: 'center', sortable: false, width: 60, class: 'fixed', cellClass: 'fixed'},
-      {text: "用户ID[登陆]", value: "userId",},
-      {text: "用户名", value: "username", align: "start", sortable: true},
-      {text: "用户类型", value: "userType"},
-      {text: "用户状态", value: "userStatus"},
-      {text: "操作人", value: "operationByUser"},
-      {text: "操作时间", value: "operationAt"},
+      {text: "用户ID[登陆]", value: "userId", width: 120},
+      {text: "用户名", value: "username", align: "start", sortable: true, width: 120},
+      {text: "用户类型", value: "userType", width: 120},
+      {text: "用户状态", value: "userStatus", width: 120},
+      {text: "操作人", value: "operationByUser", width: 120},
+      {text: "操作时间", value: "operationAt", width: 160},
     ],
 
     isDrawerTableLoading: true,

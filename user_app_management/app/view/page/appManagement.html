@@ -33,7 +33,7 @@
             :headers="headers"
             :items="tableData"
             :search="searchInput"
-            :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页行数', itemsPerPageAllText: '所有'}"
+            :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页', itemsPerPageAllText: '所有'}"
             :items-per-page="-1"
             mobile-breakpoint="0"
             :loading="isTableLoading"
@@ -92,7 +92,7 @@
         </v-card>
         <!-- <<<<<<<<<<<<< 页面内容 -->
 
-        <!-- 编辑抽屉 -->
+        <!-- 新增抽屉 -->
         <v-navigation-drawer v-model="isCreateDrawerShown" v-click-outside="drawerClickOutside" fixed temporary right width="80%" class="elevation-24">
           <v-form ref="createForm" lazy-validation>
             <!--抽屉标题-->
@@ -128,7 +128,7 @@
         </v-navigation-drawer>
         <!-- 编辑抽屉 -->
         <v-navigation-drawer v-model="isUpdateDrawerShown" v-click-outside="drawerClickOutside" fixed temporary right width="80%" class="elevation-24">
-          <v-form ref="createForm" lazy-validation>
+          <v-form ref="updateForm" lazy-validation>
             <!--抽屉标题-->
             <v-row>
               <span class="title pa-6 pl-8">编辑信息</span>
@@ -281,9 +281,7 @@ new Vue({
         case 'deleteItem':
           await this.prepareDeleteFormData(uiActionData);
           await this.confirmDeleteItemDialog();
-          await this.prepareDoDeleteItem();
           await this.doDeleteItem();
-          await this.clearDeleteItem();
           await this.getTableData();
           break;
         case 'jump':
@@ -413,16 +411,12 @@ new Vue({
     // ---------- <<<<<<<<<<< 修改数据 uiAction  --------
     // ---------- 删除数据 uiAction >>>>>>>>>>>> --------
     async prepareDeleteFormData(funObj) {
-      this.deleteItem = _.cloneDeep(funObj);
+      this.deleteItemId = funObj.id;
     },
     async confirmDeleteItemDialog() {
       if (await window.confirmDialog({title: "删除", content: "确定删除吗？"}) === false) {
         throw new Error("[confirmDeleteItemDialog] 否");
       }
-    },
-    async prepareDoDeleteItem() {
-      const {id} = this.deleteItem;
-      this.deleteItemId = id;
     },
     async doDeleteItem() {
       await window.vtoast.loading("删除学生");
@@ -437,8 +431,6 @@ new Vue({
         }
       });
       await window.vtoast.success("删除学生成功");
-    },
-    async clearDeleteItem() {
       this.deleteItem = {};
       this.deleteItemId = null;
     },

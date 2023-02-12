@@ -36,7 +36,7 @@
             :headers="headers"
             :items="tableData"
             :search="searchInput"
-            :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页行数', itemsPerPageAllText: '所有'}"
+            :footer-props="{ itemsPerPageOptions: [20, 50, -1], itemsPerPageText: '每页', itemsPerPageAllText: '所有'}"
             :items-per-page="20"
             mobile-breakpoint="0"
             :loading="isTableLoading"
@@ -143,7 +143,7 @@
             </v-row>
             <!-- 抽屉的主体 >>>>>>>>>>>>> -->
             <v-row class="mt-0 px-6">
-              <v-col cols="12" sm="12" md="4" xl="3" class="pb-xs-4 pb-3">
+              <v-col cols="12" sm="12" md="4">
                 <span class="jh-input-label">用户ID[登陆]</span>
                 <v-text-field class="jh-v-input" dense filled single-line v-model="createItem.userId" :rules="validationRules.requireRules"></v-text-field>
               </v-col>
@@ -283,7 +283,7 @@ new Vue({
     tableData: [],
 
     headers: [
-      {text: '操作', value: 'action', align: 'center', sortable: false, width: 120, class: 'fixed', cellClass: 'fixed'},
+      {text: '操作', value: 'action', align: 'center', sortable: false, width: 130, class: 'fixed', cellClass: 'fixed'},
       {text: "用户ID[登陆]", value: "userId", width: 120},
       {text: "用户名", value: "username", width: 140},
       {text: "用户类型", value: "userType", width: 120},
