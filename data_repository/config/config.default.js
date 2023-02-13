@@ -12,10 +12,6 @@ module.exports = appInfo => {
   const appId = 'data_repository';
 
   return {
-
-    // 自定义配置
-    dataSyncStatus: '启用', // 是否启用同步，启用/禁用
-
     appId,
     appTitle: '江湖演示-企业级-数据中心管理',
     appLogo: `${appId}/public/img/logo.png`,
