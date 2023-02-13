@@ -45,7 +45,7 @@ module.exports = appInfo => {
       mapping: { '.html': 'nunjucks' },
       root: [
         path.join(appInfo.baseDir, 'app/view'),
-        path.join(eggJianghuPath, 'app/view'),
+        path.join(eggJianghuDir, 'app/view'),
       ].join(','),
     },
 
