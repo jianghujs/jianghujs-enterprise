@@ -1,7 +1,6 @@
 'use strict';
 
 const Service = require('egg').Service;
-const {tableEnum} = require('../constant/constant');
 const dayjs = require('dayjs');
 const validateUtil = require('@jianghujs/jianghu/app/common/validateUtil');
 const hyperDiff = require('@jianghujs/jianghu/app/common/hyperDiff');
@@ -9,7 +8,7 @@ const _ = require('lodash');
 const {BizError, errorInfoEnum} = require('../constant/error');
 const Knex = require('knex');
 
-const actionDataScheme = Object.freeze({
+const appDataSchema = Object.freeze({
   syncTable: {
     type: 'object',
     additionalProperties: true,
@@ -31,7 +30,7 @@ const actionDataScheme = Object.freeze({
 
 async function createTableSyncLog({jianghuKnex, tableSyncConfig, syncDesc, syncAction}) {
   const syncTime = dayjs().format();
-  await jianghuKnex(tableEnum.table_sync_log)
+  await jianghuKnex('_table_sync_log')
     .insert({
       sourceDatabase: tableSyncConfig.sourceDatabase, sourceTable: tableSyncConfig.sourceTable,
       syncAction, syncDesc,
@@ -79,13 +78,13 @@ class UtilService extends Service {
     const where = this.ctx.request.body.appData.where;
     const {id} = where;
     const {jianghuKnex} = this.app;
-    const tableSyncConfig = await jianghuKnex(tableEnum.table_sync_config).where({id}).first();
+    const tableSyncConfig = await jianghuKnex('_table_sync_config').where({id}).first();
     if (!tableSyncConfig) {
       throw new BizError(errorInfoEnum.data_not_found);
     }
     const {sourceDatabase, sourceTable} = tableSyncConfig;
 
-    await jianghuKnex(tableEnum.table_sync_config)
+    await jianghuKnex('_table_sync_config')
       .where({id})
       .delete();
 
@@ -120,7 +119,7 @@ class UtilService extends Service {
   async syncTable(actionData) {
     // Tip: 适配schedule调用, actionData从入参取
 
-    validateUtil.validate(actionDataScheme.syncTable, actionData);
+    validateUtil.validate(appDataSchema.syncTable, actionData);
     const {useSyncTimeSlotFilter} = actionData;
     const tableSyncConfigSelectParams = _.pick(actionData, ['sourceDatabase', 'sourceTable']);
 
@@ -130,7 +129,7 @@ class UtilService extends Service {
     const currentMinute = dayjs().diff(dayjs().format('YYYY-MM-DD'), 'minute');
     const outsideKnexMap = {};
 
-    let tableSyncConfigList = await jianghuKnex(tableEnum.table_sync_config)
+    let tableSyncConfigList = await jianghuKnex('_table_sync_config')
       .where(tableSyncConfigSelectParams)
       .select();
     const allTable = await jianghuKnex('information_schema.tables').select('table_schema as database', 'table_name as tableName');
@@ -150,7 +149,7 @@ class UtilService extends Service {
         } catch (err) {
           delete outsideKnexMap[sourceDatabase]
           const syncDesc = '【数据库连接】外部连接失败;' + err;
-          await jianghuKnex(tableEnum.table_sync_config)
+          await jianghuKnex('_table_sync_config')
             .where({id: tableSyncConfig.id})
             .update({syncDesc, lastSyncTime});
           logger.error(`[database-${name}]【数据库连接】外部连接失败`, syncDesc);
@@ -173,7 +172,7 @@ class UtilService extends Service {
 
     const tableSyncConfigIdList = tableSyncConfigList.map(item => item.id);
     // 标记为开始同步
-    await jianghuKnex(tableEnum.table_sync_config)
+    await jianghuKnex('_table_sync_config')
       .whereIn('id', tableSyncConfigIdList)
       .update({syncDesc: '同步中', lastSyncTime});
 
@@ -182,7 +181,7 @@ class UtilService extends Service {
     await this.clearUselessMysqlTrigger({allTableMap, outsideKnexMap});
 
     // 标记为正常
-    await jianghuKnex(tableEnum.table_sync_config)
+    await jianghuKnex('_table_sync_config')
       .whereIn('id', tableSyncConfigIdList)
       .update({syncDesc: '正常', lastSyncTime});
 
@@ -204,7 +203,7 @@ class UtilService extends Service {
 
 
       if (!sourceTableExist && targetTableExist) {
-        await jianghuKnex(tableEnum.table_sync_config)
+        await jianghuKnex('_table_sync_config')
           .where({id: tableSyncConfig.id})
           .update({syncDesc: '【表检查】应用表不存在; 仓库表存在;', lastSyncTime});
         logger.error(`[${targetTable}]`, '应用表不存在; 仓库表存在; ==> 若仓库表废弃, 请手动删除目标库中 的 仓库表');
@@ -213,7 +212,7 @@ class UtilService extends Service {
 
       if (!sourceTableExist && !targetTableExist) {
         const syncDesc = '【表检查】应用表不存在;';
-        await jianghuKnex(tableEnum.table_sync_config)
+        await jianghuKnex('_table_sync_config')
           .where({id: tableSyncConfig.id})
           .update({syncDesc, lastSyncTime});
         logger.error(`[${targetTable}]`, syncDesc);
@@ -405,7 +404,7 @@ class UtilService extends Service {
     const {jianghuKnex, logger} = this.app;
     const targetDatabase = this.getTargetDatabase();
 
-    let tableSyncConfigList = await jianghuKnex(tableEnum.table_sync_config).select();
+    let tableSyncConfigList = await jianghuKnex('_table_sync_config').select();
     // 过滤 knex 连接失败的外部表同步配置
     tableSyncConfigList = tableSyncConfigList.filter(o => !o.sourceDatabase.startsWith('{') || outsideKnexMap[o.sourceDatabase])
     tableSyncConfigList = await this.tableExistCheck({tableSyncConfigList, allTableMap, targetDatabase});
