@@ -222,7 +222,7 @@ new Vue({
     tableData: [],
     headers: [
       {text: '操作', value: 'action', sortable: false, width: 180, class: 'fixed', cellClass: 'fixed'},
-      {text: "数据库", value: "sourceDatabase", width: 140},
+      {text: "数据库", value: "sourceDatabaseShowName", width: 140},
       {text: "表格", value: "sourceTable", width: 140},
       {text: "同步间隔/同步检查间隔（分）", value: "syncTimeSlot", width: 140},
       {text: "同步状态", value: "syncDesc", width: 200},
@@ -337,6 +337,19 @@ new Vue({
       });
 
       this.tableData = result.data.appData.resultData.rows;
+      let sourceDatabaseObj;
+      let hasError;
+      this.tableData.forEach(element => {
+        hasError = false;
+        try {
+          sourceDatabaseObj = JSON.parse(element.sourceDatabase);
+        } catch {
+          // internal database
+          hasError = true;
+        }
+        element.sourceDatabaseShowName = hasError ? element.sourceDatabase :
+          sourceDatabaseObj.name + '-' + sourceDatabaseObj.database;
+      });
       this.isTableLoading = false;
     },
     // ---------- 获取数据库列表 uiAction >>>>>>>>>> --------
