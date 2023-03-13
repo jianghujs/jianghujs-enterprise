@@ -457,6 +457,7 @@ new Vue({
       const {id, ...data} = this.updateItem;
       this.updateItemId = id;
       this.updateActionData = data;
+      delete this.updateActionData['sourceDatabaseShowName'];
     },
 
     async doUpdateItem() {
